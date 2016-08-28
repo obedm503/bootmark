@@ -1,12 +1,11 @@
-
+/*!
+ * bootmark
+ */
 /*******************************************************************
-
 This chunk is to fix Bootstrap so that the Markdown output looks good
-
 *******************************************************************/
-
 body {
-  padding-top: 60px;
+  /*padding-top: 60px;*/
   padding-bottom: 40px;
   font-size: 15px;
   line-height: 150%;
@@ -96,4 +95,3 @@ li.L3,
 li.L5,
 li.L7,
 li.L9 { background: #eee }
-

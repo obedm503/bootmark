@@ -1,4 +1,9 @@
-;(function(window, document) {
+/*!
+* bootmark
+*/
+function mark(window, document, md, userTheme) {
+  // Hide body until we're done fiddling with the DOM
+  document.body.style.display = 'none';
 
   //////////////////////////////////////////////////////////////////////
   //
@@ -18,7 +23,7 @@
         return a;
       }
       return getElementsByClassName(document.body, name);
-    }
+    };
   }
 
   //////////////////////////////////////////////////////////////////////
@@ -30,14 +35,6 @@
       titleEl = document.getElementsByTagName('title')[0],
       scriptEls = document.getElementsByTagName('script'),
       navbarEl = document.getElementsByClassName('navbar')[0];
-
-  if (!markdownEl) {
-    console.warn('No embedded Markdown found in this document for Strapdown.js to work on! Visit http://strapdownjs.com/ to learn more.');
-    return;
-  }
-
-  // Hide body until we're done fiddling with the DOM
-  document.body.style.display = 'none';
 
   //////////////////////////////////////////////////////////////////////
   //
@@ -63,38 +60,42 @@
   var originBase = origin.substr(0, origin.lastIndexOf('/'));
 
   // Get theme
-  var theme = markdownEl.getAttribute('theme') || 'bootstrap';
+  var theme = userTheme /*markdownEl.getAttribute('theme')*/ || 'bootstrap';
   theme = theme.toLowerCase();
 
   // Stylesheets
   var linkEl = document.createElement('link');
-  linkEl.href = originBase + '/themes/'+theme+'.min.css';
+  linkEl.href = 'https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/'+ theme + '/bootstrap.min.css';
+  //linkEl.href = originBase + '/themes/'+theme+'.min.css';
   linkEl.rel = 'stylesheet';
   document.head.appendChild(linkEl);
 
-  var linkEl = document.createElement('link');
-  linkEl.href = originBase + '/strapdown.css';
+  /*
+  linkEl = document.createElement('link');
+  linkEl.href = originBase + '/bootmark.css';
   linkEl.rel = 'stylesheet';
   document.head.appendChild(linkEl);
 
-  var linkEl = document.createElement('link');
-  linkEl.href = originBase + '/themes/bootstrap-responsive.min.css';
+  linkEl = document.createElement('link');
+  linkEl.href = originBase + '/bootstrap-responsive.min.css';
   linkEl.rel = 'stylesheet';
-  document.head.appendChild(linkEl);
+  document.head.appendChild(linkEl);*/
 
   //////////////////////////////////////////////////////////////////////
   //
   // <body> stuff
   //
 
-  var markdown = markdownEl.textContent || markdownEl.innerText;
+  var markdown = md;//markdownEl.textContent || markdownEl.innerText;
 
   var newNode = document.createElement('div');
   newNode.className = 'container';
   newNode.id = 'content';
-  document.body.replaceChild(newNode, markdownEl);
+  document.body.appendChild(newNode);
+  //document.body.replaceChild(newNode, markdownEl);
 
   // Insert navbar if there's none
+  /*
   var newNode = document.createElement('div');
   newNode.className = 'navbar navbar-fixed-top';
   if (!navbarEl && titleEl) {
@@ -104,7 +105,7 @@
     var headlineEl = document.getElementById('headline');
     if (headlineEl)
       headlineEl.innerHTML = title;
-  }
+  }*/
 
   //////////////////////////////////////////////////////////////////////
   //
@@ -117,7 +118,7 @@
 
   // Prettify
   var codeEls = document.getElementsByTagName('code');
-  for (var i=0, ii=codeEls.length; i<ii; i++) {
+  for (var i = 0, ii = codeEls.length; i<ii; i++) {
     var codeEl = codeEls[i];
     var lang = codeEl.className;
     codeEl.className = 'prettyprint lang-' + lang;
@@ -126,12 +127,11 @@
 
   // Style tables
   var tableEls = document.getElementsByTagName('table');
-  for (var i=0, ii=tableEls.length; i<ii; i++) {
+  for (var i = 0, ii = tableEls.length; i<ii; i++) {
     var tableEl = tableEls[i];
     tableEl.className = 'table table-striped table-bordered';
   }
 
   // All done - show body
   document.body.style.display = '';
-
-})(window, document);
+}

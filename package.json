@@ -1,11 +1,19 @@
 {
-  "author": "Artur Adib",
-  "name": "strapdown",
-  "version": "0.0.0",
-  "dependencies": {
-    "shelljs": "0.0.6"
+  "name": "bootmark",
+  "author": "obedm503",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": "git:https://github.com/obedm503/bootmark.git",
+  "description": " NCAI StudentAccess",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7"
   },
-  "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
     "node": "*"
