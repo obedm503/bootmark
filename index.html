@@ -18,17 +18,11 @@ lisndvlskdvnklnlv
   </div>
   <div id="bootmark-md"></div>
   <script>
-    fetch('https://raw.githubusercontent.com/ncai-developers/studentaccess/master/CHANGELOG.md').then(function(res){
-      return res.text();
-    }).then(function(md){
-      return bootmark.md({
-        md: md,
-        fetch: bootmark.getParam('fetch') || 'https://raw.githubusercontent.com/ncai-developers/studentaccess/master/README.md',
-        useId:'markdown',
-        id: 'markdown',
-        toc: bootmark.getParam('toc') === 'true' || false,
-        theme: bootmark.getParam('theme') || 'journal'
-      });
+    bootmark.md({
+      fetch: bootmark.getParam('fetch') || 'https://raw.githubusercontent.com/ncai-developers/studentaccess/master/CHANGELOG.md',
+      id: 'markdown',
+      toc: (bootmark.getParam('toc') === 'false') ? false : true,
+      theme: bootmark.getParam('theme') || 'superhero'
     }).then(function(html){
       console.log(html);
     });
