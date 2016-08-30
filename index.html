@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>NCAI projects</title>
-  <script src="strapdown.js"></script>
+  <title>bootmark</title>
+  <script src="dist/bootmark.bundle.min.js"></script>
+</head>
+<body>
+  <div id="markdown">
+# some md
+
+lisndvlskdvnklnlv
+
+>lkndvklsdnvls
+
+- ngdnfn
+- kdlsjnvdlsk
+- ndlksnvls
+  </div>
+  <div id="bootmark-md"></div>
   <script>
-    fetch('README.md').then(function(res){
+    fetch('https://raw.githubusercontent.com/ncai-developers/studentaccess/master/CHANGELOG.md').then(function(res){
       return res.text();
-    }).then(function(s){
-      mark(window, document, s, 'paper');
+    }).then(function(md){
+      return bootmark.md({
+        md: md,
+        fetch: bootmark.getParam('fetch') || 'https://raw.githubusercontent.com/ncai-developers/studentaccess/master/README.md',
+        useId:'markdown',
+        id: 'markdown',
+        toc: bootmark.getParam('toc') === 'true' || false,
+        theme: bootmark.getParam('theme') || 'journal'
+      });
+    }).then(function(html){
+      console.log(html);
     });
   </script>
-</head>
-<body></body>
+</body>
 </html>
