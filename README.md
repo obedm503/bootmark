@@ -9,7 +9,7 @@ originally a fork of strapdown but a lot more extended:
 - showdown parser (which is alot more capable than marked)
 - it's still a work in progress and im open to suggestions
 
-in the [demo](https://obedm503.github.io/bootmark) you can:
+in the [demo](https://obedm503.github.io/bootmark/?fetch=README.md) you can:
 - try a different theme by adding to the url:
   - ``?theme=<any bootswatch theme>``
   - [bootswatch](https://bootswatch.com)
