@@ -19,10 +19,10 @@ lisndvlskdvnklnlv
   <div id="bootmark-md"></div>
   <script>
     bootmark.md({
-      fetch: bootmark.getParam('fetch') || 'https://raw.githubusercontent.com/ncai-developers/studentaccess/master/CHANGELOG.md',
+      fetch: bootmark.getParam('fetch') || 'https://raw.githubusercontent.com/twbs/bootstrap/master/README.md',//bootstrap's readme
       id: 'markdown',
       toc: (bootmark.getParam('toc') === 'false') ? false : true,
-      theme: bootmark.getParam('theme') || 'superhero'
+      theme: bootmark.getParam('theme') || 'yeti'
     }).then(function(html){
       console.log(html);
     });
