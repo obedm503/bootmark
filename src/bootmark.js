@@ -3,33 +3,34 @@
 * @description markdown n stuff, originally a fork of [strapdownjs](http://strapdownjs.com).
 * @author [obedm503](https://github.com/obedm503/) <obedm503@gmail.com>
 * @see [git repo](https://github.com/obedm503/bootmark.git)
-* @version 0.1.0
+* @version 0.2.0
 * @license MIT
 */
 (function(window, document){
   'use scrict';
   function defineBootmark(){
     var bootmark = {
-      md: md,
+      parse: parse,
       getParam: getParam
     };
     // smooth scrolling
-    $(document).on('click', 'a', function(event){
-        event.preventDefault();
-
-        $('html, body').animate({
-            scrollTop: $( $.attr(this, 'href') ).offset().top
-        }, 900);
+    $(document).on('click', 'a', function(e){
+      e.preventDefault();
+      $('html, body').animate({
+        scrollTop: $( $.attr(this, 'href') ).offset().top
+      }, 900);
     });
-    
-    function _hide(){
-      document.body.style.display = 'none';
-    }
-    function _show(){
-      document.body.style.display = '';
-    }
-    //showdown converter
-    function _parse(md){
+
+		/**
+		* @function _parse
+		* @memberof bootmark
+		* @internal
+		* @description
+		* creates a new showdown Converter which is used to parse the markdown
+		* @param {String} markdown markdown to parse
+		* @returns {String} html html which is further changed by [_insert](bootmark._insert)
+		*/
+    function _parse(markdown){
       return new window.showdown.Converter({
         parseImgDimensions: true,
         simplifiedAutoLink: true,
@@ -38,14 +39,25 @@
         tables: true,
         tablesHeaderId: true,
         tasklists: true
-      }).makeHtml(md);
+      }).makeHtml(markdown);
     }
-    function _insert(node, html, id, toc){
+
+		/**
+		* @function _insert
+		* @memberof bootmark
+		* @internal
+		* @description
+		* handles dom manipulation, maybe custom templates could be add in the future
+		* @param {String} html markdown parsed by [_parse](bootmark._parse)
+		* @param {String} id element id into which insert the html
+		* @returns {String} html html which is later returned by the promise resolution
+		*/
+    function _insert(html, id, toc){
+			var template;
       if(toc === true){
-        node.className += 'container-fluid';
-        node.innerHTML = 
+        template =
           '<div class="row">'+
-            '<div class="col-sm-3 col-lg-2">'+
+            '<div class="col-sm-3 col-md-3 col-lg-3">'+
               '<nav class="navbar navbar-default navbar-fixed-side">'+
                 '<div class="container">'+
                   '<div class="navbar-header">'+
@@ -53,92 +65,138 @@
                       '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
                       '<span class="icon-bar"></span><span class="icon-bar"></span>'+
                     '</button>'+
-                    '<a class="navbar-brand active" href="#'+ id +'">'+ document.getElementsByTagName("title")[0].innerHTML +'</a>'+
+                    '<a class="navbar-brand active" href="'+ id +'">'+ document.getElementsByTagName("title")[0].innerHTML +'</a>'+
                   '</div>'+
                 '<div class="collapse navbar-collapse">'+
-                  '<ul id="bootmark-ul" class="nav navbar-nav"></ul>'+//bootmark-ul
+                  '<ul id="bootmark-toc" class="nav navbar-nav"></ul>'+//bootmark-toc
                 '</div>'+
               '</nav>'+
             '</div>'+
-            '<div id="bootmark-main" class="col-sm-9 col-lg-10"></div>'+//bootmark-main
+            '<div id="bootmark-main" class="col-sm-9 col-md-9 col-lg-9">'+
+							html +
+						'</div>'+//bootmark-main
           '</div>';
       } else {
-        node.className = 'container';
-        node.innerHTML = 
+        template =
           '<div class="row">'+
-            '<div id="bootmark-main" class="col-sm-9 col-lg-10"></div>'+//bootmark-main
+            '<div id="bootmark-main" class="col-sm-10 col-md-10 col-lg-8">'+
+							html +
+						'</div>'+//bootmark-main
           '</div>';
       }
-      
-      document.getElementById('bootmark-main').innerHTML = html;
-      if(document.getElementById('bootmark-ul')){
-        document.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function(el){
-          var li = document.createElement('li');
-            li.innerHTML = '<a class="page-scroll" href="#'+ el.id +'">'+ el.innerText +'</a>';
-          document.getElementById('bootmark-ul').appendChild(li);
-        });
-      }
-      
-      _show();
-      return html;
+			$(id)
+				.addClass(toc?'container-fluid':'container')
+				.html(template)
+				.promise()
+				.then(function(){
+					if($('#bootmark-toc').length){
+						console.debug($("h1, h2, h3, h4, h5, h6").each(function(i,el){
+
+							$('#bootmark-toc').append(
+								$(document.createElement('li'))
+									.addClass('bootmark-'+ el.localName)
+									.html('<a class="page-scroll" href="#'+ el.id +'">'+ el.innerText +'</a>')
+							);
+						}));
+					}
+					$(id).show();
+				});
+			return html;
     }
-    function _insertLinkTag(url){
+
+		/**
+		* @function _insertLinkTag
+		* @memberof bootmark
+		* @internal
+		* @description
+		* creates a new link element which used to add the theme's css and bootmark's css
+		* @param {String} url url to set as source
+		*/
+		function _insertLinkTag(url){
       var link = document.createElement('link');
       link.href = url;
       link.rel = 'stylesheet';
       document.head.appendChild(link);
     }
-    function _insertMetaTag(name, content){
+
+		/**
+		* @function _insertMetaTag
+		* @memberof bootmark
+		* @internal
+		* @description
+		* creates the meta element which required by bootstrap
+		* @param {String} name name property of the meta element
+		* @param {String} content content property of the meta element
+		*/
+		function _insertMetaTag(name, content){
       var meta = document.createElement('meta');
       meta.name = name;
       meta.content = content;
       document.head.appendChild(meta);
     }
-    function _insertScriptTag(src){
+
+		/**
+		* @function _insertScriptTag
+		* @memberof bootmark
+		* @internal
+		* @description
+		* creates a new script which is used to get the polyfill from [polyfill.io](https://polyfill.io/v2/docs/)
+		* polyfill is needed because bootmark uses fetch and Promise, which are sometimes not in the browser
+		* polyfill.io only supplies things that are lacking in the current browser, that is why it's not included as part of bootmark.bundle.min.js file
+		* @param {String} src source property of the script element
+		*/
+		function _insertScriptTag(src){
       var script = document.createElement('script');
       script.src = src;
       document.head.appendChild(script);
     }
-    
+
     /**
     * @function getParam
     * @memberof bootmark
-    * @description gets param from url, made for the purpose of the example
+    * @description
+		* gets param from url, made specifically for the demo
+		* >This doesn't work on some servers. They interpret the ``?`` in url as a server request. It may cause problems.
     * @param {String} name name of param
     * @returns {String} html
     * @example
     * //example url "www.example.com?theme=cyborg"
     * bootmark.getParam('theme');// cyborg
     */
-    function getParam(name) {
-      var url = window.location.href;
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-          results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
+    function getParam(param){
+      param = param.replace(/[\[\]]/g, "\\$&");
+      var results = new RegExp("[?&]" + param + "(=([^&#]*)|&|#|$)").exec(window.location.href);
+      if(!results){ return null; }
+      if(!results[2]){ return ''; }
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-    
+
     /**
-    * @function md
+    * @function parse
     * @memberof bootmark
-    * @description parses markdown
+    * @description main function which decides everything.
     * @param {Object} config configuration object
-    * @returns {String} html
-    * @example see the index.html for an example
+		* @param {String} [config.md=false] markdown could be passed direcly from some variable. It HAS to be as text not some innerHTML
+		* @param {String} [config.fetch=false] url to fetch. markdown could be some markdown file somewhere
+		* @param {String} [config.mdId=bootmark-md] id containing markdown. be careful that the markdown is not indented, if it is the parser will interpret everything as code.
+		* @param {String} [config.id=bootmark-md] id into which bootmark should insert final html. because it defaults to the same id as mdId, it will substitute the markdown for the html.
+		* @param {Boolean} [config.toc=true] whether to show the table of contents/menu. defaults to true
+		* @param {String} [config.theme=readable] any one of the [bootswatch themes](http://bootswatch.com). defaults to the readable theme
+		* @param {String} [config.css=dist/bootmark.min.css] bootmark's css. defaults to 'dist/bootmark.min.css'
+    * @returns {Object} promise which resolves with the parsed markdown
+    * @example see the index.html or docs/EXAMPLES.md file
     */
-    function md(config){
+    function parse(config){
       return new Promise(function(resolve, reject){
-        _hide();//hide body
-        
         var md = config.md || false,//text
             fetch = config.fetch || false,// url
-            useId = config.useId || false,
+            mdId = config.mdId || 'bootmark-md',//md in some div
             id = config.id || 'bootmark-md',// dom id
             toc = (typeof config.toc === 'undefined') ? true : config.toc,
             theme = config.theme || 'readable',
             css = config.css || 'dist/bootmark.min.css';
+
+				$('#'+id).hide();//hide the element
 
         // meta
         _insertMetaTag('viewport', 'width=device-width, initial-scale=1');
@@ -150,25 +208,21 @@
         _insertLinkTag(css);
 
 
-        if(md){
-          //config.md is the markdown!
-          resolve(_insert(document.getElementById(id), _parse(md), id, toc));
-        } else if(fetch){
+        if(md && !fetch){
+          resolve(_insert(_parse(md), '#'+id, toc));
+        } else if(fetch && !md){
           window.fetch(fetch).then(function(res){
             return res.text();
           }).then(function(txt){
-            resolve(_insert(document.getElementById(id), _parse(txt), id, toc));
+            resolve(_insert(_parse(txt), '#'+id, toc));
           });
-        } else if(useId){
-          //dom
-          var useIdNode = document.getElementById(useId);
-          resolve(_insert(document.getElementById(id), _parse(useIdNode.innerText ? useIdNode.innerText : useIdNode.textContent), id, toc));
+        } else {
+          resolve(_insert(_parse($(mdId).innerText), '#'+id, toc));
         }
        });
     }
-    
+
     return bootmark;
   }
-  
   if(typeof window.bootmark === 'undefined'){ window.bootmark = defineBootmark(); }
 })(window, document);

@@ -5,27 +5,13 @@
   <script src="dist/bootmark.bundle.min.js"></script>
 </head>
 <body>
-  <div id="markdown">
-# some md
-
-lisndvlskdvnklnlv
-
->lkndvklsdnvls
-
-- ngdnfn
-- kdlsjnvdlsk
-- ndlksnvls
-  </div>
   <div id="bootmark-md"></div>
-  <script>
-    bootmark.md({
-      fetch: bootmark.getParam('fetch') || 'https://raw.githubusercontent.com/twbs/bootstrap/master/README.md',//bootstrap's readme
-      id: 'markdown',
-      toc: (bootmark.getParam('toc') === 'false') ? false : true,
-      theme: bootmark.getParam('theme') || 'yeti'
-    }).then(function(html){
-      console.log(html);
-    });
-  </script>
 </body>
+<script>
+  bootmark.parse({
+    fetch: bootmark.getParam('fetch') || 'README.md',
+    toc: (bootmark.getParam('toc') === 'false') ? false : true,
+    theme: bootmark.getParam('theme') || 'yeti'
+  });
+</script>
 </html>

@@ -3,23 +3,26 @@ var gulp = require('gulp'),
     cleanCss = require('gulp-clean-css'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
-    //gulpJsdoc2md = require('gulp-jsdoc-to-markdown'),
+    gulpJsdoc2md = require('gulp-jsdoc-to-markdown'),
     paths = {
-      bundlejs: ['./vendor/*.js','./dist/bootmark.min.js'],
-      bundlecss: ['./vendor/*.min.css','./dist/bootmark.min.css'],
+      bundlejs: [
+				'./node_modules/jquery/dist/jquery.min.js',
+				'./node_modules/bootstrap/dist/js/bootstrap.min.js',
+				'./node_modules/showdown/dist/showdown.min.js',
+				'./dist/bootmark.min.js'
+			],
       js: ['./src/bootmark.js'],
       css: ['./src/bootmark.css']
     };
 
-gulp.task('default', ['js','css','bundlejs','bundlecss']);
+gulp.task('default', ['js','css','bundle','docs']);
 
-/* for the future
 gulp.task('docs', function () {
   return gulp.src('src/*.js')
     .pipe(concat('DOCS.md'))
     .pipe(gulpJsdoc2md())
-    .pipe(gulp.dest('./'));
-});*/
+    .pipe(gulp.dest('./docs/'));
+});
 
 gulp.task('css', function() {
   return gulp.src(paths.css)
@@ -35,15 +38,9 @@ gulp.task('js', function(){
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('bundlejs', function(){
+gulp.task('bundle', ['js'], function(){
   return gulp.src(paths.bundlejs)
     .pipe(concat('bootmark.bundle.min.js'))
-    .pipe(gulp.dest('./dist/'));
-});
-
-gulp.task('bundlecss', function() {
-  return gulp.src(paths.bundlecss)
-    .pipe(concat('bootmark.bundle.min.css'))
     .pipe(gulp.dest('./dist/'));
 });
 

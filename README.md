@@ -6,7 +6,7 @@ originally a fork of strapdown but a lot more extended:
 - external files
 - all bootswatch themes (bootstrap 3)
 - optional automatic table of content
-- showdown parser (which is alot more capable than marked)
+- showdown parser (more capable than marked)
 - it's still a work in progress and im open to suggestions
 
 in the [demo](https://obedm503.github.io/bootmark/?fetch=README.md) you can:
@@ -15,7 +15,7 @@ in the [demo](https://obedm503.github.io/bootmark/?fetch=README.md) you can:
   - [bootswatch](https://bootswatch.com)
   - default theme for the demo is yeti
 - try with a different markdown file by adding to the url:
-  - ``?fetch=<any public markdown file>``
-  - default file is the bootstrap readme on github
+  - showdown's readme ``?fetch=https://raw.githubusercontent.com/showdownjs/showdown/master/README.md``
+  - bootstrap's readme ``?fetch=https://raw.githubusercontent.com/twbs/bootstrap/master/README.md``
 - try without a table of contents by adding to the url:
   - ``?toc=false``
