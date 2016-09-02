@@ -6,8 +6,16 @@
   "version": "0.3.0",
   "license": "MIT",
 	"main": "dist/bootmark.bundle.min.js",
+	"npmName": "bootmark",
+	"npmFileMap": [
+		{
+			"basePath": "dist",
+			"files": [
+				"*"
+			]
+		}
+	],
   "repository": "git:https://github.com/obedm503/bootmark.git",
-  "description": " NCAI StudentAccess",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^3.1.0",
