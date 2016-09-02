@@ -1,4 +1,4 @@
-![bootmark](../bootmark-logo.png =220x220)
+![bootmark](https://obedm503.github.io/bootmark/bootmark-logo.png =220x220)
 
 ## bootmark examples/starter templates
 
@@ -25,8 +25,8 @@ valid attributes are:
 - ``toc="<whether to show the side menu>"`` optional. defaults to true.
 
 Examples:
-- [document-customtag.html](obedm503.github.io/bootmark/examples/document-customtag.html)
-- [fetch-customtag.html](obedm503.github.io/bootmark/examples/fetch-customtag.html)
+- [document-customtag.html](https://obedm503.github.io/bootmark/examples/document-customtag.html)
+- [fetch-customtag.html](https://obedm503.github.io/bootmark/examples/fetch-customtag.html)
 
 ### any html element. div recommended.
 
@@ -46,8 +46,8 @@ valid attributes are:
 - ``data-toc="<whether to show the side menu>"`` optional. defaults to true.
 
 Examples:
-- [document-anytag.html](obedm503.github.io/bootmark/examples/document-anytag.html)
-- [fetch-anytag.html](obedm503.github.io/bootmark/examples/fetch-anytag.html)
+- [document-anytag.html](https://obedm503.github.io/bootmark/examples/document-anytag.html)
+- [fetch-anytag.html](https://obedm503.github.io/bootmark/examples/fetch-anytag.html)
 
 ### use code
 
@@ -62,8 +62,8 @@ config properties are:
 	-``toc: <whether to show the side menu>`` defaults to ``true``
 
 Examples:
-- [document-code.html](obedm503.github.io/bootmark/examples/document-code.html)
-- [fetch-code.html](obedm503.github.io/bootmark/examples/fetch-code.html)
+- [document-code.html](https://obedm503.github.io/bootmark/examples/document-code.html)
+- [fetch-code.html](https://obedm503.github.io/bootmark/examples/fetch-code.html)
 
 ### remember
 
