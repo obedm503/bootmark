@@ -1,9 +1,11 @@
 {
   "name": "bootmark",
   "author": "obedm503",
+	"homepage": "https://obedm503.github.io/bootmark/",
+	"description":"markdown + showdown + bootstrap",
   "version": "0.3.0",
   "license": "MIT",
-	"filename": "dist/bootmark.bundle.min.js",
+	"main": "dist/bootmark.bundle.min.js",
   "repository": "git:https://github.com/obedm503/bootmark.git",
   "description": " NCAI StudentAccess",
   "dependencies": {
