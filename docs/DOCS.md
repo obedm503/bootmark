@@ -4,8 +4,9 @@
 markdown n stuff, originally a fork of [strapdownjs](http://strapdownjs.com).
 
 **Kind**: global variable  
+**Examples**: [examples/starter/templates](../examples/index.html)  
 **See**: [git repo](https://github.com/obedm503/bootmark.git)  
-**Version**: 0.2.0  
+**Version**: 0.3.0  
 **Author:** [obedm503](https://github.com/obedm503/) <obedm503@gmail.com>  
 **License**: MIT  
 
@@ -24,7 +25,7 @@ markdown n stuff, originally a fork of [strapdownjs](http://strapdownjs.com).
 creates a new showdown Converter which is used to parse the markdown
 
 **Kind**: static method of <code>[bootmark](#bootmark)</code>  
-**Returns**: <code>String</code> - html html which is further changed by [_insert](bootmark._insert)  
+**Returns**: <code>String</code> - html html which is further changed by [_insert](#bootmark._insert)  
 **Internal**:   
 
 | Param | Type | Description |
@@ -42,7 +43,7 @@ handles dom manipulation, maybe custom templates could be add in the future
 
 | Param | Type | Description |
 | --- | --- | --- |
-| html | <code>String</code> | markdown parsed by [_parse](bootmark._parse) |
+| html | <code>String</code> | markdown parsed by [_parse](#bootmark._parse) |
 | id | <code>String</code> | element id into which insert the html |
 
 <a name="bootmark._insertLinkTag"></a>
@@ -109,9 +110,9 @@ main function which decides everything.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | config | <code>Object</code> |  | configuration object |
-| [config.md] | <code>String</code> | <code>false</code> | markdown could be passed direcly from some variable. It HAS to be as text not some innerHTML |
+| [config.md] | <code>String</code> | <code>false</code> | markdown could be passed direcly from some variable. It HAS to be as text not html. |
 | [config.fetch] | <code>String</code> | <code>false</code> | url to fetch. markdown could be some markdown file somewhere |
-| [config.mdId] | <code>String</code> | <code>bootmark-md</code> | id containing markdown. be careful that the markdown is not indented, if it is the parser will interpret everything as code. |
+| [config.mdId] | <code>String</code> | <code>bootmark-md</code> | id containing markdown. be careful that the markdown is not indented, if it is the parser will interpret everything as code. If not config.mdId is passed, bootmark will use config.id. If that is not passed, it will default to ``bootmark-md``. |
 | [config.id] | <code>String</code> | <code>bootmark-md</code> | id into which bootmark should insert final html. because it defaults to the same id as mdId, it will substitute the markdown for the html. |
 | [config.toc] | <code>Boolean</code> | <code>true</code> | whether to show the table of contents/menu. defaults to true |
 | [config.theme] | <code>String</code> | <code>readable</code> | any one of the [bootswatch themes](http://bootswatch.com). defaults to the readable theme |

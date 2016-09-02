@@ -4,6 +4,8 @@
 
 ----
 
+see the docs [here](../docs/index.html)
+
 bootmark can be used in 3 ways:
 - with the custom ``<bootmark></bootmark>``
 - with any element with ``id="bootmark-md"`` and ``class="bootmark-md"``

@@ -4,14 +4,18 @@
 
 > for your markdown needs n stuff
 
+see the docs [here](./docs/index.html)
+
+see examples [here](./examples/index.html)
+
 originally a fork of strapdown but a lot more extended:
 - external files
 - all bootswatch themes (bootstrap 3)
 - optional automatic table of content
-- showdown parser (more capable than marked)
-- it's still a work in progress and im open to suggestions
+- showdown parser
+- it's still a work in progress and i'm open to ideas
 
-in the [demo](https://obedm503.github.io/bootmark/?fetch=README.md) you can:
+in the [demo](https://obedm503.github.io/bootmark/) you can:
 - try a different theme by adding to the url:
   - ``?theme=<any bootswatch theme>``
   - [bootswatch](https://bootswatch.com)
