@@ -4,7 +4,7 @@
 
 ----
 
-see the docs [here](../docs/index.html)
+see the docs [here](obedm503.github.io/bootmark/docs/index.html)
 
 bootmark can be used in 3 ways:
 - with the custom ``<bootmark></bootmark>``
@@ -25,8 +25,8 @@ valid attributes are:
 - ``toc="<whether to show the side menu>"`` optional. defaults to true.
 
 Examples:
-- [document-customtag.html](document-customtag.html)
-- [fetch-customtag.html](fetch-customtag.html)
+- [document-customtag.html](obedm503.github.io/bootmark/examples/document-customtag.html)
+- [fetch-customtag.html](obedm503.github.io/bootmark/examples/fetch-customtag.html)
 
 ### any html element. div recommended.
 
@@ -46,8 +46,8 @@ valid attributes are:
 - ``data-toc="<whether to show the side menu>"`` optional. defaults to true.
 
 Examples:
-- [document-anytag.html](document-anytag.html)
-- [fetch-anytag.html](fetch-anytag.html)
+- [document-anytag.html](obedm503.github.io/bootmark/examples/document-anytag.html)
+- [fetch-anytag.html](obedm503.github.io/bootmark/examples/fetch-anytag.html)
 
 ### use code
 
@@ -62,8 +62,8 @@ config properties are:
 	-``toc: <whether to show the side menu>`` defaults to ``true``
 
 Examples:
-- [document-code.html](document-code.html)
-- [fetch-code.html](fetch-code.html)
+- [document-code.html](obedm503.github.io/bootmark/examples/document-code.html)
+- [fetch-code.html](obedm503.github.io/bootmark/examples/fetch-code.html)
 
 ### remember
 

@@ -15,7 +15,10 @@
 			]
 		}
 	],
-  "repository": "git:https://github.com/obedm503/bootmark.git",
+  "repository": {
+		"type":"git",
+		"url":"https://github.com/obedm503/bootmark.git"
+	},
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^3.1.0",

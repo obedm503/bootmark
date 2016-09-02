@@ -1,12 +1,12 @@
-![bootmark](bootmark-logo.png =220x220)
+![bootmark](bootmark-logo.png)
 
 ## bootmark
 
 > for your markdown needs n stuff
 
-see the docs [here](./docs/index.html)
+see the docs [here](obedm503.github.io/bootmark/docs/index.html)
 
-see examples [here](./examples/index.html)
+see examples [here](obedm503.github.io/bootmark/examples/index.html)
 
 originally a fork of strapdown but a lot more extended:
 - external files
