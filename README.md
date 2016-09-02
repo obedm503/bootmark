@@ -4,9 +4,9 @@
 
 > for your markdown needs n stuff
 
-see the docs [here](obedm503.github.io/bootmark/docs/index.html)
+see the docs [here](https://obedm503.github.io/bootmark/docs/index.html)
 
-see examples [here](obedm503.github.io/bootmark/examples/index.html)
+see examples [here](http://obedm503.github.io/bootmark/examples/index.html)
 
 originally a fork of strapdown but a lot more extended:
 - external files

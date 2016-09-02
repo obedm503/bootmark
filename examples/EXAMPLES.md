@@ -4,7 +4,7 @@
 
 ----
 
-see the docs [here](obedm503.github.io/bootmark/docs/index.html)
+see the docs [here](https://obedm503.github.io/bootmark/docs/index.html)
 
 bootmark can be used in 3 ways:
 - with the custom ``<bootmark></bootmark>``
