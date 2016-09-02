@@ -4,10 +4,10 @@
 markdown n stuff, originally a fork of [strapdownjs](http://strapdownjs.com).
 
 **Kind**: global variable  
-**Examples**: [examples/starter/templates](../examples/index.html)  
-**See**: [git repo](https://github.com/obedm503/bootmark.git)  
-**Version**: 0.3.0  
-**Author:** [obedm503](https://github.com/obedm503/) <obedm503@gmail.com>  
+**Git**: [git repo](https://github.com/obedm503/bootmark.git)  
+**Examples**: [examples/starter/templates](obedm503.github.io/bootmark/examples/index.html)  
+**Version**: 0.3.1  
+**Author:** [obedm503](https://github.com/obedm503/)  
 **License**: MIT  
 
 * [bootmark](#bootmark)

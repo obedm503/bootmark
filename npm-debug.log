@@ -1,0 +1,108 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@2.14.12
+3 info using node@v4.3.2
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'C:\\Users\\Maribel\\Desktop\\obed\\bootmark',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\Maribel\AppData\Roaming\npm-cache\bootmark\0.3.0\package.tgz not in flight; packing
+9 verbose tar pack [ 'C:\\Users\\Maribel\\AppData\\Roaming\\npm-cache\\bootmark\\0.3.0\\package.tgz',
+9 verbose tar pack   'C:\\Users\\Maribel\\Desktop\\obed\\bootmark' ]
+10 verbose tarball C:\Users\Maribel\AppData\Roaming\npm-cache\bootmark\0.3.0\package.tgz
+11 verbose folder C:\Users\Maribel\Desktop\obed\bootmark
+12 info prepublish bootmark@0.3.0
+13 verbose addLocalTarball adding from inside cache C:\Users\Maribel\AppData\Roaming\npm-cache\bootmark\0.3.0\package.tgz
+14 silly cache afterAdd bootmark@0.3.0
+15 verbose afterAdd C:\Users\Maribel\AppData\Roaming\npm-cache\bootmark\0.3.0\package\package.json not in flight; writing
+16 verbose afterAdd C:\Users\Maribel\AppData\Roaming\npm-cache\bootmark\0.3.0\package\package.json written
+17 silly publish { name: 'bootmark',
+17 silly publish   author: { name: 'obedm503' },
+17 silly publish   homepage: 'https://obedm503.github.io/bootmark/',
+17 silly publish   description: 'markdown + showdown + bootstrap',
+17 silly publish   version: '0.3.0',
+17 silly publish   license: 'MIT',
+17 silly publish   main: 'dist/bootmark.bundle.min.js',
+17 silly publish   npmName: 'bootmark',
+17 silly publish   npmFileMap: [ { basePath: 'dist', files: [Object] } ],
+17 silly publish   repository:
+17 silly publish    { type: 'git',
+17 silly publish      url: 'git+https://github.com/obedm503/bootmark.git' },
+17 silly publish   dependencies: { bootstrap: '^3.3.7', jquery: '^3.1.0', showdown: '^1.4.3' },
+17 silly publish   devDependencies:
+17 silly publish    { gulp: '^3.9.1',
+17 silly publish      'gulp-clean-css': '^2.0.12',
+17 silly publish      'gulp-concat': '^2.6.0',
+17 silly publish      'gulp-jsdoc-to-markdown': '^1.2.2',
+17 silly publish      'gulp-rename': '^1.2.2',
+17 silly publish      'gulp-uglify': '^2.0.0',
+17 silly publish      'gulp-util': '^3.0.7' },
+17 silly publish   optionalDependencies: {},
+17 silly publish   engines: { node: '*' },
+17 silly publish   readme: '![bootmark](bootmark-logo.png)\r\n\r\n## bootmark\r\n\r\n> for your markdown needs n stuff\r\n\r\nsee the docs [here](obedm503.github.io/bootmark/docs/index.html)\r\n\r\nsee examples [here](obedm503.github.io/bootmark/examples/index.html)\r\n\r\noriginally a fork of strapdown but a lot more extended:\r\n- external files\r\n- all bootswatch themes (bootstrap 3)\r\n- optional automatic table of content\r\n- showdown parser\r\n- it\'s still a work in progress and i\'m open to ideas\r\n\r\nin the [demo](https://obedm503.github.io/bootmark/) you can:\r\n- try a different theme by adding to the url:\r\n  - ``?theme=<any bootswatch theme>``\r\n  - [bootswatch](https://bootswatch.com)\r\n  - default theme for the demo is yeti\r\n- try with a different markdown file by adding to the url:\r\n  - showdown\'s readme ``?fetch=https://raw.githubusercontent.com/showdownjs/showdown/master/README.md``\r\n  - bootstrap\'s readme ``?fetch=https://raw.githubusercontent.com/twbs/bootstrap/master/README.md``\r\n- try without a table of contents by adding to the url:\r\n  - ``?toc=false``\r\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: '824efe7fcf552450fdf6fb2cd4a26aa2e0a0a6cf',
+17 silly publish   bugs: { url: 'https://github.com/obedm503/bootmark/issues' },
+17 silly publish   _id: 'bootmark@0.3.0',
+17 silly publish   scripts: {},
+17 silly publish   _shasum: 'd71888a938838f0182218f60d29ba3698660a672',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name bootmark
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/bootmark
+23 verbose publish registryBase https://registry.npmjs.org/
+24 silly publish uploading C:\Users\Maribel\AppData\Roaming\npm-cache\bootmark\0.3.0\package.tgz
+25 verbose request uri https://registry.npmjs.org/bootmark
+26 verbose request sending authorization for write operation
+27 info attempt registry request try #1 at 20:57:12
+28 verbose request using bearer token for auth
+29 verbose request id 01993fbd92bda896
+30 http request PUT https://registry.npmjs.org/bootmark
+31 http 403 https://registry.npmjs.org/bootmark
+32 verbose headers { 'content-type': 'application/json',
+32 verbose headers   'cache-control': 'max-age=300',
+32 verbose headers   'content-length': '95',
+32 verbose headers   'accept-ranges': 'bytes',
+32 verbose headers   date: 'Fri, 02 Sep 2016 02:57:28 GMT',
+32 verbose headers   via: '1.1 varnish',
+32 verbose headers   connection: 'keep-alive',
+32 verbose headers   'x-served-by': 'cache-mia1325-MIA',
+32 verbose headers   'x-cache': 'MISS',
+32 verbose headers   'x-cache-hits': '0',
+32 verbose headers   'x-timer': 'S1472785046.669081,VS0,VE1989',
+32 verbose headers   vary: 'Accept-Encoding' }
+33 verbose request invalidating C:\Users\Maribel\AppData\Roaming\npm-cache\registry.npmjs.org\bootmark on PUT
+34 error publish Failed PUT 403
+35 verbose stack Error: "You cannot publish over the previously published version 0.3.0." : bootmark
+35 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+35 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
+35 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+35 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:198:22)
+35 verbose stack     at emitTwo (events.js:87:13)
+35 verbose stack     at Request.emit (events.js:172:7)
+35 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1082:10)
+35 verbose stack     at emitOne (events.js:82:20)
+35 verbose stack     at Request.emit (events.js:169:7)
+35 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1009:12)
+36 verbose statusCode 403
+37 verbose pkgid bootmark
+38 verbose cwd C:\Users\Maribel\Desktop\obed\bootmark
+39 error Windows_NT 6.1.7600
+40 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+41 error node v4.3.2
+42 error npm  v2.14.12
+43 error code E403
+44 error "You cannot publish over the previously published version 0.3.0." : bootmark
+45 error If you need help, you may report this error at:
+45 error     <https://github.com/npm/npm/issues>
+46 verbose exit [ 1, true ]
