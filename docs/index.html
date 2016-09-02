@@ -2,16 +2,16 @@
 <html>
 <head>
   <title>docs</title>
-  <script src="../dist/bootmark.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.4.3/showdown.min.js"></script>
+  <script src="../src/bootmark.js"></script>
 </head>
 <body>
-  <div id="bootmark-md"></div>
-  <script>
-    bootmark.parse({
-			css:'../dist/bootmark.min.css',
-      fetch:'DOCS.md',
-      theme: 'yeti'
-    });
-  </script>
+<bootmark 
+     fetch="DOCS.md" 
+     css="../src/bootmark.css" 
+     theme="paper"
+     ></bootmark>
 </body>
 </html>

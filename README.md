@@ -1,4 +1,6 @@
-# bootmark
+![bootmark](bootmark-logo.png =220x220)
+
+## bootmark
 
 > for your markdown needs n stuff
 

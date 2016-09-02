@@ -3,6 +3,11 @@
   "author": "obedm503",
   "version": "0.2.0",
   "license": "MIT",
+	"filename":[
+		"dist/bootmark.bundle.min.js",
+		"dist/bootmark.min.css",
+		"dist/bootmark.min.js"
+	],
   "repository": "git:https://github.com/obedm503/bootmark.git",
   "description": " NCAI StudentAccess",
   "dependencies": {

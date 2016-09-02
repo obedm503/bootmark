@@ -21,7 +21,7 @@
 		* @description
 		* creates a new showdown Converter which is used to parse the markdown
 		* @param {String} markdown markdown to parse
-		* @returns {String} html html which is further changed by [_insert](bootmark._insert)
+		* @returns {String} html html which is further changed by [_insert](#bootmark._insert)
 		*/
     function _parse(markdown){
       return new window.showdown.Converter({
@@ -41,7 +41,7 @@
 		* @internal
 		* @description
 		* handles dom manipulation, maybe custom templates could be add in the future
-		* @param {String} html markdown parsed by [_parse](bootmark._parse)
+		* @param {String} html markdown parsed by [_parse](#bootmark._parse)
 		* @param {String} id element id into which insert the html
 		* @returns {String} html html which is later returned by the promise resolution
 		*/
@@ -49,49 +49,54 @@
 			var template;
       if(toc === true){
         template =
-          '<div class="row">'+
-            '<div class="col-sm-3 col-md-3 col-lg-3">'+
-              '<nav class="navbar navbar-default navbar-fixed-side">'+
-                '<div class="container">'+
-                  '<div class="navbar-header">'+
-                    '<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">'+
-                      '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
-                      '<span class="icon-bar"></span><span class="icon-bar"></span>'+
-                    '</button>'+
-                    '<a class="navbar-brand active" href="'+ id +'">'+ document.getElementsByTagName("title")[0].innerHTML +'</a>'+
-                  '</div>'+
-                '<div class="collapse navbar-collapse">'+
-                  '<ul id="bootmark-toc" class="nav navbar-nav"></ul>'+//bootmark-toc
-                '</div>'+
-              '</nav>'+
-            '</div>'+
-            '<div id="bootmark-main" class="col-sm-9 col-md-9 col-lg-9">'+
-							html +
-						'</div>'+//bootmark-main
-          '</div>';
+					'<div class="container-fluid">'+
+						'<div class="row">'+
+							'<div class="col-sm-3 col-md-3 col-lg-3">'+
+								'<nav class="navbar navbar-default navbar-fixed-side">'+
+									'<div class="container">'+
+										'<div class="navbar-header">'+
+											'<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">'+
+												'<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
+												'<span class="icon-bar"></span><span class="icon-bar"></span>'+
+											'</button>'+
+											'<a class="navbar-brand active page-scroll" href="'+ id +'">'+
+												window.$(document).attr('title')+
+											'</a>'+
+										'</div>'+
+									'<div class="collapse navbar-collapse">'+
+										'<ul id="bootmark-toc" class="nav navbar-nav"></ul>'+//bootmark-toc
+									'</div>'+
+								'</nav>'+
+							'</div>'+
+							'<div id="bootmark-main" class="col-sm-9 col-md-9 col-lg-9">'+
+								html +
+							'</div>'+//bootmark-main
+						'</div>';
+					'</div>';
       } else {
         template =
-          '<div class="row">'+
-            '<div id="bootmark-main" class="col-sm-10 col-md-10 col-lg-8">'+
-							html +
-						'</div>'+//bootmark-main
-          '</div>';
+					'<div class="container">'+
+						'<div class="row">'+
+							'<div id="bootmark-main" class="col-sm-10 col-md-10 col-lg-8">'+
+								html +
+							'</div>'+//bootmark-main
+						'</div>'+
+					'</div>';
       }
-			$(id)
-				.addClass(toc?'container-fluid':'container')
+			window.$(id)
 				.html(template)
 				.promise()
 				.then(function(){
-					if($('#bootmark-toc').length){
-						$("h1, h2, h3, h4, h5, h6").each(function(i,el){
-							$('#bootmark-toc').append(
-								$(document.createElement('li'))
+					if(window.$('#bootmark-toc').length){
+						window.$("h1, h2, h3, h4, h5, h6").each(function(i,el){
+							window.$('#bootmark-toc').append(
+								window.$(document.createElement('li'))
 									.addClass('bootmark-'+ el.localName)
 									.html('<a class="page-scroll" href="#'+ el.id +'">'+ el.innerText +'</a>')
 							);
 						});
 					}
-					$(id).show();
+					window.$(id).show();
 				});
 			return html;
     }
@@ -168,9 +173,9 @@
     * @memberof bootmark
     * @description main function which decides everything.
     * @param {Object} config configuration object
-		* @param {String} [config.md=false] markdown could be passed direcly from some variable. It HAS to be as text not some innerHTML
+		* @param {String} [config.md=false] markdown could be passed direcly from some variable. It HAS to be as text not html.
 		* @param {String} [config.fetch=false] url to fetch. markdown could be some markdown file somewhere
-		* @param {String} [config.mdId=bootmark-md] id containing markdown. be careful that the markdown is not indented, if it is the parser will interpret everything as code.
+		* @param {String} [config.mdId=bootmark-md] id containing markdown. be careful that the markdown is not indented, if it is the parser will interpret everything as code. If not config.mdId is passed, bootmark will use config.id. If that is not passed, it will default to ``bootmark-md``.
 		* @param {String} [config.id=bootmark-md] id into which bootmark should insert final html. because it defaults to the same id as mdId, it will substitute the markdown for the html.
 		* @param {Boolean} [config.toc=true] whether to show the table of contents/menu. defaults to true
 		* @param {String} [config.theme=readable] any one of the [bootswatch themes](http://bootswatch.com). defaults to the readable theme
@@ -182,13 +187,13 @@
       return new Promise(function(resolve, reject){
         var md = config.md || false,//text
             fetch = config.fetch || false,// url
-            mdId = config.mdId || 'bootmark-md',//md in some div
+            mdId = config.mdId || config.id || 'bootmark-md',//md in some div
             id = config.id || 'bootmark-md',// dom id
             toc = (typeof config.toc === 'undefined') ? true : config.toc,
-            theme = config.theme || 'readable',
+            theme = (typeof config.theme === 'undefined')? 'readable' : config.theme,
             css = config.css || 'dist/bootmark.min.css';
 
-				$('#'+id).hide();//hide the element
+				window.$('#'+id).hide();//hide the element
 
         // meta
         _insertMetaTag('viewport', 'width=device-width, initial-scale=1');
@@ -209,23 +214,39 @@
             resolve(_insert(_parse(txt), '#'+id, toc));
           });
         } else {
-          resolve(_insert(_parse($('#'+mdId).text()), '#'+id, toc));
+          resolve(_insert(_parse(window.$('#'+mdId).text()), '#'+id, toc));
         }
        });
     }
 
 		// smooth scrolling
-    $(document).on('click', 'a', function(e){
+    window.$(document).on('click', 'a.page-scroll', function(e){
       e.preventDefault();
-      $('html, body').animate({
-        scrollTop: $( $.attr(this, 'href') ).offset().top
+      window.$('html, body').animate({
+        scrollTop: window.$( window.$.attr(this, 'href') ).offset().top
       }, 900);
     });
 
-		$(function(){
-			var bootmarkMd = $('#bootmark-md');
-			if(bootmarkMd.length){
+		window.$('.navbar-collapse a.page-scroll').click(function(){
+				window.$(".navbar-collapse").collapse('hide');
+		});
+
+		window.$(function(){
+			if(window.$('bootmark').length){
+        var bootmarkEl = window.$('bootmark').attr('id','bootmark-custom-tag');
 				bootmark.parse({
+					id: 'bootmark-custom-tag',
+					mdId: bootmarkEl.attr('mdId'),
+					fetch: bootmarkEl.attr('fetch'),
+					toc: bootmarkEl.attr('toc'),
+					css: bootmarkEl.attr('css'),
+					theme: bootmarkEl.attr('theme')
+				});
+      } else if(window.$('#bootmark-md.bootmark-md').length){
+        var bootmarkMd = window.$('#bootmark-md');
+				bootmark.parse({
+					id: 'bootmark-md',
+					mdId: bootmarkMd.attr('data-mdId'),
 					fetch: bootmarkMd.attr('data-fetch'),
 					toc: bootmarkMd.attr('data-toc'),
 					css: bootmarkMd.attr('data-css'),
@@ -236,5 +257,8 @@
 
     return bootmark;
   }
+
+	if(typeof window.$ === 'undefined'){ throw new Error('JQuery is not defined'); }
+	if(typeof window.$.fn.modal === 'undefined'){ throw new Error('Bootstrap is not defined'); }
   if(typeof window.bootmark === 'undefined'){ window.bootmark = defineBootmark(); }
 })(window, document);
