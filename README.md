@@ -1,12 +1,16 @@
-![bootmark](bootmark-logo.png)
+![bootmark logo](https://obedm503.github.io/bootmark/bootmark-logo.png)
 
 ## bootmark
 
+This project was inspired by strapdown, but at this point no code or styling from the strapdown project is used.
+
 > for your markdown needs n stuff
 
-see the docs [here](https://obedm503.github.io/bootmark/docs/index.html)
+see the [docs here](https://obedm503.github.io/bootmark/docs/index.html)
 
-see examples [here](http://obedm503.github.io/bootmark/examples/index.html)
+see the [examples here](http://obedm503.github.io/bootmark/examples/index.html)
+
+changelog [here](http://obedm503.github.io/bootmark/index.html?fetch=CHANGELOG.md)
 
 originally a fork of strapdown but a lot more extended:
 - external files

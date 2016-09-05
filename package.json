@@ -1,28 +1,31 @@
 {
   "name": "bootmark",
   "author": "obedm503",
-	"homepage": "https://obedm503.github.io/bootmark/",
-	"description":"markdown + showdown + bootstrap",
-  "version": "0.3.1",
+  "homepage": "https://obedm503.github.io/bootmark/",
+  "description": "markdown + showdown + bootstrap",
+  "version": "0.4.0",
   "license": "MIT",
-	"main": "dist/bootmark.bundle.min.js",
-	"npmName": "bootmark",
-	"npmFileMap": [
-		{
-			"basePath": "dist",
-			"files": [
-				"*"
-			]
-		}
-	],
+  "main": "dist/bootmark.bundle.min.js",
+  "npmName": "bootmark",
+  "npmFileMap": [
+    {
+      "basePath": "dist",
+      "files": [
+        "*"
+      ]
+    }
+  ],
   "repository": {
-		"type":"git",
-		"url":"https://github.com/obedm503/bootmark.git"
-	},
+    "type": "git",
+    "url": "https://github.com/obedm503/bootmark.git"
+  },
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^3.1.0",
-    "showdown": "^1.4.3"
+    "showdown": "^1.4.3",
+    "showdown-prettify": "^1.3.0",
+    "color-themes-for-google-code-prettify": "^2.0.4",
+    "google-code-prettify": "^1.0.5",
   },
   "devDependencies": {
     "gulp": "^3.9.1",

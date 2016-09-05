@@ -9,6 +9,8 @@ var gulp = require('gulp'),
 				'./node_modules/jquery/dist/jquery.min.js',
 				'./node_modules/bootstrap/dist/js/bootstrap.min.js',
 				'./node_modules/showdown/dist/showdown.min.js',
+				'./node_modules/showdown-prettify/dist/showdown-prettify.min.js',
+				'./node_modules/google-code-prettify/bin/prettify.min.js',
 				'./dist/bootmark.min.js'
 			],
       js: ['./src/bootmark.js'],
@@ -16,6 +18,7 @@ var gulp = require('gulp'),
     };
 
 gulp.task('default', ['js','css','bundle','docs']);
+gulp.task('dist', ['bundle','css']);
 
 gulp.task('docs', function () {
   return gulp.src('src/*.js')
@@ -26,6 +29,7 @@ gulp.task('docs', function () {
 
 gulp.task('css', function() {
   return gulp.src(paths.css)
+		.pipe(gulp.dest('./dist/'))
     .pipe(cleanCss())
     .pipe(rename('bootmark.min.css'))
     .pipe(gulp.dest('./dist/'));
@@ -33,6 +37,7 @@ gulp.task('css', function() {
 
 gulp.task('js', function(){
   return gulp.src(paths.js)
+		.pipe(gulp.dest('./dist/'))
     .pipe(uglify({output: {comments: /^!|@preserve|@license|@cc_on/i}}))
     .pipe(rename('bootmark.min.js'))
     .pipe(gulp.dest('./dist/'));

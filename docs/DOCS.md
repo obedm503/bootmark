@@ -6,45 +6,15 @@ markdown n stuff, originally a fork of [strapdownjs](http://strapdownjs.com).
 **Kind**: global variable  
 **Git**: [git repo](https://github.com/obedm503/bootmark.git)  
 **Examples**: [examples/starter/templates](https://obedm503.github.io/bootmark/examples/index.html)  
-**Version**: 0.3.1  
+**Version**: 0.4.0  
 **Author:** [obedm503](https://github.com/obedm503/)  
 **License**: MIT  
 
 * [bootmark](#bootmark)
-    * [._parse(markdown)](#bootmark._parse) ⇒ <code>String</code>
-    * [._insert(html, id)](#bootmark._insert) ⇒ <code>String</code>
     * [._insertLinkTag(url)](#bootmark._insertLinkTag)
     * [._insertMetaTag(name, content)](#bootmark._insertMetaTag)
     * [._insertScriptTag(src)](#bootmark._insertScriptTag)
-    * [.getParam(name)](#bootmark.getParam) ⇒ <code>String</code>
-    * [.parse(config)](#bootmark.parse) ⇒ <code>Object</code>
-
-<a name="bootmark._parse"></a>
-
-### bootmark._parse(markdown) ⇒ <code>String</code>
-creates a new showdown Converter which is used to parse the markdown
-
-**Kind**: static method of <code>[bootmark](#bootmark)</code>  
-**Returns**: <code>String</code> - html html which is further changed by [_insert](#bootmark._insert)  
-**Internal**:   
-
-| Param | Type | Description |
-| --- | --- | --- |
-| markdown | <code>String</code> | markdown to parse |
-
-<a name="bootmark._insert"></a>
-
-### bootmark._insert(html, id) ⇒ <code>String</code>
-handles dom manipulation, maybe custom templates could be add in the future
-
-**Kind**: static method of <code>[bootmark](#bootmark)</code>  
-**Returns**: <code>String</code> - html html which is later returned by the promise resolution  
-**Internal**:   
-
-| Param | Type | Description |
-| --- | --- | --- |
-| html | <code>String</code> | markdown parsed by [_parse](#bootmark._parse) |
-| id | <code>String</code> | element id into which insert the html |
+    * [._insertHtml(html, id)](#bootmark._insertHtml) ⇒ <code>String</code>
 
 <a name="bootmark._insertLinkTag"></a>
 
@@ -83,42 +53,17 @@ creates a new script which is used to get the polyfill from [polyfill.io](https:
 | --- | --- | --- |
 | src | <code>String</code> | source property of the script element |
 
-<a name="bootmark.getParam"></a>
+<a name="bootmark._insertHtml"></a>
 
-### bootmark.getParam(name) ⇒ <code>String</code>
-gets param from url, made specifically for the demo>This doesn't work on some servers. They interpret the ``?`` in url as a server request. It may cause problems.
+### bootmark._insertHtml(html, id) ⇒ <code>String</code>
+handles dom manipulation, maybe custom templates could be added in the future
 
 **Kind**: static method of <code>[bootmark](#bootmark)</code>  
-**Returns**: <code>String</code> - html  
+**Returns**: <code>String</code> - html html which is later returned by the promise resolution  
+**Internal**:   
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | name of param |
+| html | <code>String</code> | markdown parsed by [_parse](#bootmark._parse) |
+| id | <code>String</code> | element id into which insert the html |
 
-**Example**  
-```js
-//example url "www.example.com?theme=cyborg"bootmark.getParam('theme');// cyborg
-```
-<a name="bootmark.parse"></a>
-
-### bootmark.parse(config) ⇒ <code>Object</code>
-main function which decides everything.
-
-**Kind**: static method of <code>[bootmark](#bootmark)</code>  
-**Returns**: <code>Object</code> - promise which resolves with the parsed markdown  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| config | <code>Object</code> |  | configuration object |
-| [config.md] | <code>String</code> | <code>false</code> | markdown could be passed direcly from some variable. It HAS to be as text not html. |
-| [config.fetch] | <code>String</code> | <code>false</code> | url to fetch. markdown could be some markdown file somewhere |
-| [config.mdId] | <code>String</code> | <code>bootmark-md</code> | id containing markdown. be careful that the markdown is not indented, if it is the parser will interpret everything as code. If not config.mdId is passed, bootmark will use config.id. If that is not passed, it will default to ``bootmark-md``. |
-| [config.id] | <code>String</code> | <code>bootmark-md</code> | id into which bootmark should insert final html. because it defaults to the same id as mdId, it will substitute the markdown for the html. |
-| [config.toc] | <code>Boolean</code> | <code>true</code> | whether to show the table of contents/menu. defaults to true |
-| [config.theme] | <code>String</code> | <code>readable</code> | any one of the [bootswatch themes](http://bootswatch.com). defaults to the readable theme |
-| [config.css] | <code>String</code> | <code>dist/bootmark.min.css</code> | bootmark's css. defaults to 'dist/bootmark.min.css' |
-
-**Example**  
-```js
-see the index.html or docs/EXAMPLES.md file
-```
