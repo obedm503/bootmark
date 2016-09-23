@@ -10,7 +10,7 @@
 
 ## bootmark
 
-This project was inspired by strapdown, but at this point no code or styling from the strapdown project is used.
+This project was inspired by strapdown, but at this point no code or styling from the strapdown project is used. If you have any suggestions, I'm all ears.
 
 > for your markdown needs n stuff
 
