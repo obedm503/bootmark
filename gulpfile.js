@@ -6,6 +6,8 @@ var gulp = require('gulp'),
     gulpJsdoc2md = require('gulp-jsdoc-to-markdown'),
     paths = {
       bundlejs: [
+				'./node_modules/es6-promise/es6-promise.min.js',
+				'./node_modules/whatwg-fetch/fetch.min.js',
 				'./node_modules/jquery/dist/jquery.min.js',
 				'./node_modules/bootstrap/dist/js/bootstrap.min.js',
 				'./node_modules/showdown/dist/showdown.min.js',
@@ -17,7 +19,7 @@ var gulp = require('gulp'),
       css: ['./src/bootmark.css']
     };
 
-gulp.task('default', ['js','css','bundle','docs']);
+gulp.task('default', ['js','css','fetch','bundle','docs']);
 gulp.task('dist', ['bundle','css']);
 
 gulp.task('docs', function () {
@@ -43,7 +45,7 @@ gulp.task('js', function(){
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('bundle', ['js'], function(){
+gulp.task('bundle', ['js','fetch'], function(){
   return gulp.src(paths.bundlejs)
     .pipe(concat('bootmark.bundle.min.js'))
     .pipe(gulp.dest('./dist/'));
@@ -52,4 +54,11 @@ gulp.task('bundle', ['js'], function(){
 gulp.task('watch', function() {
   gulp.watch(paths.js, ['js']);
   gulp.watch(paths.css, ['css']);
+});
+
+gulp.task('fetch', function(){
+	return gulp.src('./node_modules/whatwg-fetch/fetch.js')
+		.pipe(uglify({output: {comments: /^!|@preserve|@license|@cc_on/i}}))
+    .pipe(rename('fetch.min.js'))
+		.pipe(gulp.dest('./node_modules/whatwg-fetch/'));
 });

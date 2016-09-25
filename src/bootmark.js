@@ -209,7 +209,7 @@
 			// meta
 			_insertMetaTag('viewport', 'width=device-width, initial-scale=1');
 			//polyfill
-			_insertScriptTag('https://cdn.polyfill.io/v2/polyfill.min.js');
+			//_insertScriptTag('https://cdn.polyfill.io/v2/polyfill.min.js');
 			//bootswatch theme
 			_insertLinkTag('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' + config.html.theme.toLowerCase() + '/bootstrap.min.css');
 			//bootmark css
