@@ -4,7 +4,7 @@
 
 ----
 
-see the docs [here](https://obedm503.github.io/bootmark/docs/index.html)
+see the docs [here](https://obedm503.github.io/bootmark/docs/)
 
 bootmark can be used in 3 ways:
 - with the custom ``<bootmark></bootmark>``, without code
@@ -13,7 +13,7 @@ bootmark can be used in 3 ways:
 
 ### bootmark elemment
 
->The custom ``<bootmark></bootmark>`` element has to exist at DocumentReady event.
+> The custom ``<bootmark></bootmark>`` element has to exist at DocumentReady event.
 
 if used, bootmark will insert final html into here. helpful because extra code is not needed, everything happends through the attributes.
 

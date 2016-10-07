@@ -12,11 +12,9 @@
 
 This project was inspired by strapdown, but at this point no code or styling from the strapdown project is used.
 
-> for your markdown needs n stuff
+> markdown + bootstrap
 
-see the [docs here](https://obedm503.github.io/bootmark/docs/index.html)
-
-see the [examples here](http://obedm503.github.io/bootmark/examples/index.html)
+see the [docs and examples here](https://obedm503.github.io/bootmark/docs/)
 
 changelog [here](http://obedm503.github.io/bootmark/index.html?fetch=CHANGELOG.md)
 
