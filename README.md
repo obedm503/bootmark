@@ -4,7 +4,7 @@
 
 ![build: passing](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)
 
-![version: 0.5.1](https://img.shields.io/badge/version-0.5.1-blue.svg?style=flat-square)
+![version: 0.5.2](https://img.shields.io/badge/version-0.5.2-blue.svg?style=flat-square)
 
 ## bootmark
 
