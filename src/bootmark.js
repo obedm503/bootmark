@@ -3,7 +3,7 @@
 * @author [obedm503](https://github.com/obedm503/)
 * @git [git repo](https://github.com/obedm503/bootmark.git)
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
-* @version 0.5.0
+* @version 0.5.1
 * @license MIT
 */
 /**
@@ -281,7 +281,7 @@
 			// smooth scrolling
 			window.$(document).on('click', 'a.page-scroll', function(e){
 				e.preventDefault();
-				console.log(window.$.attr(this, 'href'));
+				//console.log(window.$.attr(this, 'href'));
 				window.$('html, body').animate({
 					scrollTop: window.$( window.$.attr(this, 'href') ).offset().top
 				}, 900);
