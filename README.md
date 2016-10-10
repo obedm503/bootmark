@@ -1,12 +1,10 @@
-![bootmark logo](https://obedm503.github.io/bootmark/bootmark-logo.png)
-
 ![compatibility](http://forthebadge.com/images/badges/compatibility-club-penguin.svg)
 
 ![as seen on tv](http://forthebadge.com/images/badges/as-seen-on-tv.svg)
 
-![build](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)
+![build: passing](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)
 
-![version](https://img.shields.io/badge/version-0.4.0-blue.svg?style=flat-square)
+![version: 0.5.0](https://img.shields.io/badge/version-0.5.0-blue.svg?style=flat-square)
 
 ## bootmark
 

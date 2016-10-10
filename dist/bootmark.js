@@ -3,7 +3,7 @@
 * @author [obedm503](https://github.com/obedm503/)
 * @git [git repo](https://github.com/obedm503/bootmark.git)
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
-* @version 0.4.0
+* @version 0.5.0
 * @license MIT
 */
 /**
@@ -56,7 +56,7 @@
 		* @param {String} [config.html.credit=true] whether to include a footer which links to bootmark's page
 		* @param {Object|String} [config.showdown] config passed to the showdown converter.
 		* These are the options bootmark uses by default. They can be overriden.
-		* { 
+		* {
 		* parseImgDimensions: true,
 		* simplifiedAutoLink: true,
 		* literalMidWordUnderscores: true,
@@ -67,7 +67,7 @@
 	 	* }
 		* @returns {jQuery} jQuery the jQuery object to allow chaining or
 		* @returns {Promise} Promise which resolves with the markdown parsed as html
-		* @see Examples: http://obedm503.github.io/bootmark/ or http://obedm503.github.io/bootmark/docs/
+		* @see Examples: http://obedm503.github.io/bootmark/ or http://obedm503.github.io/bootmark/docs/examples.html
 		*/
 		window.$.fn.bootmark = function(options){
 			var element = this;
