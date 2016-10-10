@@ -281,7 +281,7 @@
 			// smooth scrolling
 			window.$(document).on('click', 'a.page-scroll', function(e){
 				e.preventDefault();
-				console.log(window.$.attr(this, 'href'));
+				//console.log(window.$.attr(this, 'href'));
 				window.$('html, body').animate({
 					scrollTop: window.$( window.$.attr(this, 'href') ).offset().top
 				}, 900);
