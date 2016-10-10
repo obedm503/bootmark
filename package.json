@@ -2,10 +2,10 @@
   "name": "bootmark",
   "author": "obedm503",
   "homepage": "https://obedm503.github.io/bootmark/",
-  "description": "markdown + showdown + bootstrap",
+  "description": "easy markdown + bootstrap",
   "version": "0.4.0",
   "license": "MIT",
-  "main": "dist/bootmark.bundle.min.js",
+  "main": "dist/bootmark.min.js",
   "npmName": "bootmark",
   "npmFileMap": [
     {

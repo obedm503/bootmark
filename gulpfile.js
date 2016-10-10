@@ -54,7 +54,7 @@ gulp.task('bundle', ['js','fetch'], function(){
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.js, ['js']);
+  gulp.watch(paths.js, ['bundle']);
   gulp.watch(paths.css, ['css']);
 });
 
