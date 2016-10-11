@@ -1,4 +1,5 @@
 [![Stories in Ready](https://badge.waffle.io/obedm503/bootmark.png?label=ready&title=Ready)](https://waffle.io/obedm503/bootmark)
+[![Stories in Ready](https://badge.waffle.io/obedm503/bootmark.png?label=ready&title=Ready)](https://waffle.io/obedm503/bootmark)
 ![compatibility](http://forthebadge.com/images/badges/compatibility-club-penguin.svg)
 
 ![as seen on tv](http://forthebadge.com/images/badges/as-seen-on-tv.svg)
