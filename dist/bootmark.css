@@ -1,5 +1,5 @@
 /*!
- * bootmark 0.5.2
+ * bootmark 0.6.0
  */
 @media(max-width: 768px){
 	/* tablets and smaller*/
@@ -27,16 +27,16 @@
 		margin-left: 10px;
 	}
 	.bootmark-h3 {
-		margin-left: 20px;
+		margin-left: 15px;
 	}
 	.bootmark-h4 {
-		margin-left: 30px;
+		margin-left: 20px;
 	}
 	.bootmark-h5 {
-		margin-left: 35px;
+		margin-left: 25px;
 	}
 	.bootmark-h6 {
-		margin-left: 40px;
+		margin-left: 30px;
 	}
 	.navbar-brand {
 		width: 100%;
@@ -188,7 +188,7 @@ html {
   min-height: 100%;
 }
 body {
-  margin-bottom: 120px;
+  margin-bottom: 150px;
 }
 #bootmark-footer {
 	position: absolute;

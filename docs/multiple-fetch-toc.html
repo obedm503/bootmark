@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>multiple fetch, toc</title>
+</head>
+<body>
+	<bootmark fetch="[
+		'example-chapters/intro.md',
+		'example-chapters/1.md',
+		'example-chapters/2.md',
+		'example-chapters/3.md',
+		'example-chapters/epilogue.md'
+	]"></bootmark>
+
+  <script src="../dist/bootmark.bundle.min.js"></script>
+	<script>
+	$.fn.bootmark.options = {
+		html: {
+			theme: 'journal'
+		},
+		join: '> a really deep quote to join the segments'
+	};
+	</script>
+</body>
+</html>

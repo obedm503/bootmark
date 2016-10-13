@@ -80,7 +80,8 @@ converts markdown to beautiful bootstrap-styled-markdown-converted-to-html. This
 | --- | --- | --- | --- |
 | [config] | <code>Object</code> |  | configuration object |
 | [config.markdown] | <code>String</code> | <code>false</code> | markdown could be passed direcly from some variable. It HAS to be as text not html. If this is `true`, it has priority over fetch and markdown inside the element. |
-| [config.fetch] | <code>String</code> | <code>false</code> | url to fetch. markdown could be in some markdown file somewhere. bootmark fetches the file, processes, and inserts it into the element. |
+| [config.fetch] | <code>String</code> &#124; <code>Array.&lt;String&gt;</code> | <code>false</code> | url/s to fetch. markdown could be in some markdown file/s somewhere. bootmark fetches the file/s, processes, and inserts it/them into the element. If it's an array of urls, bootmark will fetch, concatenate, and process all of them. |
+| [config.join] | <code>String</code> | <code>----</code> | string to be passed to the Array.prototype.join() when concatenating multiple markdown files if config.fetch is an array. |
 | [config.css] | <code>String</code> | <code>https://obedm503.github.io/bootmark/dist/bootmark.min.css</code> | bootmark's css. defaults to 'https://obedm503.github.io/bootmark/dist/bootmark.min.css'. |
 | [config.promise] | <code>String</code> | <code>false</code> | whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining. |
 | [config.html] | <code>Object</code> &#124; <code>String</code> |  | html config object. this only pertains to html produced. if it's a string it will be parsed to an object. |

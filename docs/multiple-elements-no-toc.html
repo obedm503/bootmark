@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>many elements, no toc</title>
+</head>
+<body>
+	<bootmark fetch="example-chapters/intro.md"></bootmark>
+	<div class="bootmark" data-fetch="example-chapters/1.md"></div>
+	<bootmark fetch="example-chapters/2.md"></bootmark>
+	<div class="bootmark" data-fetch="example-chapters/3.md"></div>
+	<bootmark fetch="example-chapters/epilogue.md"></bootmark>
+
+  <script src="../dist/bootmark.bundle.min.js"></script>
+	<script>
+	$.fn.bootmark.options = {
+		html: {
+			theme: 'journal',
+			toc: false
+		}
+	};
+	</script>
+</body>
+</html>
