@@ -1,8 +1,8 @@
 /*!
  * bootmark 0.6.0
  */
+/* tablets and smaller*/
 @media(max-width: 768px){
-	/* tablets and smaller*/
   .navbar-fixed-side {
 		position: fixed;
 		left:0;
@@ -15,8 +15,9 @@
 		padding: 0 10px;
 	}
 }
+
+/* larger than tablets */
 @media(min-width: 768px){
-	/* larger than tablets */
 	.bootmark-main.bootmark-toc {
 		margin-top: 15px;
 	}
@@ -174,6 +175,14 @@
 		color:#777777 !important;
 	}
 }
+
+/* for print */
+@media print {
+	a[href]:after {
+    content: none;
+  }
+}
+
 .bootmark-indent {
 	text-indent: 2.5em;
 }

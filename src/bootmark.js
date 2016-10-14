@@ -173,7 +173,7 @@
 		*/
 		function _insertLinkTag(url){
 			if( !window.$('link[href="' + url + '"]').length ){
-	      var link = window.$(document.createElement('link'));
+	      var link = window.$('<link />'));
 	      link.attr({
 					href: url,
 					rel: 'stylesheet'
@@ -191,7 +191,7 @@
 		*/
 		function _insertMetaTag(name, content){
 			if( !window.$('meta[content="' + content + '"]').length ){
-				var meta = window.$( document.createElement('meta') );
+				var meta = window.$( '<meta />' );
 				meta.attr({
 					name: name,
 					content: content
