@@ -57,6 +57,7 @@
 		* @param {Boolean} [config.html.prettify=true] whether to prettify code blocks
 		* @param {String} [config.html.prettifyTheme=atelier-forest-light] theme to prettify the code with. Any of the themes [here](https://jmblog.github.io/color-themes-for-google-code-prettify/) will work.
 		* @param {String} [config.html.credit=true] whether to include a footer which links to bootmark's page
+		* @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
 		* @param {Object|String} [config.showdown] config passed to the showdown converter.
 		* These are the options bootmark uses by default. They can be overriden.
 		* {
@@ -85,6 +86,7 @@
 							i === "showdown" ||
 							(
 								i === 'fetch'	&&
+								// if it is an array
 								options[i].trim()[0] === '['
 							)
 						) &&
@@ -116,8 +118,10 @@
 			}
 
 			var inserted;
+			// markdown passed directly
 			if(config.markdown){
 				inserted = _insertHtml( element, config, config.text );
+			// fetch file/s
 			} else if(config.fetch){
 				// single url
 				if(typeof config.fetch === 'string'){
@@ -128,33 +132,35 @@
 					});
 				// array of urls
 				} else {
-					// array of fetch promises
+					// make array into array of fetch promises for every url
 					var fetches = config.fetch.map(function(url){
 						return window.fetch(url).then(function(res){
 							// convert response to text
 							return res.text();
 						});
 					});
-					inserted = window.Promise.all(fetches).then(function(mds){
+					inserted = window.Promise.all(fetches).then(function(files){
 						// join the array of markdown files with the config.join as separator
 						// line breaks prevent markdown confusion
-						var md = mds.join("\n\n" + config.join + "\n\n\n");
+						var md = files.join("\n\n" + config.join + "\n\n\n");
 						return _insertHtml( element, config, md );
 					});
 				}
 			} else {
+				// take txt inside element
 				inserted = _insertHtml(element, config, element.text() );
 			}
 
 			if(config.promise){
-				//returns promise
+				//resolve and return promise
 				return inserted.then(function(html){
 					element.show();
 					return html;
 				}, function(){
-						element.show();
+				  element.show();
 				});
 			} else {
+				// resolve promise
 				inserted.then(function(){
 					element.show();
 				}, function(){
@@ -172,8 +178,9 @@
 		* @param {String} url url to set as source
 		*/
 		function _insertLinkTag(url){
+			// this link doesn't yet exist
 			if( !window.$('link[href="' + url + '"]').length ){
-	      var link = window.$(document.createElement('link'));
+	      var link = window.$('<link />');
 	      link.attr({
 					href: url,
 					rel: 'stylesheet'
@@ -190,8 +197,9 @@
 		* @param {String} content content property of the meta element
 		*/
 		function _insertMetaTag(name, content){
+			// this meta tag doesn't yet exist
 			if( !window.$('meta[content="' + content + '"]').length ){
-				var meta = window.$( document.createElement('meta') );
+				var meta = window.$( '<meta />' );
 				meta.attr({
 					name: name,
 					content: content

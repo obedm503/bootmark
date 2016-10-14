@@ -91,5 +91,6 @@ converts markdown to beautiful bootstrap-styled-markdown-converted-to-html. This
 | [config.html.prettify] | <code>Boolean</code> | <code>true</code> | whether to prettify code blocks |
 | [config.html.prettifyTheme] | <code>String</code> | <code>atelier-forest-light</code> | theme to prettify the code with. Any of the themes [here](https://jmblog.github.io/color-themes-for-google-code-prettify/) will work. |
 | [config.html.credit] | <code>String</code> | <code>true</code> | whether to include a footer which links to bootmark's page |
+| [config.html.tocTitle] | <code>String</code> | <code>page title</code> | title for the toc. defaults to the page's title |
 | [config.showdown] | <code>Object</code> &#124; <code>String</code> |  | config passed to the showdown converter. These are the options bootmark uses by default. They can be overriden. { parseImgDimensions: true, simplifiedAutoLink: true, literalMidWordUnderscores: true, strikethrough: true, tables: true, tablesHeaderId: true, tasklists: true } |
 
