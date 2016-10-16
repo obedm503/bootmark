@@ -10,9 +10,18 @@
 
 ## bootmark
 
-This project was inspired by [strapdown](https://github.com/arturadib/strapdown/). Since strapdown hasn't been active for a while, I decided to take a stab at it.
-
 > easy markdown + bootstrap
+
+### npm install
+```
+$ npm install --save bootmark
+```
+
+### bower install
+```
+$ bower install bootmark
+```
+This project was inspired by [strapdown](https://github.com/arturadib/strapdown/). Since strapdown hasn't been active for a while, I decided to take a stab at it.
 
 see the [docs here](https://obedm503.github.io/bootmark/docs/) and the [examples here](https://obedm503.github.io/bootmark/docs/examples.html)
 
