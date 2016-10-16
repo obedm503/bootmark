@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>many elements, no toc</title>
+  <title>many files, no toc</title>
 </head>
 <body>
-	<bootmark fetch="example-chapters/intro.md"></bootmark>
-	<div class="bootmark" data-fetch="example-chapters/1.md"></div>
-	<bootmark fetch="example-chapters/2.md"></bootmark>
-	<div class="bootmark" data-fetch="example-chapters/3.md"></div>
-	<bootmark fetch="example-chapters/epilogue.md"></bootmark>
+	<bootmark fetch="https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/intro.md"></bootmark>
+	<div class="bootmark" data-fetch="https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/1.md"></div>
+	<bootmark fetch="https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/2.md"></bootmark>
+	<bootmark>
+## Chapter 2.5
 
-  <script src="../dist/bootmark.bundle.min.js"></script>
+Ut aliquam viverra finibus. Nunc eu ornare leo. Maecenas sit amet feugiat turpis. Mauris at dui ut orci imperdiet pharetra vitae nec nibh. Nam suscipit euismod lectus. Pellentesque pharetra tincidunt nisi sed pretium. Vivamus eget auctor nibh. Mauris nunc sem, ullamcorper quis mattis id, bibendum eget nunc. Nullam dapibus tristique erat accumsan mattis. Quisque accumsan volutpat sapien.
+	</bootmark>
+	<div class="bootmark" data-fetch="https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/3.md"></div>
+	<bootmark fetch="https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/epilogue.md"></bootmark>
+
+  <script src="https://obedm503.github.io/dist/bootmark.bundle.min.js"></script>
 	<script>
 	$.fn.bootmark.options = {
 		html: {

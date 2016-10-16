@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>multiple fetch with toc</title>
+</head>
+<body>
+	<bootmark fetch="[
+		'https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/intro.md',
+		'https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/1.md',
+		'https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/2.md',
+		'https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/3.md',
+		'https://raw.githubusercontent.com/obedm503/bootmark/master/docs/example-chapters/epilogue.md'
+	]"></bootmark>
+
+  <script src="https://obedm503.github.io/dist/bootmark.bundle.min.js"></script>
+	<script>
+	$.fn.bootmark.options = {
+		html: {
+			theme: 'journal'
+		},
+		join: '> a really deep quote to join the segments'
+	};
+	</script>
+</body>
+</html>

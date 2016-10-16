@@ -114,7 +114,7 @@
 
 			//prettify
 			if( config.showdown.extensions.indexOf('prettify') >= 0 ){
-				_insertLinkTag('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme + '.min.css', 'bootmark-prettify-theme');
+				_insertLinkTag('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().replace(/ /gi, '-') + '.min.css', 'bootmark-prettify-theme');
 			}
 
 			var inserted;
@@ -223,7 +223,7 @@
 
 				if(config.html.toc){
 					config.template =
-						'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /g,'-') + '">'+
+						'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
 							'<div class="row">'+
 								'<div class="col-sm-3 col-md-3 col-lg-2">'+
 									'<nav class="navbar navbar-default navbar-fixed-side">'+

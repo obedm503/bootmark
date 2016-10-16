@@ -71,14 +71,10 @@ Examples:
 - [document-code.html](https://obedm503.github.io/bootmark/docs/document-code.html)
 - [fetch-code.html](https://obedm503.github.io/bootmark/docs/fetch-code.html)
 
-### multiple elements
+### multiple files
 
-You can use an unlimited amount of elements that "automatically" use bootmark. You can also mix between the two automatic methods.
+You can use an unlimited amount of elements that "automatically" use bootmark. You can also mix between the two automatic methods (`<bootmark>` or `<div class="bootmark">`). But if you want to fetch multiple markdown files it's recommended that you set the `fetch` to an array of markdown file urls, instead of multiple "automatic" elements each fetching a different file. Also, `fetch` as an array is faster as all the files are parsed to html as a single markdown document. You can also define the text that joins the different files. Just set the `join` to any string. This string should be MARKDOWN and not html. This feature was added by request of [niklasnorin](https://github.com/niklasnorin/) in [#5](https://github.com/obedm503/bootmark/issues/5) Check the [docs](https://obedm503.github.io/bootmark/docs/) for details on the api.
 
 Examples:
 - [multiple elements, no toc](https://obedm503.github.io/bootmark/docs/multiple-elements-no-toc.html)
-
-You can also get multiple markdown files within a single element and define the text that goes in between them. Just set the `fetch` to an array or urls. This feature was added by request of [niklasnorin](https://github.com/niklasnorin/) in [#5](https://github.com/obedm503/bootmark/issues/5)
-
-Examples:
-- [multiple fetch, toc](https://obedm503.github.io/bootmark/docs/multiple-fetch-toc.html)
+- [multiple files, toc](https://obedm503.github.io/bootmark/docs/multiple-files-toc.html)

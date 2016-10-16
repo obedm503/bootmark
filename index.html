@@ -9,10 +9,11 @@
 	<script>
 	  $('#md').bootmark({
 	    fetch: getParam('fetch') || 'README.md',
+			join: getParam('join'),
 			css:'dist/bootmark.min.css',
 			html:{
 	    	theme: getParam('theme') || 'paper',
-				prettifyTheme: getParam('theme') || 'tranquil-heart',
+				prettifyTheme: getParam('theme') || 'tomorrow-night-eighties',
 				toc: (getParam('toc') === 'false') ? false : true
 			}
 		});
