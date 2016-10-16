@@ -2,40 +2,40 @@
 <html>
 <head>
   <title>bootmark</title>
-  <script src="dist/bootmark.bundle.min.js"></script>
-	<script>
-	/**
-	* @function getParam
-	* @memberof window
-	* @description gets param from url, made specifically for the demo. This doesn't work on some servers. They interpret the ``?`` in url as a server request. It may cause problems.
-	* @param {String} name name of param
-	* @param {String} [url=window.location.href] url to look through
-	* @returns {String} param the param requested
-	* @example
-	* //example url "www.example.com?theme=cyborg"
-	* getParam('theme');// cyborg
-	*/
-	function getParam(param,url){
-		param = param.replace(/[\[\]]/g, "\\$&");
-		var results = new RegExp("[?&]" + param + "(=([^&#]*)|&|#|$)").exec(url || window.location.href);
-		if(!results){ return null; }
-		if(!results[2]){ return ''; }
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
-	</script>
 </head>
 <body>
   <div id="md"></div>
+  <script src="dist/bootmark.bundle.min.js"></script>
 	<script>
 	  $('#md').bootmark({
 	    fetch: getParam('fetch') || 'README.md',
+			join: getParam('join'),
 			css:'dist/bootmark.min.css',
 			html:{
 	    	theme: getParam('theme') || 'paper',
-				prettifyTheme: getParam('theme') || 'tranquil-heart',
+				prettifyTheme: getParam('theme') || 'tomorrow-night-eighties',
 				toc: (getParam('toc') === 'false') ? false : true
 			}
 		});
+
+		/**
+		* @function getParam
+		* @memberof window
+		* @description gets param from url, made specifically for the demo. This doesn't work on some servers. They interpret the ``?`` in url as a server request. It may cause problems.
+		* @param {String} name name of param
+		* @param {String} [url=window.location.href] url to look through
+		* @returns {String} param the param requested
+		* @example
+		* //example url "www.example.com?theme=cyborg"
+		* getParam('theme');// cyborg
+		*/
+		function getParam(param,url){
+			param = param.replace(/[\[\]]/g, "\\$&");
+			var results = new RegExp("[?&]" + param + "(=([^&#]*)|&|#|$)").exec(url || window.location.href);
+			if(!results){ return null; }
+			if(!results[2]){ return ''; }
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
 	</script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 * @author [obedm503](https://github.com/obedm503/)
 * @git [git repo](https://github.com/obedm503/bootmark.git)
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
-* @version 0.5.2
+* @version 0.6.0
 * @license MIT
 */
 /**
@@ -17,11 +17,13 @@
 		var defaults =  {
 			markdown: false,
 			fetch: false,
+			join: "----",
 			css: 'https://obedm503.github.io/bootmark/dist/bootmark.min.css',
 			promise: false,
 			html: {
 				indent: false,
 				toc: true,
+				tocTitle: window.$(document).attr('title'),
 				theme: 'readable',
 				prettifyTheme:'atelier-forest-light',
 				prettify: true,
@@ -44,7 +46,8 @@
 		* @description converts markdown to beautiful bootstrap-styled-markdown-converted-to-html. This documentation is automatically generated from source code by [jsdoc2md](https://github.com/jsdoc2md/jsdoc-to-markdown)
 		* @param {Object} [config] configuration object
 		* @param {String} [config.markdown=false] markdown could be passed direcly from some variable. It HAS to be as text not html. If this is `true`, it has priority over fetch and markdown inside the element.
-		* @param {String} [config.fetch=false] url to fetch. markdown could be in some markdown file somewhere. bootmark fetches the file, processes, and inserts it into the element.
+		* @param {String|String[]} [config.fetch=false] url/s to fetch. markdown could be in some markdown file/s somewhere. bootmark fetches the file/s, processes, and inserts it/them into the element. If it's an array of urls, bootmark will fetch, concatenate, and process all of them.
+		* @param {String} [config.join=----] string to be passed to the Array.prototype.join() when concatenating multiple markdown files if config.fetch is an array.
 		* @param {String} [config.css=https://obedm503.github.io/bootmark/dist/bootmark.min.css] bootmark's css. defaults to 'https://obedm503.github.io/bootmark/dist/bootmark.min.css'.
 		* @param {String} [config.promise=false] whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining.
 		* @param {Object|String} [config.html] html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
@@ -54,6 +57,7 @@
 		* @param {Boolean} [config.html.prettify=true] whether to prettify code blocks
 		* @param {String} [config.html.prettifyTheme=atelier-forest-light] theme to prettify the code with. Any of the themes [here](https://jmblog.github.io/color-themes-for-google-code-prettify/) will work.
 		* @param {String} [config.html.credit=true] whether to include a footer which links to bootmark's page
+		* @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
 		* @param {Object|String} [config.showdown] config passed to the showdown converter.
 		* These are the options bootmark uses by default. They can be overriden.
 		* {
@@ -73,9 +77,21 @@
 			var element = this;
 
 			//if objects are strings, eval them
-			if(typeof options.html === 'string' || typeof options.showdown === 'string'){
+			if(typeof options.html === 'string' || typeof options.showdown === 'string' || typeof options.fetch === 'string'){
 				for(var i in options){
-					if( ( i === "html" || i === "showdown" ) && typeof options[i] === 'string' && options.hasOwnProperty(i) ){
+					if(
+						typeof options[i] === 'string' &&
+						(
+							i === "html" ||
+							i === "showdown" ||
+							(
+								i === 'fetch'	&&
+								// if it is an array
+								options[i].trim()[0] === '['
+							)
+						) &&
+						options.hasOwnProperty(i)
+					){
 						options[i] = eval( "(" + options[i] + ")" );
 					}
 				}
@@ -98,31 +114,53 @@
 
 			//prettify
 			if( config.showdown.extensions.indexOf('prettify') >= 0 ){
-				_insertLinkTag('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme + '.min.css', 'bootmark-prettify-theme');
+				_insertLinkTag('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().replace(/ /gi, '-') + '.min.css', 'bootmark-prettify-theme');
 			}
 
 			var inserted;
+			// markdown passed directly
 			if(config.markdown){
 				inserted = _insertHtml( element, config, config.text );
+			// fetch file/s
 			} else if(config.fetch){
-				inserted = window.fetch(config.fetch).then(function(res){
-					return res.text();
-				}).then(function(txt){
-					return _insertHtml( element, config, txt );
-				});
+				// single url
+				if(typeof config.fetch === 'string'){
+					inserted = window.fetch(config.fetch).then(function(res){
+						return res.text();
+					}).then(function(txt){
+						return _insertHtml( element, config, txt );
+					});
+				// array of urls
+				} else {
+					// make array into array of fetch promises for every url
+					var fetches = config.fetch.map(function(url){
+						return window.fetch(url).then(function(res){
+							// convert response to text
+							return res.text();
+						});
+					});
+					inserted = window.Promise.all(fetches).then(function(files){
+						// join the array of markdown files with the config.join as separator
+						// line breaks prevent markdown confusion
+						var md = files.join("\n\n" + config.join + "\n\n\n");
+						return _insertHtml( element, config, md );
+					});
+				}
 			} else {
+				// take txt inside element
 				inserted = _insertHtml(element, config, element.text() );
 			}
 
 			if(config.promise){
-				//returns promise
+				//resolve and return promise
 				return inserted.then(function(html){
 					element.show();
 					return html;
 				}, function(){
-						element.show();
+				  element.show();
 				});
 			} else {
+				// resolve promise
 				inserted.then(function(){
 					element.show();
 				}, function(){
@@ -140,8 +178,9 @@
 		* @param {String} url url to set as source
 		*/
 		function _insertLinkTag(url){
+			// this link doesn't yet exist
 			if( !window.$('link[href="' + url + '"]').length ){
-	      var link = window.$(document.createElement('link'));
+	      var link = window.$('<link />');
 	      link.attr({
 					href: url,
 					rel: 'stylesheet'
@@ -158,8 +197,9 @@
 		* @param {String} content content property of the meta element
 		*/
 		function _insertMetaTag(name, content){
+			// this meta tag doesn't yet exist
 			if( !window.$('meta[content="' + content + '"]').length ){
-				var meta = window.$( document.createElement('meta') );
+				var meta = window.$( '<meta />' );
 				meta.attr({
 					name: name,
 					content: content
@@ -183,7 +223,7 @@
 
 				if(config.html.toc){
 					config.template =
-						'<div class="container-fluid">'+
+						'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
 							'<div class="row">'+
 								'<div class="col-sm-3 col-md-3 col-lg-2">'+
 									'<nav class="navbar navbar-default navbar-fixed-side">'+
@@ -193,8 +233,8 @@
 													'<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
 													'<span class="icon-bar"></span><span class="icon-bar"></span>'+
 												'</button>'+
-												'<a class="navbar-brand active page-scroll" href="#'+ element.attr('id') +'">'+
-													window.$(document).attr('title')+
+												'<a class="navbar-brand active page-scroll" href="#'+ config.html.tocTitle.replace(/ /g,'-') +'">'+
+													config.html.tocTitle +
 												'</a>'+
 											'</div>'+
 											'<div class="collapse navbar-collapse" id="nav">'+
@@ -237,8 +277,8 @@
 				if(config.html.toc){
 					window.$("h1, h2, h3, h4, h5, h6", element).each(function(i,el){
 						window.$('.bootmark-toc.nav.navbar-nav', element).append(
-							window.$(document.createElement('li'))
-								.addClass('bootmark-' + el.localName)
+							window.$('<li></li>')
+								.addClass( 'bootmark-' + el.localName )
 								.html(' <a class="page-scroll" href="#' + el.id + '">' + el.innerText + '</a>' )
 						);
 					});
@@ -299,6 +339,7 @@
 					var el = window.$(this);
 					el.bootmark({
 						fetch: el.attr('fetch'),
+						join: el.attr('join'),
 						html: el.attr('html'),
 						css: el.attr('css'),
 						showdown: el.attr('showdown'),
@@ -312,6 +353,7 @@
 					var el = window.$(this);
 					el.bootmark({
 						fetch: el.attr('data-fetch'),
+						join: el.attr('data-join'),
 						html: el.attr('data-html'),
 						css: el.attr('data-css'),
 						showdown: el.attr('data-showdown'),

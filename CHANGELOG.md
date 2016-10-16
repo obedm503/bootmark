@@ -9,6 +9,16 @@
 #### FIX
 - navbar doesn't collapse on link click
 
+### 0.6.0 2016-10-16
+#### NEW
+- fetch multiple files within a single element
+- added new examples
+- added more comments to the source code
+
+#### FIXED
+- remove repeating links in print mode
+- make prettify theme to lowercase and replace spaces with dashes for safety measures
+
 ### 0.5.0 2016-10-09
 #### NEW
 - first one to support latex math with the [katex-latex](https://obedm503.github.io/katex-latex/) extension
