@@ -20,6 +20,10 @@
 			join: "----",
 			css: 'https://obedm503.github.io/bootmark/dist/bootmark.min.css',
 			promise: false,
+			template: {
+				id:'bootmark-template',
+				text: false
+			},
 			html: {
 				indent: false,
 				toc: true,
@@ -83,6 +87,7 @@
 						typeof options[i] === 'string' &&
 						(
 							i === "html" ||
+							i === "template" ||
 							i === "showdown" ||
 							(
 								i === 'fetch'	&&
@@ -219,10 +224,14 @@
 		*/
 		function _insertHtml(element, config, markdown){
 			return new Promise(function(resolve){
-				var html =  new window.showdown.Converter(config.showdown).makeHtml(markdown);
+				var bootmarkHtml  =  new window.showdown.Converter(config.showdown).makeHtml(markdown);
 
-				if(config.html.toc){
-					config.template =
+				if( config.template.text ){
+					config.template.html = eval('`' + config.template.text.replace(/`/g,'\\`') + '`');
+				} else if( window.$('#'+ config.template.id).length ){
+					config.template.html = eval('`' + window.$('#'+ config.template.id).html().replace(/`/g,'\\`') + '`');
+				} else if(config.html.toc){
+					config.template.html =
 						'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
 							'<div class="row">'+
 								'<div class="col-sm-3 col-md-3 col-lg-2">'+
@@ -244,22 +253,22 @@
 									'</nav>'+
 								'</div>'+
 								'<div class="bootmark-main bootmark-toc col-sm-9 col-md-9 col-lg-10">'+
-									html +
+									bootmarkHtml  +
 								'</div>'+//bootmark-main
 							'</div>'+
 						'</div>';
 				} else {
-					config.template =
+					config.template.html =
 						'<div class="container">'+
 							'<div class="row">'+
 								'<div class="bootmark-main">'+
-									html +
+									bootmarkHtml +
 								'</div>'+//bootmark-main
 							'</div>'+
 						'</div>';
 				}
 
-				element.html(config.template);
+				element.html(config.template.html);
 
 				//add page-scroll to anchors
 				/*
@@ -298,7 +307,7 @@
 
 				//add footer
 				if( config.html.credit && !window.$('#bootmark-footer').length ){
-					var footerHtml =
+					var footerbootmarkHtml  =
 						'<div class="container-fluid bg-primary">'+
 							'<p class="text-center">'+
 								'<a style="color: inherit" href="https://obedm503.github.io/bootmark">This project uses bootmark. Bootmark allows developers to focus on their projects and not how they are presented.</a>'+
@@ -340,6 +349,7 @@
 					el.bootmark({
 						fetch: el.attr('fetch'),
 						join: el.attr('join'),
+						template: el.attr('template'),
 						html: el.attr('html'),
 						css: el.attr('css'),
 						showdown: el.attr('showdown'),
@@ -354,6 +364,7 @@
 					el.bootmark({
 						fetch: el.attr('data-fetch'),
 						join: el.attr('data-join'),
+						template: el.attr('data-template'),
 						html: el.attr('data-html'),
 						css: el.attr('data-css'),
 						showdown: el.attr('data-showdown'),
