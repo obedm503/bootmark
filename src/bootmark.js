@@ -14,15 +14,41 @@
 (function(window, document){
   'use scrict';
   function defineBootmark(){
+		/**
+		* @name c
+		* @private
+		* @description console wrapper
+		*/
+		var c = {
+			logging: false,
+			log: function(msg){
+				if(this.logging){
+					console.log(msg);
+				}
+			},
+			debug: function(msg){
+				if(this.logging){
+					console.debug(msg);
+				}
+			},
+			error: function(msg){
+				if(this.logging){
+					console.error(msg);
+				}
+			}
+		};
+
 		var defaults =  {
-			markdown: false,
+			markdown: false, //when markdown is passed as text directly
 			fetch: false,
 			join: "----",
 			css: 'https://obedm503.github.io/bootmark/dist/bootmark.min.css',
 			promise: false,
 			template: {
-				id:'bootmark-template',
-				text: false
+				text: false, //when the template is passed as text directly,
+				fetch: false, //url of template
+				id:'bootmark-template',//default template id
+				html:''
 			},
 			html: {
 				indent: false,
@@ -104,8 +130,12 @@
 
 			var config = window.$.extend( true, {}, defaults, window.$.fn.bootmark.options || {}, options );
 
-			if(config.html.prettify && config.showdown.extensions.indexOf('prettify') < 0 ){
-				config.showdown.extensions.push('prettify');
+			if(
+				config.html.prettify &&
+				config.showdown.extensions.indexOf('prettify') < 0 &&
+				typeof window.prettyPrint !== 'undefined'
+			){
+				config.showdown.extensions.push('prettify'); //prettify to the extensions
 			}
 
 			element.hide();//hide the element
@@ -214,6 +244,18 @@
     }
 
 		/**
+		* @function _replaceHtml
+		* @private
+		* @description replaces html in template and returns it. Global. Case insensitive.
+		* @param {String} template html string
+		* @param {String} html to replace `${bootmark-html}` with
+		* @returns {String} hmtl replced in the template
+		*/
+		function _replaceHtml(template, html){
+			return template.replace(/\$\{bootmark\-html\}/ig, html);
+		}
+
+		/**
 		* @function _insertHtml
 		* @private
 		* @description handles dom manipulation
@@ -224,12 +266,22 @@
 		*/
 		function _insertHtml(element, config, markdown){
 			return new Promise(function(resolve){
-				var bootmarkHtml  =  new window.showdown.Converter(config.showdown).makeHtml(markdown);
+				var html  =  new window.showdown.Converter(config.showdown).makeHtml(markdown);
 
 				if( config.template.text ){
-					config.template.html = eval('`' + config.template.text.replace(/`/g,'\\`') + '`');
-				} else if( window.$('#'+ config.template.id).length ){
-					config.template.html = eval('`' + window.$('#'+ config.template.id).html().replace(/`/g,'\\`') + '`');
+					config.template.html = _replaceHtml( config.template.text, html );
+				}/* else if( config.template.fetch ){
+
+					config.template.html = window.fetch( config.template.fetch ).then(function(res){
+						return res.text();
+					}).then(function(template){
+						return _replaceHtml( template, html );
+					});
+
+					c.debug(config.template.html["[[PromiseValue]]"]);
+
+				}*/ else if( window.$('#'+ config.template.id).length ){
+					config.template.html = _replaceHtml( window.$('#'+ config.template.id).html(), html );
 				} else if(config.html.toc){
 					config.template.html =
 						'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
@@ -253,7 +305,7 @@
 									'</nav>'+
 								'</div>'+
 								'<div class="bootmark-main bootmark-toc col-sm-9 col-md-9 col-lg-10">'+
-									bootmarkHtml  +
+									html  +
 								'</div>'+//bootmark-main
 							'</div>'+
 						'</div>';
@@ -262,11 +314,12 @@
 						'<div class="container">'+
 							'<div class="row">'+
 								'<div class="bootmark-main">'+
-									bootmarkHtml +
+									html +
 								'</div>'+//bootmark-main
 							'</div>'+
 						'</div>';
 				}
+				c.debug(config);
 
 				element.html(config.template.html);
 
@@ -307,7 +360,7 @@
 
 				//add footer
 				if( config.html.credit && !window.$('#bootmark-footer').length ){
-					var footerbootmarkHtml  =
+					var footerHtml  =
 						'<div class="container-fluid bg-primary">'+
 							'<p class="text-center">'+
 								'<a style="color: inherit" href="https://obedm503.github.io/bootmark">This project uses bootmark. Bootmark allows developers to focus on their projects and not how they are presented.</a>'+
@@ -330,7 +383,7 @@
 			// smooth scrolling
 			window.$(document).on('click', 'a.page-scroll', function(e){
 				e.preventDefault();
-				//console.log(window.$.attr(this, 'href'));
+				c.log( window.$.attr(this, 'href') );
 				window.$('html, body').animate({
 					scrollTop: window.$( window.$.attr(this, 'href') ).offset().top
 				}, 900);

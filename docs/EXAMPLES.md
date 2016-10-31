@@ -78,3 +78,26 @@ You can use an unlimited amount of elements that "automatically" use bootmark. Y
 Examples:
 - [multiple elements, no toc](https://obedm503.github.io/bootmark/docs/multiple-elements-no-toc.html)
 - [multiple files, toc](https://obedm503.github.io/bootmark/docs/multiple-files-toc.html)
+
+## custom html templates
+
+you can now use your own custom templates to wrap the produced html
+
+> default: `id="bootmark-template"`
+
+by default it looks for a tag with id of `bootmark-template`, but this can also be customized by setting the `id` on the `template` or `data-template` attribute on the `bootmark` element. `<template>` tags are recommended because they are inert.
+
+bootmark will look for `${bootmark-html}` in the template and replace it with the parsed markdown. The syntax was inspired by Aurelia.
+
+```html
+<bootmark template="{id:'custom-id'}"></bootmark>
+
+<template id="custom-id">
+	<div class="container">
+		${bootmark-html}
+	</div>
+</template>
+```
+
+Examples:
+- [custom template](https://obedm503.github.io/bootmark/docs/template-example.html)
