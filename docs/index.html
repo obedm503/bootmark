@@ -6,8 +6,35 @@
 <body>
 	<bootmark
 		fetch="DOCS.md"
-		html="{ theme:'paper', prettifyTheme: 'atelier-estuary-light' }"
+		html="{ theme: 'paper', prettifyTheme: 'atelier-estuary-light' }"
 	></bootmark>
   <script src="../dist/bootmark.bundle.min.js"></script>
+	<template id="bootmark-template">
+		<div class="container-fluid" id="docs">
+			<div class="row">
+				<div class="col-sm-4 col-lg-3">
+					<nav class="navbar navbar-default navbar-fixed-side">
+						<div class="container">
+							<div class="navbar-header">
+								<button class="navbar-toggle" data-target="#nav" data-toggle="collapse">
+									<span class="sr-only">Toggle Navigation</span><span class="icon-bar"></span>
+									<span class="icon-bar"></span><span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand active page-scroll" href="#docs">
+									Docs
+								</a>
+							</div>
+							<div class="collapse navbar-collapse" id="nav">
+								<ul class="bootmark-toc nav navbar-nav"></ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+				<div class="bootmark-main bootmark-toc col-sm-8 col-lg-9">
+					${bootmark}
+				</div>
+			</div>
+		</div>
+	</template>
 </body>
 </html>

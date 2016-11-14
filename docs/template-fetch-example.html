@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>template</title>
+  <title>template.fetch</title>
 </head>
 <body>
 	<bootmark
@@ -12,18 +12,8 @@
 			'example-chapters/3.md',
 			'example-chapters/epilogue.md'
 		]"
+		template="{fetch:'template.html'}"
 	></bootmark>
-
-	<template id="bootmark-template">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-10">
-					<h2>Bootmark Docs</h2>
-					${bootmark}
-				</div>
-			</div>
-		</div>
-	</template>
   <script src="https://obedm503.github.io/dist/bootmark.bundle.min.js"></script>
 </body>
 </html>

@@ -101,3 +101,4 @@ bootmark will look for `${bootmark-html}` in the template and replace it with th
 
 Examples:
 - [custom template](https://obedm503.github.io/bootmark/docs/template-example.html)
+- [custom template fetch](https://obedm503.github.io/bootmark/docs/template-fetch-example.html)

@@ -6,38 +6,9 @@
 * @version 0.6.0
 * @license MIT
 */
-/**
- * The jQuery plugin namespace.
- * @external "jQuery.fn"
- * @see [jQuery Plugins](http://learn.jquery.com/plugins/)
- */
 (function(window, document){
   'use scrict';
   function defineBootmark(){
-		/**
-		* @name c
-		* @private
-		* @description console wrapper
-		*/
-		var c = {
-			logging: false,
-			log: function(msg){
-				if(this.logging){
-					console.log(msg);
-				}
-			},
-			debug: function(msg){
-				if(this.logging){
-					console.debug(msg);
-				}
-			},
-			error: function(msg){
-				if(this.logging){
-					console.error(msg);
-				}
-			}
-		};
-
 		var defaults =  {
 			markdown: false, //when markdown is passed as text directly
 			fetch: false,
@@ -70,6 +41,12 @@
 				extensions: []
 			}
 		};
+
+		/**
+		* The jQuery plugin namespace.
+		* @external "jQuery.fn"
+		* @see [jQuery Plugins](http://learn.jquery.com/plugins/)
+		*/
 
 		/**
 		* @function external:"jQuery.fn".bootmark
@@ -105,28 +82,9 @@
 		*/
 		window.$.fn.bootmark = function(options){
 			var element = this;
+			element.hide();//hide the element
 
-			//if objects are strings, eval them
-			if(typeof options.html === 'string' || typeof options.showdown === 'string' || typeof options.fetch === 'string'){
-				for(var i in options){
-					if(
-						typeof options[i] === 'string' &&
-						(
-							i === "html" ||
-							i === "template" ||
-							i === "showdown" ||
-							(
-								i === 'fetch'	&&
-								// if it is an array
-								options[i].trim()[0] === '['
-							)
-						) &&
-						options.hasOwnProperty(i)
-					){
-						options[i] = eval( "(" + options[i] + ")" );
-					}
-				}
-			}
+			options = _private.parseObject(options, ['fetch', 'html', 'showdown','template']);
 
 			var config = window.$.extend( true, {}, defaults, window.$.fn.bootmark.options || {}, options );
 
@@ -135,56 +93,32 @@
 				config.showdown.extensions.indexOf('prettify') < 0 &&
 				typeof window.prettyPrint !== 'undefined'
 			){
-				config.showdown.extensions.push('prettify'); //prettify to the extensions
+				config.showdown.extensions.push('prettify'); //push prettify to the extensions
 			}
 
-			element.hide();//hide the element
-
 			// meta
-			_insertMetaTag('viewport', 'width=device-width, initial-scale=1');
+			_private.insertMeta('viewport', 'width=device-width, initial-scale=1');
 			//bootswatch theme
-			_insertLinkTag('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' + config.html.theme.toLowerCase() + '/bootstrap.min.css');
+			_private.insertLink('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' + config.html.theme.toLowerCase().trim() + '/bootstrap.min.css');
 			//bootmark css
-			_insertLinkTag(config.css);
+			_private.insertLink(config.css);
 
 			//prettify
 			if( config.showdown.extensions.indexOf('prettify') >= 0 ){
-				_insertLinkTag('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().replace(/ /gi, '-') + '.min.css', 'bootmark-prettify-theme');
+				_private.insertLink('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().trim().replace(/ /gi, '-') + '.min.css');
 			}
 
-			var inserted;
-			// markdown passed directly
-			if(config.markdown){
-				inserted = _insertHtml( element, config, config.text );
-			// fetch file/s
-			} else if(config.fetch){
-				// single url
-				if(typeof config.fetch === 'string'){
-					inserted = window.fetch(config.fetch).then(function(res){
-						return res.text();
-					}).then(function(txt){
-						return _insertHtml( element, config, txt );
-					});
-				// array of urls
-				} else {
-					// make array into array of fetch promises for every url
-					var fetches = config.fetch.map(function(url){
-						return window.fetch(url).then(function(res){
-							// convert response to text
-							return res.text();
-						});
-					});
-					inserted = window.Promise.all(fetches).then(function(files){
-						// join the array of markdown files with the config.join as separator
-						// line breaks prevent markdown confusion
-						var md = files.join("\n\n" + config.join + "\n\n\n");
-						return _insertHtml( element, config, md );
-					});
-				}
-			} else {
-				// take txt inside element
-				inserted = _insertHtml(element, config, element.text() );
-			}
+			// array of promises
+			var promises = [_private.getTemplate(config), _private.getMarkdown(element, config)];
+			var inserted = window.Promise.all(promises).then(function(responses){
+				var html = new window.showdown.Converter(config.showdown).makeHtml(responses[1]);
+
+				element.html( _private.replaceHtml(responses[0], html) );
+
+				_private.doDom(element, config)
+
+				return html;
+			});
 
 			if(config.promise){
 				//resolve and return promise
@@ -207,122 +141,211 @@
 		};
 
 		/**
-		* @function _insertLinkTag
+		* @name _private
 		* @private
-		* @description creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css
-		* @param {String} url url to set as source
+		* @description private helper methods
 		*/
-		function _insertLinkTag(url){
-			// this link doesn't yet exist
-			if( !window.$('link[href="' + url + '"]').length ){
-	      var link = window.$('<link />');
-	      link.attr({
-					href: url,
-					rel: 'stylesheet'
+		var _private = {
+
+			/**
+			* @function getMarkdown
+			* @memberof _private
+			* @description gets markdown
+			* @param {Object} element jQuery element
+			* @param {Object} config bootmark config
+			*/
+			getMarkdown: function(element, config){
+				return new Promise(function(resolve, reject){
+					if(config.markdown){
+						// markdown passed directly
+						resolve(config.markdown);
+					} else if(config.fetch){
+						// fetch file/s
+						if( config.fetch.length ){
+							// array of urls
+
+							var fetches = config.fetch.map(function(url){
+								// make array into array of fetch promises for every url
+								return window.fetch(url).then(function(res){
+									// convert response to text
+									return res.text();
+								});
+							});
+
+							window.Promise.all(fetches).then(function(files){
+								// join the array of markdown files with the config.join as separator
+								// line breaks prevent markdown confusion
+								return files.join("\n\n" + config.join + "\n\n\n");
+							}).then(resolve).catch(reject);
+						} else {
+							// single url
+							window.fetch(config.fetch).then(function(res){
+								return res.text();
+							}).then(resolve).catch(reject);
+						}
+					} else {
+						// take txt inside element
+						resolve( element.text() );
+					}
 				});
-	      window.$('head').append(link);
-			}
-    }
+			},
 
-		/**
-		* @function _insertMetaTag
-		* @private
-		* @description creates the meta element which required by bootstrap, if it doesn't already exist
-		* @param {String} name name property of the meta element
-		* @param {String} content content property of the meta element
-		*/
-		function _insertMetaTag(name, content){
-			// this meta tag doesn't yet exist
-			if( !window.$('meta[content="' + content + '"]').length ){
-				var meta = window.$( '<meta />' );
-				meta.attr({
-					name: name,
-					content: content
-				});
-	      window.$('head').append(meta);
-			}
-    }
-
-		/**
-		* @function _replaceHtml
-		* @private
-		* @description replaces html in template and returns it. Global. Case insensitive.
-		* @param {String} template html string
-		* @param {String} html to replace `${bootmark-html}` with
-		* @returns {String} hmtl replced in the template
-		*/
-		function _replaceHtml(template, html){
-			return template.replace(/\$\{bootmark\-html\}/ig, html);
-		}
-
-		/**
-		* @function _insertHtml
-		* @private
-		* @description handles dom manipulation
-		* @param {Object} element this jQuery element
-		* @param {Object} config bootmark config object
-		* @param {String} markdown markdown to be parsed by showdown
-		* @returns {String} html resolves with parsed and processed markdown
-		*/
-		function _insertHtml(element, config, markdown){
-			return new Promise(function(resolve){
-				var html  =  new window.showdown.Converter(config.showdown).makeHtml(markdown);
-
-				if( config.template.text ){
-					config.template.html = _replaceHtml( config.template.text, html );
-				}/* else if( config.template.fetch ){
-
-					config.template.html = window.fetch( config.template.fetch ).then(function(res){
-						return res.text();
-					}).then(function(template){
-						return _replaceHtml( template, html );
+			/**
+			* @function insertLink
+			* @memberof _private
+			* @description creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css
+			* @param {String} url url to set as source
+			*/
+			insertLink: function(url){
+				// this link doesn't yet exist
+				if( !window.$('link[href="' + url + '"]').length ){
+					var link = window.$('<link />');
+					link.attr({
+						href: url,
+						rel: 'stylesheet'
 					});
-
-					c.debug(config.template.html["[[PromiseValue]]"]);
-
-				}*/ else if( window.$('#'+ config.template.id).length ){
-					config.template.html = _replaceHtml( window.$('#'+ config.template.id).html(), html );
-				} else if(config.html.toc){
-					config.template.html =
-						'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
-							'<div class="row">'+
-								'<div class="col-sm-3 col-md-3 col-lg-2">'+
-									'<nav class="navbar navbar-default navbar-fixed-side">'+
-										'<div class="container">'+
-											'<div class="navbar-header">'+
-												'<button class="navbar-toggle" data-target="#nav" data-toggle="collapse">'+
-													'<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
-													'<span class="icon-bar"></span><span class="icon-bar"></span>'+
-												'</button>'+
-												'<a class="navbar-brand active page-scroll" href="#'+ config.html.tocTitle.replace(/ /g,'-') +'">'+
-													config.html.tocTitle +
-												'</a>'+
-											'</div>'+
-											'<div class="collapse navbar-collapse" id="nav">'+
-												'<ul class="bootmark-toc nav navbar-nav"></ul>'+//bootmark-toc
-											'</div>'+
-										'</div>'+
-									'</nav>'+
-								'</div>'+
-								'<div class="bootmark-main bootmark-toc col-sm-9 col-md-9 col-lg-10">'+
-									html  +
-								'</div>'+//bootmark-main
-							'</div>'+
-						'</div>';
-				} else {
-					config.template.html =
-						'<div class="container">'+
-							'<div class="row">'+
-								'<div class="bootmark-main">'+
-									html +
-								'</div>'+//bootmark-main
-							'</div>'+
-						'</div>';
+					window.$('head').append(link);
 				}
-				c.debug(config);
+			},
 
-				element.html(config.template.html);
+			/**
+			* @function parseObject
+			* @memberof _private
+			* @description parses object thru eval(). If property on object is 'fetch' and it's first character is '[', eval it.
+			* @param {Object} obj object to parse
+			* @param {Array} props properties to eval
+			*/
+			parseObject: function(obj, props){
+				//if objects are strings, eval them
+				for(var i in obj){
+					if(
+						i &&
+						typeof obj[i] === 'string' &&
+						obj.hasOwnProperty(i) &&
+						props.indexOf(i) >= 0
+					){
+						if( i === 'fetch' ){
+							if( obj[i].trim()[0] === '[' ){
+								obj[i] = eval( "(" + obj[i] + ")" );
+							}
+						} else {
+							obj[i] = eval( "(" + obj[i] + ")" );
+						}
+					}
+				}
+				return obj;
+			},
 
+			/**
+			* @function insertMeta
+			* @memberof _private
+			* @description creates the meta element which required by bootstrap, if it doesn't already exist
+			* @param {String} name name property of the meta element
+			* @param {String} content content property of the meta element
+			*/
+			insertMeta: function(name, content){
+				// this meta tag doesn't yet exist
+				if( !window.$('meta[content="' + content + '"]').length ){
+					var meta = window.$( '<meta />' );
+					meta.attr({
+						name: name,
+						content: content
+					});
+					window.$('head').append(meta);
+				}
+			},
+
+			/**
+			* @function replaceHtml
+			* @memberof _private
+			* @description replaces html in template and returns it. Global. Case insensitive.
+			* @param {String} template html string
+			* @param {String} html to replace `${bootmark}` with
+			* @returns {String} hmtl replced in the template
+			*/
+			replaceHtml: function(template, html){
+				return template.replace(/\$\{bootmark\}/ig, html);
+			},
+
+			/**
+			* @function getTemplate
+			* @memberof _private
+			* @description gets the template form config.template.text, config.template.fetch, config.template.id, or use toc template or toc-less template
+			* @param {Object} config bootmark config
+			*/
+			getTemplate: function(config){
+				return new Promise(function(resolve, reject) {
+					if( config.template.text ){
+
+						resolve( config.template.text );
+
+					} else if( config.template.fetch ){
+						// fetch template
+						window.fetch( config.template.fetch ).then(function(res){
+							return res.text();
+						}).then(function(html){
+							var $html = window.$('<div></div>').html(html);
+							return window.$('template', $html).html();
+						}).then(resolve).catch(reject);
+
+					} else if( window.$('#'+ config.template.id).length ){
+
+						resolve( window.$('#'+ config.template.id).html() );
+
+					} else if( config.html.toc ){
+
+						resolve(
+							'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
+								'<div class="row">'+
+									'<div class="col-sm-3 col-md-3 col-lg-2">'+
+										'<nav class="navbar navbar-default navbar-fixed-side">'+
+											'<div class="container">'+
+												'<div class="navbar-header">'+
+													'<button class="navbar-toggle" data-target="#nav" data-toggle="collapse">'+
+														'<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
+														'<span class="icon-bar"></span><span class="icon-bar"></span>'+
+													'</button>'+
+													'<a class="navbar-brand active page-scroll" href="#'+ config.html.tocTitle.replace(/ /g,'-') +'">'+
+														config.html.tocTitle +
+													'</a>'+
+												'</div>'+
+												'<div class="collapse navbar-collapse" id="nav">'+
+													'<ul class="bootmark-toc nav navbar-nav"></ul>'+//bootmark-toc
+												'</div>'+
+											'</div>'+
+										'</nav>'+
+									'</div>'+
+									'<div class="bootmark-main bootmark-toc col-sm-9 col-md-9 col-lg-10">'+
+										'${bootmark}'+ // where the html is inserted
+									'</div>'+
+								'</div>'+
+							'</div>'
+						);
+
+					} else {
+
+						resolve(
+							'<div class="container">'+
+								'<div class="row">'+
+									'<div class="bootmark-main">'+
+										'${bootmark}'+ // where the html is inserted
+									'</div>'+
+								'</div>'+
+							'</div>'
+						);
+
+					}
+				});
+			},
+
+			/**
+			* @function doDom
+			* @memberof _private
+			* @description modifies the dom
+			* @param {Object} element jQuery element
+			* @param {Object} config bootmark config
+			*/
+			doDom: function(element, config){
 				//add page-scroll to anchors
 				/*
 				if( window.$('a', element).length ){
@@ -375,15 +398,14 @@
 					window.prettyPrint();
 				}
 
-				resolve(html);
-			});
-		}
+			}
+		};
 
 		window.$(function(){
 			// smooth scrolling
 			window.$(document).on('click', 'a.page-scroll', function(e){
 				e.preventDefault();
-				c.log( window.$.attr(this, 'href') );
+				//console.log( window.$.attr(this, 'href') );
 				window.$('html, body').animate({
 					scrollTop: window.$( window.$.attr(this, 'href') ).offset().top
 				}, 900);
