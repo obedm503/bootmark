@@ -1,5 +1,5 @@
 /**!
-* @file bootmark: easy markdown + bootstrap
+* @file bootmark: markdown + bootstrap as a jQuery plugin
 * @author [obedm503](https://github.com/obedm503/)
 * @git [git repo](https://github.com/obedm503/bootmark.git)
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
@@ -7,28 +7,28 @@
 * @license MIT
 */
 (function(window, document){
-  'use scrict';
-  function defineBootmark(){
+	'use scrict';
+	function defineBootmark(){
 		var defaults =  {
 			markdown: false, //when markdown is passed as text directly
-			fetch: false,
-			join: "----",
-			css: 'https://obedm503.github.io/bootmark/dist/bootmark.min.css',
-			promise: false,
+			fetch: false, // when url/s passed
+			join: "----", // markdown separator
+			css: 'https://obedm503.github.io/bootmark/dist/bootmark.min.css', // bootmark's css file
+			promise: false, // whether to return a promise or jquery object
 			template: {
 				text: false, //when the template is passed as text directly,
-				fetch: false, //url of template
-				id:'bootmark-template',//default template id
+				fetch: false, //url to template
+				id:'bootmark-template', //default template-tag id
 				html:''
 			},
 			html: {
-				indent: false,
-				toc: true,
-				tocTitle: window.$(document).attr('title'),
-				theme: 'readable',
-				prettifyTheme:'atelier-forest-light',
-				prettify: true,
-				credit: true
+				indent: false, // whether to indent paragraphs
+				toc: true, // whether to use the toc template
+				tocTitle: window.$(document).attr('title'), // document title as toc's title
+				theme: 'readable', // bootswatch theme
+				prettifyTheme:'atelier-forest-light', // code prettify theme
+				prettify: true, // whether to prettify
+				credit: true // whether to show footer with link to bootmark page
 			},
 			showdown: {
 				parseImgDimensions: true,
@@ -50,7 +50,7 @@
 
 		/**
 		* @function external:"jQuery.fn".bootmark
-		* @description converts markdown to beautiful bootstrap-styled-markdown-converted-to-html. This documentation is automatically generated from source code by [jsdoc2md](https://github.com/jsdoc2md/jsdoc-to-markdown)
+		* @description converts markdown to beautiful bootstrap-styled-html. This documentation is automatically generated from source code by [jsdoc2md](https://github.com/jsdoc2md/jsdoc-to-markdown)
 		* @param {Object} [config] configuration object
 		* @param {String} [config.markdown=false] markdown could be passed direcly from some variable. It HAS to be as text not html. If this is `true`, it has priority over fetch and markdown inside the element.
 		* @param {String|String[]} [config.fetch=false] url/s to fetch. markdown could be in some markdown file/s somewhere. bootmark fetches the file/s, processes, and inserts it/them into the element. If it's an array of urls, bootmark will fetch, concatenate, and process all of them.
@@ -67,6 +67,7 @@
 		* @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
 		* @param {Object|String} [config.showdown] config passed to the showdown converter.
 		* These are the options bootmark uses by default. They can be overriden.
+		* ```js
 		* {
 		* parseImgDimensions: true,
 		* simplifiedAutoLink: true,
@@ -76,66 +77,78 @@
 		* tablesHeaderId: true,
 		* tasklists: true
 	 	* }
+		* ```
 		* @returns {jQuery} jQuery the jQuery object to allow chaining or
-		* @returns {Promise} Promise which resolves with the markdown parsed as html
+		* @returns {Promise} Promise which resolves with the markdown parsed by showdown as html
 		* @see Examples: http://obedm503.github.io/bootmark/ or http://obedm503.github.io/bootmark/docs/examples.html
 		*/
 		window.$.fn.bootmark = function(options){
 			var element = this;
 			element.hide();//hide the element
 
+			// parse object properties which might be strings
 			options = _private.parseObject(options, ['fetch', 'html', 'showdown','template']);
 
+			// combine the passed options with the window.$.fn.bootmark.options with the defaults, recursivelly
 			var config = window.$.extend( true, {}, defaults, window.$.fn.bootmark.options || {}, options );
 
 			if(
-				config.html.prettify &&
-				config.showdown.extensions.indexOf('prettify') < 0 &&
-				typeof window.prettyPrint !== 'undefined'
+				config.html.prettify && // user wants to prettify
+				config.showdown.extensions.indexOf('prettify') < 0 && // user hasn't already added the prettify extension to the array
+				typeof window.prettyPrint !== 'undefined' // google-code-prettify isn't undefined
 			){
 				config.showdown.extensions.push('prettify'); //push prettify to the extensions
 			}
 
-			// meta
+			// insert meta tag required by bootstrap
 			_private.insertMeta('viewport', 'width=device-width, initial-scale=1');
-			//bootswatch theme
+			// bootswatch theme
 			_private.insertLink('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' + config.html.theme.toLowerCase().trim() + '/bootstrap.min.css');
-			//bootmark css
+			// bootmark's css
 			_private.insertLink(config.css);
 
-			//prettify
-			if( config.showdown.extensions.indexOf('prettify') >= 0 ){
-				_private.insertLink('https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().trim().replace(/ /gi, '-') + '.min.css');
+			// prettify's css theme file
+			if( config.showdown.extensions.indexOf('prettify') >= 0 ){// extension is in the array
+				_private.insertLink(
+					'https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().trim().replace(/ /g, '-') + '.min.css'
+				);
 			}
 
 			// array of promises
-			var promises = [_private.getTemplate(config), _private.getMarkdown(element, config)];
-			var inserted = window.Promise.all(promises).then(function(responses){
+			var promises = [
+				_private.getTemplate(config), // gets template according to config
+				_private.getMarkdown(element, config) // get markdown according to config
+			];
+			var done = window.Promise.all(promises).then(function(responses){
+				// convert markdown to html
 				var html = new window.showdown.Converter(config.showdown).makeHtml(responses[1]);
+				
+				// element's innerHTML is html
+				element.html( 
+					// replace `${bootmark}` with html
+					_private.replaceHtml(responses[0], html) 
+				);
 
-				element.html( _private.replaceHtml(responses[0], html) );
-
+				// make changes to the DOM
 				_private.doDom(element, config)
 
 				return html;
-			});
+			}).catch(console.log);
 
+			// user wants a promise
 			if(config.promise){
 				//resolve and return promise
-				return inserted.then(function(html){
+				return done.then(function(html){
 					element.show();
 					return html;
-				}, function(){
-				  element.show();
 				});
+			// user wants jQuery object
 			} else {
 				// resolve promise
-				inserted.then(function(){
-					element.show();
-				}, function(){
+				done.then(function(){
 					element.show();
 				});
-				//returns $ element
+				//returns jQuery element
 				return element;
 			}
 		};
@@ -146,6 +159,85 @@
 		* @description private helper methods
 		*/
 		var _private = {
+
+			/**
+			* @function insertLink
+			* @memberof _private
+			* @description creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css
+			* @param {String} url url to set as source
+			*/
+			insertLink: function(url){
+				// this link doesn't yet exist
+				if( !window.$('link[href="' + url + '"]').length ){
+					var link = window.$('<link />');
+					link.attr({
+						href: url,
+						rel: 'stylesheet'
+					});
+					window.$('head').append(link);
+				}
+			},
+			
+			/**
+			* @function insertMeta
+			* @memberof _private
+			* @description creates the meta element which required by bootstrap, if it doesn't already exist
+			* @param {String} name name property of the meta element
+			* @param {String} content content property of the meta element
+			*/
+			insertMeta: function(name, content){
+				// this meta tag doesn't yet exist
+				if( !window.$('meta[content="' + content + '"]').length ){
+					var meta = window.$( '<meta />' );
+					meta.attr({
+						name: name,
+						content: content
+					});
+					window.$('head').append(meta);
+				}
+			},
+			
+			/**
+			* @function parseObject
+			* @memberof _private
+			* @description parses object thru eval(). If property on object is 'fetch' and it's first character is '[', eval it.
+			* @param {Object} obj object to parse
+			* @param {Array} props properties to eval
+			*/
+			parseObject: function(obj, props){
+				//if properties are strings, eval them
+				for(var i in obj){
+					if(
+						i && // exists
+						typeof obj[i] === 'string' && // is string
+						obj.hasOwnProperty(i) && // not part of prototype
+						props.indexOf(i) >= 0 // is one of the props
+					){
+						if( i === 'fetch' ){// special case for fetch
+							if( obj[i].trim()[0] === '[' ){ // is an array
+								obj[i] = eval( "(" + obj[i] + ")" );
+							}
+						} else { // not fetch
+							obj[i] = eval( "(" + obj[i] + ")" );
+						}
+					}
+				}
+				return obj;
+			},
+
+			/**
+			* @function replaceHtml
+			* @memberof _private
+			* @description replaces html in template and returns it. Global. Case insensitive.
+			* @param {String} template html string
+			* @param {String} html to replace `${bootmark}` with
+			* @returns {String} hmtl replced in the template
+			*/
+			replaceHtml: function(template, html){
+				// case insensitive because DOM is case insensitive
+				// global so it can happen multiple times
+				return template.replace(/\$\{bootmark\}/ig, html);
+			},
 
 			/**
 			* @function getMarkdown
@@ -165,7 +257,7 @@
 							// array of urls
 
 							var fetches = config.fetch.map(function(url){
-								// make array into array of fetch promises for every url
+								// make array of urls into array of fetch promises for every url
 								return window.fetch(url).then(function(res){
 									// convert response to text
 									return res.text();
@@ -184,87 +276,10 @@
 							}).then(resolve).catch(reject);
 						}
 					} else {
-						// take txt inside element
+						// use markdown text inside element
 						resolve( element.text() );
 					}
 				});
-			},
-
-			/**
-			* @function insertLink
-			* @memberof _private
-			* @description creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css
-			* @param {String} url url to set as source
-			*/
-			insertLink: function(url){
-				// this link doesn't yet exist
-				if( !window.$('link[href="' + url + '"]').length ){
-					var link = window.$('<link />');
-					link.attr({
-						href: url,
-						rel: 'stylesheet'
-					});
-					window.$('head').append(link);
-				}
-			},
-
-			/**
-			* @function parseObject
-			* @memberof _private
-			* @description parses object thru eval(). If property on object is 'fetch' and it's first character is '[', eval it.
-			* @param {Object} obj object to parse
-			* @param {Array} props properties to eval
-			*/
-			parseObject: function(obj, props){
-				//if objects are strings, eval them
-				for(var i in obj){
-					if(
-						i &&
-						typeof obj[i] === 'string' &&
-						obj.hasOwnProperty(i) &&
-						props.indexOf(i) >= 0
-					){
-						if( i === 'fetch' ){
-							if( obj[i].trim()[0] === '[' ){
-								obj[i] = eval( "(" + obj[i] + ")" );
-							}
-						} else {
-							obj[i] = eval( "(" + obj[i] + ")" );
-						}
-					}
-				}
-				return obj;
-			},
-
-			/**
-			* @function insertMeta
-			* @memberof _private
-			* @description creates the meta element which required by bootstrap, if it doesn't already exist
-			* @param {String} name name property of the meta element
-			* @param {String} content content property of the meta element
-			*/
-			insertMeta: function(name, content){
-				// this meta tag doesn't yet exist
-				if( !window.$('meta[content="' + content + '"]').length ){
-					var meta = window.$( '<meta />' );
-					meta.attr({
-						name: name,
-						content: content
-					});
-					window.$('head').append(meta);
-				}
-			},
-
-			/**
-			* @function replaceHtml
-			* @memberof _private
-			* @description replaces html in template and returns it. Global. Case insensitive.
-			* @param {String} template html string
-			* @param {String} html to replace `${bootmark}` with
-			* @returns {String} hmtl replced in the template
-			*/
-			replaceHtml: function(template, html){
-				return template.replace(/\$\{bootmark\}/ig, html);
 			},
 
 			/**
@@ -275,27 +290,34 @@
 			*/
 			getTemplate: function(config){
 				return new Promise(function(resolve, reject) {
+					// user passed template direcly
 					if( config.template.text ){
 
 						resolve( config.template.text );
 
+					// user wants to fetch template
 					} else if( config.template.fetch ){
-						// fetch template
 						window.fetch( config.template.fetch ).then(function(res){
 							return res.text();
 						}).then(function(html){
+							// parse html
 							var $html = window.$('<div></div>').html(html);
+							// get template tag in html
+							// return html inside template tag
 							return window.$('template', $html).html();
 						}).then(resolve).catch(reject);
 
+					// get template from element with id="bootmark-template". id can be changed
 					} else if( window.$('#'+ config.template.id).length ){
 
 						resolve( window.$('#'+ config.template.id).html() );
 
+					// use toc template
 					} else if( config.html.toc ){
-
+						var tocTitle = config.html.tocTitle.replace(/ /gi,'-');
+						
 						resolve(
-							'<div class="container-fluid" id="' + config.html.tocTitle.replace(/ /gi,'-') + '">'+
+							'<div class="container-fluid" id="' + tocTitle + '">'+
 								'<div class="row">'+
 									'<div class="col-sm-3 col-md-3 col-lg-2">'+
 										'<nav class="navbar navbar-default navbar-fixed-side">'+
@@ -305,12 +327,12 @@
 														'<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
 														'<span class="icon-bar"></span><span class="icon-bar"></span>'+
 													'</button>'+
-													'<a class="navbar-brand active page-scroll" href="#'+ config.html.tocTitle.replace(/ /g,'-') +'">'+
+													'<a class="navbar-brand active page-scroll" href="#'+ tocTitle +'">'+
 														config.html.tocTitle +
 													'</a>'+
 												'</div>'+
 												'<div class="collapse navbar-collapse" id="nav">'+
-													'<ul class="bootmark-toc nav navbar-nav"></ul>'+//bootmark-toc
+													'<ul class="bootmark-toc nav navbar-nav"></ul>'+// where the bootmark-toc is inserted
 												'</div>'+
 											'</div>'+
 										'</nav>'+
@@ -322,6 +344,7 @@
 							'</div>'
 						);
 
+					// use tocless template
 					} else {
 
 						resolve(
@@ -346,12 +369,12 @@
 			* @param {Object} config bootmark config
 			*/
 			doDom: function(element, config){
-				//add page-scroll to anchors
+				//add page-scroll to anchors if they link to document id's
 				/*
 				if( window.$('a', element).length ){
-					var links = window.$('a');
+					var links = window.$('a', element);
 					links.each(function(){
-						if( window.$( window.$(this).attr('href') ).length ){
+						if( window.$('#' + window.$(this).attr('href') ).length ){
 							window.$(this).addClass('page-scroll');
 						}
 					});
@@ -360,12 +383,13 @@
 
 				//add toc
 				if(config.html.toc){
-					window.$("h1, h2, h3, h4, h5, h6", element).each(function(i,el){
-						window.$('.bootmark-toc.nav.navbar-nav', element).append(
-							window.$('<li></li>')
-								.addClass( 'bootmark-' + el.localName )
-								.html(' <a class="page-scroll" href="#' + el.id + '">' + el.innerText + '</a>' )
-						);
+					var $ul = window.$('.bootmark-toc', element);
+					var $headers = window.$("h1, h2, h3, h4, h5, h6", element);
+					headers.each(function(i,el){
+						var $li = window.$('<li></li>')
+							.addClass( 'bootmark-' + el.localName )
+							.html(' <a class="page-scroll" href="#' + el.id + '">' + el.innerText + '</a>' );
+						ul.append(li);
 					});
 				}
 
@@ -401,6 +425,7 @@
 			}
 		};
 
+		// on document ready
 		window.$(function(){
 			// smooth scrolling
 			window.$(document).on('click', 'a.page-scroll', function(e){
@@ -431,7 +456,7 @@
 						promise: el.attr('promise')
 					});
 				});
-      }
+			}
 			// bootmark class
 			if( window.$('.bootmark').length ){
 				window.$('.bootmark').each(function(){
@@ -448,13 +473,13 @@
 				});
 			}
 		});
-  }
+	}
 
 	if(typeof window.$ === 'undefined'){ throw new Error('JQuery is not defined'); }
 	if(typeof window.showdown === 'undefined'){ throw new Error('Showdown is not defined'); }
 	if(typeof window.$.fn.modal === 'undefined'){ throw new Error('Bootstrap is not defined'); }
-	if(typeof window.prettyPrint === 'undefined'){ console.warn('Code Prettify is not defined'); }
-	if(typeof window.Promise === 'undefined'){ console.warn('Promise API is not defined'); }
+	if(typeof window.Promise === 'undefined'){ throw new Error('Promise API is not defined'); }
 	if(typeof window.fetch === 'undefined'){ console.warn('fetch API is not defined'); }
-  if(typeof window.$.fn.bootmark === 'undefined'){ defineBootmark(); }
+	if(typeof window.prettyPrint === 'undefined'){ console.warn('Code Prettify is not defined'); }
+	if(typeof window.$.fn.bootmark === 'undefined'){ defineBootmark(); }
 })(window, document);
