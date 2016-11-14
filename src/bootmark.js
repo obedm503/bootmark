@@ -18,8 +18,7 @@
 			template: {
 				text: false, //when the template is passed as text directly,
 				fetch: false, //url to template
-				id:'bootmark-template', //default template-tag id
-				html:''
+				id:'bootmark-template' //default template-tag id
 			},
 			html: {
 				indent: false, // whether to indent paragraphs
@@ -67,7 +66,7 @@
 		* @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
 		* @param {Object|String} [config.showdown] config passed to the showdown converter.
 		* These are the options bootmark uses by default. They can be overriden.
-		* ```js
+		* ``
 		* {
 		* parseImgDimensions: true,
 		* simplifiedAutoLink: true,
@@ -77,7 +76,11 @@
 		* tablesHeaderId: true,
 		* tasklists: true
 	 	* }
-		* ```
+		* ``
+		* @param {Object|String} [config.template] template config
+		* @param {String} [config.template.text=false] use this to pass in the template as a html string
+		* @param {String} [config.template.fetch=false] url to external html file. The template **HAS** to be wrapped in `<template>` tags (inspired by aurelia templates).
+		* @param {String} [config.template.id=bootmark-template] id to `<template>` element containing the template to use. if no template is found, then the toc or tocless templates will be used.
 		* @returns {jQuery} jQuery the jQuery object to allow chaining or
 		* @returns {Promise} Promise which resolves with the markdown parsed by showdown as html
 		* @see Examples: http://obedm503.github.io/bootmark/ or http://obedm503.github.io/bootmark/docs/examples.html

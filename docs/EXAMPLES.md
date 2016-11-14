@@ -24,6 +24,7 @@ valid attributes are:
 - `join="<markdown text that goes between files when they're concatenated, if using fetch as an array>"` defaults to `----` aka `<hr />`
 - `css="<url to bootmark.css file>"` recommended. defaults to `https://obedm503.github.io/bootmark/dist/bootmark.min.css`
 - `html=<html-only config object>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
+- `template=<template-only config object>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
 - `promise=<whether to return a promise>` defaults to `false`
 - `showdown=<config passed to the showdown converter>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
 
@@ -47,6 +48,7 @@ valid attributes are:
 - `data-join="<markdown text that goes between files when they're concatenated, if using fetch as an array>"` defaults to `----` aka `<hr />`
 - `data-css="<url to bootmark.css file>"` recommended. defaults to `https://obedm503.github.io/bootmark/dist/bootmark.min.css`
 - `data-html=<html-only config object>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
+- `data-template=<template-only config object>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
 - `data-promise=<whether to return a promise>` defaults to `false`
 - `data-showdown=<config passed to the showdown converter>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
 
@@ -56,7 +58,7 @@ Examples:
 
 ### use code
 
-in case you want to handle when parsing happens
+in case you want to handle when the parsing happens
 
 config properties are:
 - `fetch: '<url of markdown file to fetch>'`
@@ -64,6 +66,7 @@ config properties are:
 - `css: '<url to bootmark's css file>'` defaults to `dist/bootmark.min.css`. recommended
 - `markdown: <some variable containing markdown to parse>` someone might find this useful
 - `html: <html-only config>` optional. see [docs for more detail](https://obedm503.github.io/bootmark/docs/index.html)
+- `template: <template-only config object>` see [docs for more details](https://obedm503.github.io/bootmark/docs/)
 - `promise: <whether to return a promise>` defaults to `false`
 - `showdown: <config passed to the showdown converter>` see [docs for more detail](https://obedm503.github.io/bootmark/docs/)
 
@@ -79,7 +82,7 @@ Examples:
 - [multiple elements, no toc](https://obedm503.github.io/bootmark/docs/multiple-elements-no-toc.html)
 - [multiple files, toc](https://obedm503.github.io/bootmark/docs/multiple-files-toc.html)
 
-## custom html templates
+### custom html templates
 
 you can now use your own custom templates to wrap the produced html
 
@@ -87,17 +90,41 @@ you can now use your own custom templates to wrap the produced html
 
 by default it looks for a tag with id of `bootmark-template`, but this can also be customized by setting the `id` on the `template` or `data-template` attribute on the `bootmark` element. `<template>` tags are recommended because they are inert.
 
-bootmark will look for `${bootmark-html}` in the template and replace it with the parsed markdown. The syntax was inspired by Aurelia.
+bootmark will look for `${bootmark}` in the template and replace it with the parsed markdown. The syntax was inspired by Aurelia.
 
 ```html
-<bootmark template="{id:'custom-id'}"></bootmark>
+<!-- index.html -->
+<bootmark template="{id:'custom-id'}">
+## a title
+
+a paragraph
+</bootmark>
 
 <template id="custom-id">
 	<div class="container">
-		${bootmark-html}
+		${bootmark}
 	</div>
 </template>
 ```
+
+or
+
+```html
+<!-- template.html -->
+<template>
+	<div class="container">
+		${bootmark}
+	</div>
+</template>
+
+<!-- index.html -->
+<bootmark template="{fetch:'template.html'}">
+## a title
+
+a paragraph
+</bootmark>
+```
+
 
 Examples:
 - [custom template](https://obedm503.github.io/bootmark/docs/template-example.html)

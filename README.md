@@ -33,6 +33,7 @@ some features:
 - all bootswatch themes (bootstrap 3)
 - optional automatic table of content
 - showdown parser (vanilla markdown)
+- custom templates
 - in active development
 
 in the [demo](https://obedm503.github.io/bootmark/) you can:
