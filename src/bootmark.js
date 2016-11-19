@@ -21,9 +21,11 @@
 				id:'bootmark-template' //default template-tag id
 			},
 			html: {
+				favicon:'https://obedm503.github.io/assets/media/bootmark-logo.png',//bootmark's logo
 				indent: false, // whether to indent paragraphs
 				toc: true, // whether to use the toc template
 				tocTitle: window.$(document).attr('title'), // document title as toc's title
+				tocId:'nav',
 				theme: 'readable', // bootswatch theme
 				prettifyTheme:'atelier-forest-light', // code prettify theme
 				prettify: true, // whether to prettify
@@ -57,7 +59,10 @@
 		* @param {String} [config.css=https://obedm503.github.io/bootmark/dist/bootmark.min.css] bootmark's css. defaults to 'https://obedm503.github.io/bootmark/dist/bootmark.min.css'.
 		* @param {String} [config.promise=false] whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining.
 		* @param {Object|String} [config.html] html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
+		* @param {Boolean} [config.html.favicon=https://obedm503.github.io/bootmark/bootmark-favicon.png] url to favicon to add. if you don't want a favicon, set this to false of an empty string.
 		* @param {Boolean} [config.html.toc=true] whether to show the table of contents/menu. defaults to true
+		* @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
+		* @param {Boolean} [config.html.tocId=nav] id of navigation menu. used to attach the autoclose event when it's expanded on phones
 		* @param {Boolean} [config.html.indent=false] whether to indent paragraphs by adding the `bootmark-indent` css class
 		* @param {String} [config.html.theme=readable] any one of the [bootswatch themes](http://bootswatch.com). defaults to the [readable theme](http://bootswatch.com/readable/)
 		* @param {Boolean} [config.html.prettify=true] whether to prettify code blocks
@@ -104,9 +109,24 @@
 			}
 
 			// insert meta tag required by bootstrap
-			_private.insertMeta('viewport', 'width=device-width, initial-scale=1');
+			_private.insertMeta(
+				'viewport',
+				'width=device-width, initial-scale=1'
+			);
 			// bootswatch theme
-			_private.insertLink('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' + config.html.theme.toLowerCase().trim() + '/bootstrap.min.css');
+			_private.insertLink(
+				'https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' +
+				config.html.theme.toLowerCase().trim() +
+				'/bootstrap.min.css'
+			);
+			// favicon
+			if(config.html.favicon){
+				_private.insertLink(
+					config.html.favicon,
+					'image/x-icon',
+					'shortcut icon'
+				);
+			}
 			// bootmark's css
 			_private.insertLink(config.css);
 
@@ -125,29 +145,29 @@
 			var done = window.Promise.all(promises).then(function(responses){
 				// convert markdown to html
 				var html = new window.showdown.Converter(config.showdown).makeHtml(responses[1]);
-				
+
 				// element's innerHTML is html
-				element.html( 
+				element.html(
 					// replace `${bootmark}` with html
-					_private.replaceHtml(responses[0], html) 
+					_private.replaceHtml(responses[0], html)
 				);
 
 				// make changes to the DOM
 				_private.doDom(element, config)
 
 				return html;
-			}).catch(console.log);
+			}).catch(console.error);
 
 			// user wants a promise
 			if(config.promise){
-				//resolve and return promise
+				//show element and return promise
 				return done.then(function(html){
 					element.show();
 					return html;
 				});
 			// user wants jQuery object
 			} else {
-				// resolve promise
+				// show element
 				done.then(function(){
 					element.show();
 				});
@@ -166,21 +186,24 @@
 			/**
 			* @function insertLink
 			* @memberof _private
-			* @description creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css
+			* @description creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css, and favicon
 			* @param {String} url url to set as source
+			* @param {String} [type=text/css] link's type
+			* @param {String} [rel=stylesheet] link's rel
 			*/
-			insertLink: function(url){
+			insertLink: function(url, type, rel){
 				// this link doesn't yet exist
-				if( !window.$('link[href="' + url + '"]').length ){
+				if( !window.$('link[href="' + url + '"], link[type="'+ type +'"], link[rel="'+ rel +'"]').length ){
 					var link = window.$('<link />');
 					link.attr({
 						href: url,
-						rel: 'stylesheet'
+						type: type || 'text/css',
+						rel: rel || 'stylesheet'
 					});
 					window.$('head').append(link);
 				}
 			},
-			
+
 			/**
 			* @function insertMeta
 			* @memberof _private
@@ -199,13 +222,14 @@
 					window.$('head').append(meta);
 				}
 			},
-			
+
 			/**
 			* @function parseObject
 			* @memberof _private
 			* @description parses object thru eval(). If property on object is 'fetch' and it's first character is '[', eval it.
-			* @param {Object} obj object to parse
-			* @param {Array} props properties to eval
+			* @param {Object} object to parse
+			* @param {Array} properties to eval
+			* @returns {Object} object parsed for every of the properties in the array
 			*/
 			parseObject: function(obj, props){
 				//if properties are strings, eval them
@@ -213,14 +237,14 @@
 					if(
 						i && // exists
 						typeof obj[i] === 'string' && // is string
-						obj.hasOwnProperty(i) && // not part of prototype
-						props.indexOf(i) >= 0 // is one of the props
+						obj.hasOwnProperty(i) && // not part of prototype chain
+						props.indexOf(i) >= 0 // is one of the props we want to convert
 					){
 						if( i === 'fetch' ){// special case for fetch
 							if( obj[i].trim()[0] === '[' ){ // is an array
 								obj[i] = eval( "(" + obj[i] + ")" );
 							}
-						} else { // not fetch
+						} else {// not fetch
 							obj[i] = eval( "(" + obj[i] + ")" );
 						}
 					}
@@ -234,7 +258,7 @@
 			* @description replaces html in template and returns it. Global. Case insensitive.
 			* @param {String} template html string
 			* @param {String} html to replace `${bootmark}` with
-			* @returns {String} hmtl replced in the template
+			* @returns {String} hmtl replaced in the template
 			*/
 			replaceHtml: function(template, html){
 				// case insensitive because DOM is case insensitive
@@ -248,6 +272,7 @@
 			* @description gets markdown
 			* @param {Object} element jQuery element
 			* @param {Object} config bootmark config
+			* @returns {Promise} Promise that resolves with the markdown text or rejects with any errors
 			*/
 			getMarkdown: function(element, config){
 				return new Promise(function(resolve, reject){
@@ -256,7 +281,12 @@
 						resolve(config.markdown);
 					} else if(config.fetch){
 						// fetch file/s
-						if( config.fetch.length ){
+						if(typeof config.fetch === 'string'){
+							// single url
+							window.fetch(config.fetch).then(function(res){
+								return res.text();
+							}).then(resolve).catch(reject);
+						} else {
 							// array of urls
 
 							var fetches = config.fetch.map(function(url){
@@ -272,11 +302,6 @@
 								// line breaks prevent markdown confusion
 								return files.join("\n\n" + config.join + "\n\n\n");
 							}).then(resolve).catch(reject);
-						} else {
-							// single url
-							window.fetch(config.fetch).then(function(res){
-								return res.text();
-							}).then(resolve).catch(reject);
 						}
 					} else {
 						// use markdown text inside element
@@ -290,6 +315,7 @@
 			* @memberof _private
 			* @description gets the template form config.template.text, config.template.fetch, config.template.id, or use toc template or toc-less template
 			* @param {Object} config bootmark config
+			* @returns {Promise} Promise that resolves with the html template text or rejects with any errors
 			*/
 			getTemplate: function(config){
 				return new Promise(function(resolve, reject) {
@@ -318,15 +344,15 @@
 					// use toc template
 					} else if( config.html.toc ){
 						var tocTitle = config.html.tocTitle.replace(/ /gi,'-');
-						
+
 						resolve(
 							'<div class="container-fluid" id="' + tocTitle + '">'+
 								'<div class="row">'+
 									'<div class="col-sm-3 col-md-3 col-lg-2">'+
 										'<nav class="navbar navbar-default navbar-fixed-side">'+
-											'<div class="container">'+
+											'<div class="container-fluid">'+
 												'<div class="navbar-header">'+
-													'<button class="navbar-toggle" data-target="#nav" data-toggle="collapse">'+
+													'<button class="navbar-toggle" data-target="#'+ config.html.tocId +'" data-toggle="collapse">'+
 														'<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>'+
 														'<span class="icon-bar"></span><span class="icon-bar"></span>'+
 													'</button>'+
@@ -334,13 +360,13 @@
 														config.html.tocTitle +
 													'</a>'+
 												'</div>'+
-												'<div class="collapse navbar-collapse" id="nav">'+
+												'<div class="collapse navbar-collapse" id="'+ config.html.tocId +'">'+
 													'<ul class="bootmark-toc nav navbar-nav"></ul>'+// where the bootmark-toc is inserted
 												'</div>'+
 											'</div>'+
 										'</nav>'+
 									'</div>'+
-									'<div class="bootmark-main bootmark-toc col-sm-9 col-md-9 col-lg-10">'+
+									'<div class="bootmark-main has-toc col-sm-9 col-md-9 col-lg-10">'+
 										'${bootmark}'+ // where the html is inserted
 									'</div>'+
 								'</div>'+
@@ -372,27 +398,32 @@
 			* @param {Object} config bootmark config
 			*/
 			doDom: function(element, config){
-				//add page-scroll to anchors if they link to document id's
-				/*
-				if( window.$('a', element).length ){
-					var links = window.$('a', element);
-					links.each(function(){
-						if( window.$('#' + window.$(this).attr('href') ).length ){
-							window.$(this).addClass('page-scroll');
-						}
+				// adds '.page-scroll' to all anchors with href beginning with '#'
+				if( window.$('a[href^="#"]', element).length ){
+					var $links = window.$('a[href^="#"]', element);
+					$links.each(function(){
+						window.$(this).addClass('page-scroll');
 					});
 				}
-				*/
+
+				//auto close menu
+				// attach event to document instead of '#nav' which might not even exist yet
+				if( window.$('#'+ config.html.tocId, element).length ){
+					var $nav = window.$('#'+ config.html.tocId, element);
+					$nav.on('click','a', function(){
+						$nav.collapse('hide');
+					});
+				}
 
 				//add toc
 				if(config.html.toc){
-					var $ul = window.$('.bootmark-toc', element);
+					var $ul = window.$('ul.bootmark-toc', element);
 					var $headers = window.$("h1, h2, h3, h4, h5, h6", element);
-					headers.each(function(i,el){
+					$headers.each(function(i,el){
 						var $li = window.$('<li></li>')
 							.addClass( 'bootmark-' + el.localName )
 							.html(' <a class="page-scroll" href="#' + el.id + '">' + el.innerText + '</a>' );
-						ul.append(li);
+						$ul.append($li);
 					});
 				}
 
@@ -433,15 +464,20 @@
 			// smooth scrolling
 			window.$(document).on('click', 'a.page-scroll', function(e){
 				e.preventDefault();
-				//console.log( window.$.attr(this, 'href') );
-				window.$('html, body').animate({
-					scrollTop: window.$( window.$.attr(this, 'href') ).offset().top
-				}, 900);
-			});
+				var $this = $(this);
+				var href = $this.attr('href').substring(1);//everything after the '#'
+				var $scrollToEl;
+				if( window.$('#'+ href ).length ){ //element with id exists
+					$scrollToEl = window.$('#'+ href)[0];
+				} else if( window.$('a[name="'+ href +'"]').length ){// anchor with name exists
+					$scrollToEl = window.$('a[name="'+ href +'"]')[0];
+				}
 
-			//auto close menu?
-			window.$('#nav a').click(function(){
-				window.$("#nav").collapse('hide');
+				if($scrollToEl){
+					window.$('html, body').animate({
+						scrollTop: $scrollToEl.offsetTop
+					}, 900);
+				}
 			});
 
 			//initial code-less usage

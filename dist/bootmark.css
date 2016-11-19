@@ -8,7 +8,7 @@
 		left:0;
 		right:0;
   }
-	.bootmark-main.bootmark-toc {
+	.bootmark-main.has-toc {
 		margin-top: 70px;
 	}
 	.bootmark-main {
@@ -18,7 +18,7 @@
 
 /* larger than tablets */
 @media(min-width: 768px){
-	.bootmark-main.bootmark-toc {
+	.bootmark-main.has-toc {
 		margin-top: 15px;
 	}
 	.bootmark-h1 {
@@ -121,7 +121,7 @@
 	.navbar-fixed-side .navbar-nav .dropdown-menu > li > a:focus {
 		background-image:none;
 	}
-	.navbar-fixed-side .navbar-nav .dropdown-menu > .active>a {
+	.navbar-fixed-side .navbar-nav .dropdown-menu > .active > a {
 		background-color:#e7e7e7;
 		color:#555;
 	}
