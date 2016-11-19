@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+		run = require('gulp-run'),
     concat = require('gulp-concat'),
     cleanCss = require('gulp-clean-css'),
     uglify = require('gulp-uglify'),
@@ -26,7 +27,8 @@ gulp.task('docs', function () {
   return gulp.src('src/*.js')
     .pipe(concat('DOCS.md'))
     .pipe(gulpJsdoc2md({
-			private:true
+			private: true,
+			'param-list-format':'list'
 		}))
     .pipe(gulp.dest('./docs/'));
 });
@@ -53,9 +55,10 @@ gulp.task('bundle', ['js','fetch'], function(){
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('watch', function() {
+gulp.task('serve', function() {
   gulp.watch(paths.js, ['bundle']);
   gulp.watch(paths.css, ['css']);
+	run('http-server').exec();
 });
 
 gulp.task('fetch', function(){

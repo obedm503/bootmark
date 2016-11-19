@@ -1,13 +1,22 @@
 ## bootmark changelog
 
-> easy markdown + bootstrap
+> markdown + bootstrap as a jQuery plugin
 
 ### Future
 #### NEW
-- add custom templates
+- ...
 
 #### FIX
 - navbar doesn't collapse on link click
+
+### 0.7.0 2016-11-14
+#### NEW
+- user-defined templates (as string, in-document and external)
+- added template examples
+- added more comments to the source code
+
+#### FIXED
+- simplified and organized code
 
 ### 0.6.0 2016-10-16
 #### NEW
