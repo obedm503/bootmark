@@ -1,13 +1,26 @@
 ## bootmark changelog
 
-> easy markdown + bootstrap
+> markdown + bootstrap as a jQuery plugin
 
 ### Future
 #### NEW
-- add custom templates
+- ...
 
 #### FIX
-- navbar doesn't collapse on link click
+- ...
+
+### 0.7.0 2016-11-19
+#### NEW
+- user-defined templates (as string, in-document and external)
+- added template examples
+- added more comments to the source code
+- you can now define the `toc`'s `id`
+- now adds "bootmark" favicon. this can be disabled or favicon url changed
+
+#### FIXED
+- simplified and organized code
+- navbar now collapses on link click
+- smooth scrolling on links to `id`s and `<a>`s
 
 ### 0.6.0 2016-10-16
 #### NEW

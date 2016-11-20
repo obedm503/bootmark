@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>docs</title>
+  <title>Bootmark Docs</title>
 </head>
 <body>
-	<bootmark fetch="DOCS.md" html="{ theme:'paper', prettifyTheme: 'atelier-estuary-light' }"></bootmark>
-  <script src="../dist/bootmark.bundle.min.js"></script>
+	<bootmark
+		css="../dist/bootmark.min.css"
+		fetch="DOCS.md"
+		html="{
+			theme: 'paper',
+			prettifyTheme: 'atelier-estuary-light',
+			favicon:'../bootmark-favicon.png',
+			tocId:'navigation'
+		}"
+	></bootmark>
+	<script src="../dist/bootmark.bundle.min.js"></script>
+	<template id="bootmark-template">
+		<div class="container-fluid" id="docs">
+			<div class="row">
+				<div class="col-sm-4 col-lg-3">
+					<nav class="navbar navbar-default navbar-fixed-side">
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<button class="navbar-toggle" data-target="#navigation" data-toggle="collapse">
+									<span class="sr-only">Toggle Navigation</span><span class="icon-bar"></span>
+									<span class="icon-bar"></span><span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand active page-scroll" href="#docs">
+									Bootmark Docs
+								</a>
+							</div>
+
+							<div class="collapse navbar-collapse" id="navigation">
+								<ul class="bootmark-toc nav navbar-nav"></ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+				<div class="bootmark-main has-toc col-sm-8 col-lg-9">
+					${bootmark}
+				</div>
+			</div>
+		</div>
+	</template>
 </body>
 </html>
