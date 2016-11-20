@@ -3,7 +3,7 @@
 * @author [obedm503](https://github.com/obedm503/)
 * @git [git repo](https://github.com/obedm503/bootmark.git)
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
-* @version 0.6.0
+* @version 0.7.0
 * @license MIT
 */
 (function(window, document){
