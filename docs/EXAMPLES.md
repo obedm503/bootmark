@@ -92,9 +92,19 @@ by default it looks for a tag with id of `bootmark-template`, but this can also 
 
 bootmark will look for `${bootmark}` in the template and replace it with the parsed markdown. The syntax was inspired by Aurelia.
 
+#### template as text
 ```html
 <!-- index.html -->
-<bootmark template="{id:'custom-id'}">
+<bootmark template="{ text: '${bootmark}' }">
+## a title
+
+a paragraph
+</bootmark>
+```
+#### template in `template` element
+```html
+<!-- index.html -->
+<bootmark template="{ id: 'custom-id' }">
 ## a title
 
 a paragraph
@@ -106,9 +116,7 @@ a paragraph
 	</div>
 </template>
 ```
-
-or
-
+#### template in some html file inside a `template` element
 ```html
 <!-- template.html -->
 <template>
@@ -118,14 +126,14 @@ or
 </template>
 
 <!-- index.html -->
-<bootmark template="{fetch:'template.html'}">
+<bootmark template="{ fetch: 'template.html' }">
 ## a title
 
 a paragraph
 </bootmark>
 ```
 
-
 Examples:
 - [custom template](https://obedm503.github.io/bootmark/docs/template-example.html)
-- [custom template fetch](https://obedm503.github.io/bootmark/docs/template-fetch-example.html)
+- [custom template: fetch](https://obedm503.github.io/bootmark/docs/template-fetch-example.html)
+- [custom template: text](https://obedm503.github.io/bootmark/docs/template-text-example.html)

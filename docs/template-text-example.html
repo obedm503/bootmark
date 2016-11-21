@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>template.id</title>
+  <title>template.text</title>
 </head>
 <body>
 	<bootmark
@@ -12,18 +12,10 @@
 			'example-chapters/3.md',
 			'example-chapters/epilogue.md'
 		]"
+		template="{
+			text: '<div class=\'container\'><div class=\'row\'><div class=\'col-sm-10\'><h2>template.text</h2>${bootmark}</div></div></div>'
+		}"
 	></bootmark>
-
-	<template id="bootmark-template">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-10">
-					<h2>template.id</h2>
-					${bootmark}
-				</div>
-			</div>
-		</div>
-	</template>
   <script src="https://obedm503.github.io/bootmark/dist/bootmark.bundle.min.js"></script>
 </body>
 </html>
