@@ -3,7 +3,7 @@
   "author": "obedm503",
   "homepage": "https://obedm503.github.io/bootmark/",
   "description": "markdown + bootstrap as a jQuery plugin",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "license": "MIT",
   "main": "dist/bootmark.min.js",
   "npmName": "bootmark",

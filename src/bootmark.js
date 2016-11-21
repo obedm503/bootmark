@@ -3,7 +3,7 @@
 * @author [obedm503](https://github.com/obedm503/)
 * @git [git repo](https://github.com/obedm503/bootmark.git)
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
-* @version 0.7.0
+* @version 0.7.1
 * @license MIT
 */
 (function(window, document){
@@ -21,7 +21,7 @@
 				id:'bootmark-template' //default template-tag id
 			},
 			html: {
-				favicon:'https://obedm503.github.io/assets/media/bootmark-logo.png',//bootmark's logo
+				favicon:'https://obedm503.github.io/bootmark/bootmark-favicon.png',//bootmark's logo
 				indent: false, // whether to indent paragraphs
 				toc: true, // whether to use the toc template
 				tocTitle: window.$(document).attr('title'), // document title as toc's title
