@@ -9,6 +9,13 @@
 #### FIX
 - ...
 
+### 0.7.1 2016-11-20
+#### NEW
+- ...
+
+#### FIXED
+- changed default favicon url to https://obedm503.github.io/bootmark/bootmark-favicon.png
+
 ### 0.7.0 2016-11-19
 #### NEW
 - user-defined templates (as string, in-document and external)
