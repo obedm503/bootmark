@@ -4,9 +4,7 @@
 
 ![as seen on tv](http://forthebadge.com/images/badges/as-seen-on-tv.svg)
 
-![build: passing](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)
-
-![version: 0.7.1](https://img.shields.io/badge/version-0.7.1-blue.svg?style=flat-square)
+![version: 0.8.0](https://img.shields.io/badge/version-0.8.0-blue.svg?style=flat-square)
 
 ## bootmark
 

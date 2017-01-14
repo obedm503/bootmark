@@ -9,10 +9,11 @@
 #### FIX
 - ...
 
-### 0.7.1 2016-11-20
+### 0.8.1 2017-01-06
 #### NEW
-- ...
+- added "src", deprecated "promise" and "fetch", and added deprecation warnings
 
+### 0.7.1 2016-11-20
 #### FIXED
 - changed default favicon url to https://obedm503.github.io/bootmark/bootmark-favicon.png
 
@@ -62,6 +63,3 @@
 - now a jQuery plugin
 - breaks backward compatibility
 - user can pass custom config to the showdown converter
-
-#### FIXED
-- ...

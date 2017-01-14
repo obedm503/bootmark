@@ -131,10 +131,10 @@ converts markdown to beautiful bootstrap-styled-html. This documentation is auto
 
 - [config] <code>Object</code> - configuration object
     - [.markdown] <code>String</code> <code> = false</code> - markdown could be passed direcly from some variable. It HAS to be as text not html. If this is `true`, it has priority over fetch and markdown inside the element.
-    - [.fetch] <code>String</code> | <code>Array.&lt;String&gt;</code> <code> = false</code> - url/s to fetch. markdown could be in some markdown file/s somewhere. bootmark fetches the file/s, processes, and inserts it/them into the element. If it's an array of urls, bootmark will fetch, concatenate, and process all of them.
+    - [.src] <code>String</code> | <code>Array.&lt;String&gt;</code> <code> = &#x27;&#x27;</code> - url/s to fetch. markdown could be in some markdown file/s somewhere. bootmark fetches the file/s, processes, and inserts it/them into the element. If it's multiple space-separated urls, bootmark will fetch, concatenate, and process them.
+    - [.fetch] <code>String</code> | <code>Array.&lt;String&gt;</code> <code> = false</code> - DEPRECATED: url/s to fetch. markdown could be in some markdown file/s somewhere. bootmark fetches the file/s, processes, and inserts it/them into the element. If it's an array of urls, bootmark will fetch, concatenate, and process all of them.
     - [.join] <code>String</code> <code> = ----</code> - string to be passed to the Array.prototype.join() when concatenating multiple markdown files if config.fetch is an array.
-    - [.css] <code>String</code> <code> = https://obedm503.github.io/bootmark/dist/bootmark.min.css</code> - bootmark's css. defaults to 'https://obedm503.github.io/bootmark/dist/bootmark.min.css'.
-    - [.promise] <code>String</code> <code> = false</code> - whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining.
+    - [.promise] <code>String</code> <code> = false</code> - DEPRECATED: whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining.  IF YOU STILL WANT TO RETURN A PROMISE USE `$('#id').bootmark({...}).promise().then(...)` instead.
     - [.html] <code>Object</code> | <code>String</code> - html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
         - [.favicon] <code>Boolean</code> <code> = https://obedm503.github.io/bootmark/bootmark-favicon.png</code> - url to favicon to add. if you don't want a favicon, set this to false of an empty string.
         - [.toc] <code>Boolean</code> <code> = true</code> - whether to show the table of contents/menu. defaults to true
