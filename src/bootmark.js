@@ -27,6 +27,7 @@
         toc: true, // whether to use the toc template
         tocTitle: $(document).attr('title'), // document title as toc's title
         tocId:'nav',
+	tocLimit: 6, // limit headers to use in toc
         theme: 'readable', // bootswatch theme
         prettifyTheme:'atelier-forest-light', // code prettify theme
         prettify: true, // whether to prettify
@@ -439,7 +440,20 @@
 				//add toc
 				if(config.html.toc){
 					var $ul = $('ul.bootmark-toc', element);
-					var $headers = $("h1, h2, h3, h4, h5, h6", element);
+					
+					// quick and dirty solution to #13
+					var headers = (function(n){
+					  // limit 'tocLimit' to numbers between 1 and 6
+					  if( n > 6 ){ n = 6; } 
+					  else if( n < 1 ){ n = 1; }
+					  
+					  var a = [];
+					  for(var i = 0; i < n; i++){ a.push(i + 1); }
+					  
+					  return 'h' + a.join(', h');
+					})(config.html.tocLimit);
+					
+					var $headers = $(headers, element);
 					$headers.each(function(i,el){
 						var $li = $('<li></li>')
 							.addClass( 'bootmark-' + el.localName )
