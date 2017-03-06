@@ -326,7 +326,8 @@
 						}
 					} else {
 						// use markdown text inside element
-						resolve( element.text() );
+						// replaced .text() with  .html() to include html
+						resolve( element.html() );
 					}
 				});
 			},
