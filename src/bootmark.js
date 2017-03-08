@@ -9,7 +9,7 @@
 (function($, document){
   'use scrict';
   function defineBootmark(){
-    var version = '0.8.0';
+    var version = '0.7.1';
     var defaults =  {
       markdown: false, //when markdown is passed as text directly
       fetch: false, // when url/s passed
@@ -27,7 +27,7 @@
         toc: true, // whether to use the toc template
         tocTitle: $(document).attr('title'), // document title as toc's title
         tocId:'nav',
-	tocLimit: 6, // limit headers to use in toc
+        tocLimit: 6, // limit headers to use in toc
         theme: 'readable', // bootswatch theme
         prettifyTheme:'atelier-forest-light', // code prettify theme
         prettify: true, // whether to prettify
@@ -63,6 +63,7 @@
     * @param {Object|String} [config.html] html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
     * @param {Boolean} [config.html.favicon=https://obedm503.github.io/bootmark/bootmark-favicon.png] url to favicon to add. if you don't want a favicon, set this to false of an empty string.
     * @param {Boolean} [config.html.toc=true] whether to show the table of contents/menu. defaults to true
+    * @param {Number} [config.html.tocLimit=6] which heading levels should be used to build the toc. by deafult all headings are used. `tocLimit=1` uses only `<h1>`'s,`tocLimit=2` uses `<h1>`'s and `<h2>`'s, and so on
     * @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
     * @param {Boolean} [config.html.tocId=nav] id of navigation menu. used to attach the autoclose event when it's expanded on phones
     * @param {Boolean} [config.html.indent=false] whether to indent paragraphs by adding the `bootmark-indent` css class
@@ -437,23 +438,23 @@
 					});
 				}
 
-				//add toc
-				if(config.html.toc){
-					var $ul = $('ul.bootmark-toc', element);
-					
-					// quick and dirty solution to #13
-					var headers = (function(n){
-					  // limit 'tocLimit' to numbers between 1 and 6
-					  if( n > 6 ){ n = 6; } 
-					  else if( n < 1 ){ n = 1; }
-					  
-					  var a = [];
-					  for(var i = 0; i < n; i++){ a.push(i + 1); }
-					  
-					  return 'h' + a.join(', h');
-					})(config.html.tocLimit);
-					
-					var $headers = $(headers, element);
+        //add toc
+        if(config.html.toc){
+          var $ul = $('ul.bootmark-toc', element);
+          // object literal is faster than loop to get the headers
+          var headers = {
+            1:"h1",
+            2:"h1, h2",
+            3:"h1, h2, h3",
+            4:"h1, h2, h3, h4",
+            5:"h1, h2, h3, h4, h5",
+            6:"h1, h2, h3, h4, h5, h6"
+          };
+          var lim = config.html.tocLimit;
+          // limit lim to munbers between 1 and 6
+          lim = ( lim > 6 ) ? 6 : ( ( lim < 1 ) ? 1: lim );
+
+          var $headers = $(headers[lim], element);
 					$headers.each(function(i,el){
 						var $li = $('<li></li>')
 							.addClass( 'bootmark-' + el.localName )

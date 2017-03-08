@@ -8,13 +8,13 @@
   <script src="dist/bootmark.bundle.min.js"></script>
 	<script>
 	  $('#md').bootmark({
-	    fetch: getParam('fetch') || 'README.md',
       src: getParam('src') || 'README.md',
 			join: getParam('join'),
 			css:'dist/bootmark.min.css',
 			html:{
+        tocLimit: parseInt(getParam('tocLimit')) || 6,
 	    	theme: getParam('theme') || 'paper',
-				prettifyTheme: getParam('theme') || 'tomorrow-night-eighties',
+				prettifyTheme: getParam('prettifyTheme') || 'tomorrow-night-eighties',
 				toc: (getParam('toc') === 'false') ? false : true
 			}
 		});
@@ -33,7 +33,7 @@
 		function getParam(param,url){
 			param = param.replace(/[\[\]]/g, "\\$&");
 			var results = new RegExp("[?&]" + param + "(=([^&#]*)|&|#|$)").exec(url || window.location.href);
-			if(!results){ return null; }
+			if(!results){ return; }
 			if(!results[2]){ return ''; }
 			return decodeURIComponent(results[2].replace(/\+/g, " "));
 		}

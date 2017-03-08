@@ -23,7 +23,7 @@ This project was inspired by [strapdown](https://github.com/arturadib/strapdown/
 
 see the [docs here](https://obedm503.github.io/bootmark/docs/) and the [examples here](https://obedm503.github.io/bootmark/docs/examples.html)
 
-changelog [here](http://obedm503.github.io/bootmark/index.html?fetch=CHANGELOG.md)
+changelog [here](http://obedm503.github.io/bootmark/index.html?src=CHANGELOG.md)
 
 some features:
 - adds easy latex math support thru the [katex-latex](https://obedm503.github.io/katex-latex/) extension
@@ -38,13 +38,17 @@ in the [demo](https://obedm503.github.io/bootmark/) you can:
 - try a different theme by adding to the url:
   - `?theme=<any bootswatch theme>`
   - [bootswatch](https://bootswatch.com)
-  - default theme for the demo is paper
+  - default theme for the demo is `paper`
 - try with a different markdown file by adding to the url:
-  - showdown's readme `?fetch=https://raw.githubusercontent.com/showdownjs/showdown/master/README.md`
-  - bootstrap's readme `?fetch=https://raw.githubusercontent.com/twbs/bootstrap/master/README.md`
+  - showdown's readme `?src=https://raw.githubusercontent.com/showdownjs/showdown/master/README.md`
+  - bootstrap's readme `?src=https://raw.githubusercontent.com/twbs/bootstrap/master/README.md`
 - try joining markdown files
-	- `?fetch=['file1.md','file2.md']`
-- define a join string when fetching multiple files
+	- `?src=docs/example-chapters/1.md docs/example-chapters/2.md`
+- define a join string when using multiple files
 	- `?join=any markdown string`
 - try without a table of contents by adding to the url:
   - `?toc=false`
+- limit which headers are used for the toc
+  - `?tocLimit=2`
+- change the default code formatting theme
+  - `?prettifyTheme=github`
