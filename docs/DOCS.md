@@ -138,6 +138,7 @@ converts markdown to beautiful bootstrap-styled-html. This documentation is auto
     - [.html] <code>Object</code> | <code>String</code> - html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
         - [.favicon] <code>Boolean</code> <code> = https://obedm503.github.io/bootmark/bootmark-favicon.png</code> - url to favicon to add. if you don't want a favicon, set this to false of an empty string.
         - [.toc] <code>Boolean</code> <code> = true</code> - whether to show the table of contents/menu. defaults to true
+        - [.tocLimit] <code>Number</code> <code> = 6</code> - which heading levels should be used to build the toc. by deafult all headings are used. `tocLimit=1` uses only `<h1>`'s,`tocLimit=2` uses `<h1>`'s and `<h2>`'s, and so on
         - [.tocTitle] <code>String</code> <code> = page title</code> - title for the toc. defaults to the page's title
         - [.tocId] <code>Boolean</code> <code> = nav</code> - id of navigation menu. used to attach the autoclose event when it's expanded on phones
         - [.indent] <code>Boolean</code> <code> = false</code> - whether to indent paragraphs by adding the `bootmark-indent` css class
@@ -146,7 +147,19 @@ converts markdown to beautiful bootstrap-styled-html. This documentation is auto
         - [.prettifyTheme] <code>String</code> <code> = atelier-forest-light</code> - theme to prettify the code with. Any of the themes [here](https://jmblog.github.io/color-themes-for-google-code-prettify/) will work.
         - [.credit] <code>String</code> <code> = true</code> - whether to include a footer which links to bootmark's page
         - [.tocTitle] <code>String</code> <code> = page title</code> - title for the toc. defaults to the page's title
-    - [.showdown] <code>Object</code> | <code>String</code> - config passed to the showdown converter.These are the options bootmark uses by default. They can be overriden.``{parseImgDimensions: true,simplifiedAutoLink: true,literalMidWordUnderscores: true,strikethrough: true,tables: true,tablesHeaderId: true,tasklists: true}``
+    - [.showdown] <code>Object</code> | <code>String</code> - config passed to the showdown converter.
+These are the options bootmark uses by default. They can be overriden.
+``
+{
+parseImgDimensions: true,
+simplifiedAutoLink: true,
+literalMidWordUnderscores: true,
+strikethrough: true,
+tables: true,
+tablesHeaderId: true,
+tasklists: true
+}
+``
     - [.template] <code>Object</code> | <code>String</code> - template config
         - [.text] <code>String</code> <code> = false</code> - use this to pass in the template as a html string
         - [.fetch] <code>String</code> <code> = false</code> - url to external html file. The template **HAS** to be wrapped in `<template>` tags (inspired by aurelia templates).

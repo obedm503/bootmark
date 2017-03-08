@@ -4,7 +4,7 @@
 
 ### Future
 #### NEW
-- ...
+- added `config.html.tocLimit` to limit the levels of headers used in the toc
 
 #### FIX
 - ...

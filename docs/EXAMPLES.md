@@ -31,7 +31,7 @@ valid attributes are:
 
 Examples:
 - [document-customtag.html](https://obedm503.github.io/bootmark/docs/document-customtag.html)
-- [fetch-customtag.html](https://obedm503.github.io/bootmark/docs/fetch-customtag.html)
+- [src-customtag.html](https://obedm503.github.io/bootmark/docs/src-customtag.html)
 
 ### any html element
 
@@ -45,7 +45,7 @@ Similarly to using the bootmark element, you can use bootmark with any html elem
 - `class="bootmark"`
 
 valid attributes are:
-- `data-fetch="<url to md file>"` DEPRECATED, use `src` instead: optional. leave empty to use markdown within the bootmark element
+- `data-fetch="<url to md file>"` DEPRECATED, use `data-src` instead: optional. leave empty to use markdown within the bootmark element
 - `data-src="<url/s to md file>"` optional. leave empty to use markdown within the bootmark element
 - `data-join="<markdown text that goes between files when they're concatenated, if multiple urls are passed in src>"` defaults to `----` aka `<hr />`
 - `data-css="<url to bootmark.css file>"` recommended. defaults to `https://obedm503.github.io/bootmark/dist/bootmark.min.css`
@@ -56,15 +56,15 @@ valid attributes are:
 
 Examples:
 - [document-anytag.html](https://obedm503.github.io/bootmark/docs/document-anytag.html)
-- [fetch-anytag.html](https://obedm503.github.io/bootmark/docs/fetch-anytag.html)
+- [src-anytag.html](https://obedm503.github.io/bootmark/docs/src-anytag.html)
 
 ### use code
 
 in case you want to handle when the parsing happens
 
 config properties are:
-- `fetch: '<url of markdown file to fetch>'` DEPRECATED, use `src` instead
-- `src: '<url/s of markdown file to fetch>'`
+- `fetch: '<url of markdown file to use>'` DEPRECATED, use `src` instead
+- `src: '<url/s of markdown file to use>'`
 - `join: '<markdown text that goes between files when they're concatenated, if multiple urls are passed in src>"` defaults to `----` aka `<hr />`
 - `css: '<url to bootmark's css file>'` defaults to `dist/bootmark.min.css`. recommended
 - `markdown: <some variable containing markdown to parse>` someone might find this useful
@@ -75,11 +75,11 @@ config properties are:
 
 Examples:
 - [document-code.html](https://obedm503.github.io/bootmark/docs/document-code.html)
-- [fetch-code.html](https://obedm503.github.io/bootmark/docs/fetch-code.html)
+- [src-code.html](https://obedm503.github.io/bootmark/docs/src-code.html)
 
 ### multiple files
 
-You can use an unlimited amount of elements that "automatically" use bootmark. You can also mix between the two automatic methods (`<bootmark>` or `<div class="bootmark">`). But if you want to fetch multiple markdown files it's recommended that you set the ~~`fetch` to an array of markdown file urls~~ `src` to a list of space-separated urls, instead of multiple "automatic" elements each fetching a different file. You can also define the text that joins the different files. Just set the `join` to any string. This string should be MARKDOWN and NOT html. This feature was added by request of [niklasnorin](https://github.com/niklasnorin/) in [#5](https://github.com/obedm503/bootmark/issues/5) Check the [docs](https://obedm503.github.io/bootmark/docs/) for details on the api.
+You can use an unlimited amount of elements that "automatically" use bootmark. You can also mix between the two automatic methods (`<bootmark>` or `<div class="bootmark">`). But if you want to use multiple markdown files it's recommended that you set the ~~`fetch` to an array of markdown file urls~~ `src` to a list of space-separated urls, instead of multiple "automatic" elements each fetching a different file. You can also define the text that joins the different files. Just set the `join` to any string. This string should be MARKDOWN and NOT html. This feature was added by request of [niklasnorin](https://github.com/niklasnorin/) in [#5](https://github.com/obedm503/bootmark/issues/5) Check the [docs](https://obedm503.github.io/bootmark/docs/) for details on the api.
 
 Examples:
 - [multiple elements, no toc](https://obedm503.github.io/bootmark/docs/multiple-elements-no-toc.html)
@@ -138,5 +138,5 @@ a paragraph
 
 Examples:
 - [custom template](https://obedm503.github.io/bootmark/docs/template-example.html)
-- [custom template: fetch](https://obedm503.github.io/bootmark/docs/template-fetch-example.html)
+- [custom template: src](https://obedm503.github.io/bootmark/docs/template-src-example.html)
 - [custom template: text](https://obedm503.github.io/bootmark/docs/template-text-example.html)
