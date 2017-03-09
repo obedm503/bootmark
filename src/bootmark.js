@@ -187,6 +187,21 @@
 		*/
 		var _private = {
 
+      /**
+      * @function unescape
+      * @memberof _private
+      * @description unescapes some html entities
+      * @param {String} text text to unescape
+      */
+      unescape: function unescape(text){
+        return text
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&quot/g, '"')
+          .replace(/&#39/g, "'");
+      },
+
 			/**
 			* @function insertLink
 			* @memberof _private
@@ -328,7 +343,11 @@
 						}
 					} else {
 						// use markdown text inside element
-						resolve( element.text() );
+						resolve(
+              _private.unescape(
+                element.html()
+              )
+            );
 					}
 				});
 			},

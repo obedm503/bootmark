@@ -23,6 +23,7 @@ private helper methods
 **Access:** private  
 
 * [_private](#_private) ℗
+    * [.unescape(text)](#_private.unescape)
     * [.insertLink(url, [type], [rel])](#_private.insertLink)
     * [.insertMeta(name, content)](#_private.insertMeta)
     * [.parseObject(object, properties)](#_private.parseObject) ⇒ <code>Object</code>
@@ -30,6 +31,16 @@ private helper methods
     * [.getMarkdown(element, config)](#_private.getMarkdown) ⇒ <code>Promise</code>
     * [.getTemplate(config)](#_private.getTemplate) ⇒ <code>Promise</code>
     * [.doDom(element, config)](#_private.doDom)
+
+<a name="_private.unescape"></a>
+
+### _private.unescape(text)
+unescapes some html entities
+
+**Kind**: static method of <code>[_private](#_private)</code>  
+**Params**
+
+- text <code>String</code> - text to unescape
 
 <a name="_private.insertLink"></a>
 
