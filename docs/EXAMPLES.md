@@ -4,9 +4,12 @@
 
 ----
 
+#### A Note on example files
+the html examples found here are meant as starters for new users, as such they are linked to the latest stable version of bootmark in unpkg. https://unpkg.com/bootmark@latest/dist/
+
 > you can now use an unlimited amount of elements and define global options for all to use. See [this for an example](https://obedm503.github.io/katex-latex/).
 
-see the docs [here](https://obedm503.github.io/bootmark/docs/)
+### see the docs [here](https://obedm503.github.io/bootmark/docs/)
 
 bootmark can be used in 3 main ways:
 - with the custom `<bootmark></bootmark>`, without code

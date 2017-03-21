@@ -5,10 +5,9 @@
 ### Future
 #### NEW
 - added `config.html.tocLimit` to limit the levels of headers used in the toc
-- fixed html entities not showing as they should #14
 
 #### FIX
-- ...
+- fixed html entities not showing as they should #14
 
 ### 0.8.1 2017-01-06
 #### NEW

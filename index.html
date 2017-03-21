@@ -8,12 +8,12 @@
   <script src="dist/bootmark.bundle.min.js"></script>
 	<script>
 	  $('#md').bootmark({
-      src: getParam('src') || 'README.md',
+      src: getParam('src') || 'DEMO.md README.md',
 			join: getParam('join'),
 			css:'dist/bootmark.min.css',
-			html:{
-        tocLimit: parseInt(getParam('tocLimit')) || 6,
-	    	theme: getParam('theme') || 'paper',
+			html: {
+        tocLimit: parseInt(getParam('tocLimit')) || 2,
+	    	theme: getParam('theme') || 'readable',
 				prettifyTheme: getParam('prettifyTheme') || 'tomorrow-night-eighties',
 				toc: (getParam('toc') === 'false') ? false : true
 			}

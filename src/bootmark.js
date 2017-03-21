@@ -14,7 +14,7 @@
       markdown: false, //when markdown is passed as text directly
       fetch: false, // when url/s passed
       src: '',
-      join: "----", // markdown separator
+      join: '----', // markdown separator
       promise: false, // whether to return a promise or jquery object
       template: {
         text: false, //when the template is passed as text directly,
@@ -93,76 +93,76 @@
     * @returns {Promise} Promise which resolves with the markdown parsed by showdown as html
     * @see Examples: http://obedm503.github.io/bootmark/ or http://obedm503.github.io/bootmark/docs/examples.html
     */
-		$.fn.bootmark = function(options){
-			var element = this;
-			element.hide();//hide the element
+    $.fn.bootmark = function(options){
+      var element = this;
+      element.hide();//hide the element
 
-			// parse object properties which might be strings
-			options = _private.parseObject(options, ['fetch', 'html', 'showdown','template']);
+      // parse object properties which might be strings
+      options = _private.parseObject(options, ['fetch', 'html', 'showdown','template']);
 
-			// combine the passed options with the $.fn.bootmark.options with the defaults, recursivelly
-			var config = $.extend( true, {}, defaults, $.fn.bootmark.options || {}, options );
+      // combine the passed options with the $.fn.bootmark.options with the defaults, recursivelly
+      var config = $.extend( true, {}, defaults, $.fn.bootmark.options || {}, options );
 
-			if(
-				config.html.prettify && // user wants to prettify
+      if(
+        config.html.prettify && // user wants to prettify
 				config.showdown.extensions.indexOf('prettify') < 0 && // user hasn't already added the prettify extension to the array
 				typeof prettyPrint !== 'undefined' // google-code-prettify isn't undefined
 			){
-				config.showdown.extensions.push('prettify'); //push prettify to the extensions
-			}
+        config.showdown.extensions.push('prettify'); //push prettify to the extensions
+      }
 
 			// insert meta tag required by bootstrap
-			_private.insertMeta(
+      _private.insertMeta(
 				'viewport',
 				'width=device-width, initial-scale=1'
 			);
 			// bootswatch theme
-			_private.insertLink(
+      _private.insertLink(
 				'https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/' +
 				config.html.theme.toLowerCase().trim() +
 				'/bootstrap.min.css'
 			);
 			// favicon
-			if(config.html.favicon){
-				_private.insertLink(
+      if(config.html.favicon){
+        _private.insertLink(
 					config.html.favicon,
 					'image/x-icon',
 					'shortcut icon'
 				);
-			}
+      }
 			// bootmark's css
-			_private.insertLink('https://unpkg.com/bootmark@'+ version +'/dist/bootmark.min.css');
+      _private.insertLink('https://unpkg.com/bootmark@'+ version +'/dist/bootmark.min.css');
 
 			// prettify's css theme file
-			if( config.showdown.extensions.indexOf('prettify') >= 0 ){// extension is in the array
-				_private.insertLink(
+      if( config.showdown.extensions.indexOf('prettify') >= 0 ){// extension is in the array
+        _private.insertLink(
 					'https://jmblog.github.io/color-themes-for-google-code-prettify/themes/'+ config.html.prettifyTheme.toLowerCase().trim().replace(/ /g, '-') + '.min.css'
 				);
-			}
+      }
 
 			// array of promises
-			var promises = [
-				_private.getTemplate(config), // gets template according to config
-				_private.getMarkdown(element, config) // get markdown according to config
-			];
-			var done = Promise.all(promises).then(function(responses){
+      var promises = [
+        _private.getTemplate(config), // gets template according to config
+        _private.getMarkdown(element, config) // get markdown according to config
+      ];
+      var done = Promise.all(promises).then(function(responses){
 				// convert markdown to html
-				var html = new showdown.Converter(config.showdown).makeHtml(responses[1]);
+        var html = new showdown.Converter(config.showdown).makeHtml(responses[1]);
 
 				// element's innerHTML is html
-				element.html(
+        element.html(
 					// replace `${bootmark}` with html
 					_private.replaceHtml(responses[0], html)
 				);
 
 				// make changes to the DOM
-				_private.doDom(element, config)
+        _private.doDom(element, config);
 
-				return html;
-			}).catch(console.error);
+        return html;
+      }).catch(console.error);
 
 			// user wants a promise
-			if(config.promise){
+      if(config.promise){
         console.warn('Bootmark: as of v0.8.0 "promise" has been depracated and will be removed. Use "$(\'#id\').bootmark({...}).promise().then(...)"  instead.');
         //show element and return promise
         return done.then(function(html){
@@ -176,7 +176,7 @@
       });
       //returns jQuery element
       return element;
-		};
+    };
 
     $.fn.bootmark.version = version;
 
@@ -185,7 +185,7 @@
 		* @private
 		* @description private helper methods
 		*/
-		var _private = {
+    var _private = {
 
       /**
       * @function unescape
@@ -199,7 +199,7 @@
           .replace(/&lt;/g, '<')
           .replace(/&gt;/g, '>')
           .replace(/&quot/g, '"')
-          .replace(/&#39/g, "'");
+          .replace(/&#39/g, '\'');
       },
 
 			/**
@@ -210,18 +210,18 @@
 			* @param {String} [type=text/css] link's type
 			* @param {String} [rel=stylesheet] link's rel
 			*/
-			insertLink: function insertLink(url, type, rel){
+      insertLink: function insertLink(url, type, rel){
 				// this link doesn't yet exist
-				if( !$('link[href="' + url + '"], link[type="'+ type +'"], link[rel="'+ rel +'"]').length ){
-					var link = $('<link />');
-					link.attr({
-						href: url,
-						type: type || 'text/css',
-						rel: rel || 'stylesheet'
-					});
-					$('head').append(link);
-				}
-			},
+        if( !$('link[href="' + url + '"], link[type="'+ type +'"], link[rel="'+ rel +'"]').length ){
+          var link = $('<link />');
+          link.attr({
+            href: url,
+            type: type || 'text/css',
+            rel: rel || 'stylesheet'
+          });
+          $('head').append(link);
+        }
+      },
 
 			/**
 			* @function insertMeta
@@ -230,17 +230,17 @@
 			* @param {String} name name property of the meta element
 			* @param {String} content content property of the meta element
 			*/
-			insertMeta: function insertMeta(name, content){
+      insertMeta: function insertMeta(name, content){
 				// this meta tag doesn't yet exist
-				if( !$('meta[content="' + content + '"]').length ){
-					var meta = $( '<meta />' );
-					meta.attr({
-						name: name,
-						content: content
-					});
-					$('head').append(meta);
-				}
-			},
+        if( !$('meta[content="' + content + '"]').length ){
+          var meta = $( '<meta />' );
+          meta.attr({
+            name: name,
+            content: content
+          });
+          $('head').append(meta);
+        }
+      },
 
 			/**
 			* @function parseObject
@@ -250,26 +250,26 @@
 			* @param {Array} properties to eval
 			* @returns {Object} object parsed for every of the properties in the array
 			*/
-			parseObject: function parseObject(obj, props){
+      parseObject: function parseObject(obj, props){
 				//if properties are strings, eval them
-				for(var i in obj){
-					if(
+        for(var i in obj){
+          if(
 						i && // exists
 						typeof obj[i] === 'string' && // is string
 						obj.hasOwnProperty(i) && // not part of prototype chain
 						props.indexOf(i) >= 0 // is one of the props we want to convert
 					){
-						if( i === 'fetch' ){// special case for fetch
-							if( obj[i].trim()[0] === '[' ){ // is an array
-								obj[i] = eval( "(" + obj[i] + ")" );
-							}
-						} else {// not fetch
-							obj[i] = eval( "(" + obj[i] + ")" );
-						}
-					}
-				}
-				return obj;
-			},
+            if( i === 'fetch' ){// special case for fetch
+              if( obj[i].trim()[0] === '[' ){ // is an array
+                obj[i] = eval( '(' + obj[i] + ')' );
+              }
+            } else {// not fetch
+              obj[i] = eval( '(' + obj[i] + ')' );
+            }
+          }
+        }
+        return obj;
+      },
 
 			/**
 			* @function replaceHtml
@@ -279,11 +279,11 @@
 			* @param {String} html to replace `${bootmark}` with
 			* @returns {String} hmtl replaced in the template
 			*/
-			replaceHtml: function replaceHtml(template, html){
+      replaceHtml: function replaceHtml(template, html){
 				// case insensitive because DOM is case insensitive
 				// global so it can happen multiple times
-				return template.replace(/\$\{bootmark\}/ig, html);
-			},
+        return template.replace(/\$\{bootmark\}/ig, html);
+      },
 
 			/**
 			* @function getMarkdown
@@ -293,64 +293,66 @@
 			* @param {Object} config bootmark config
 			* @returns {Promise} Promise that resolves with the markdown text or rejects with any errors
 			*/
-			getMarkdown: function getMarkdown(element, config){
-				return new Promise(function getMarkdownPromise(resolve, reject){
-					if(config.markdown){
-						// markdown passed directly
-						resolve(config.markdown);
-					} else if(config.src){
+      getMarkdown: function getMarkdown(element, config){
+        return new Promise(function getMarkdownPromise(resolve, reject){
+          if(config.markdown){
+            // markdown passed directly
+            resolve(config.markdown);
+          } else if(config.src){
             // src: space separated urls
-            var urls = config.src.split(' ').filter(function(s){return s.length});
+            var urls = config.src.split(' ').filter(function(s){
+              return s.length;
+            });
 
-            var fetches = urls.map(function(url){
+            var srcFetches = urls.map(function(url){
               // make array of urls into array of fetch promises for every url
               return fetch(url).then(function(res){
-              	// convert response to text
-              	return res.text();
+                // convert response to text
+                return res.text();
               });
             });
 
-            Promise.all(fetches).then(function(files){
+            Promise.all(srcFetches).then(function(files){
               // join the array of markdown files with the config.join as separator
               // line breaks prevent markdown confusion
-              return files.join("\n\n" + config.join + "\n\n\n");
+              return files.join('\n\n' + config.join + '\n\n\n');
             }).then(resolve).catch(reject);
 
           } else if(config.fetch){
             console.warn('Bootmark: as of v0.8.0 "fetch" was depracated and will be removed. Use "src" instead.');
 						// fetch file/s
-						if(typeof config.fetch === 'string'){
+            if(typeof config.fetch === 'string'){
 							// single url
-							fetch(config.fetch).then(function(res){
-								return res.text();
-							}).then(resolve).catch(reject);
-						} else {
+              fetch(config.fetch).then(function(res){
+                return res.text();
+              }).then(resolve).catch(reject);
+            } else {
 							// array of urls
 
-							var fetches = config.fetch.map(function(url){
+              var fetchFetches = config.fetch.map(function(url){
 								// make array of urls into array of fetch promises for every url
-								return fetch(url).then(function(res){
+                return fetch(url).then(function(res){
 									// convert response to text
-									return res.text();
-								});
-							});
+                  return res.text();
+                });
+              });
 
-							Promise.all(fetches).then(function(files){
+              Promise.all(fetchFetches).then(function(files){
 								// join the array of markdown files with the config.join as separator
 								// line breaks prevent markdown confusion
-								return files.join("\n\n" + config.join + "\n\n\n");
-							}).then(resolve).catch(reject);
-						}
-					} else {
+                return files.join('\n\n' + config.join + '\n\n\n');
+              }).then(resolve).catch(reject);
+            }
+          } else {
 						// use markdown text inside element
-						resolve(
+            resolve(
               _private.unescape(
                 element.html()
               )
             );
-					}
-				});
-			},
+          }
+        });
+      },
 
 			/**
 			* @function getTemplate
@@ -359,35 +361,35 @@
 			* @param {Object} config bootmark config
 			* @returns {Promise} Promise that resolves with the html template text or rejects with any errors
 			*/
-			getTemplate: function getTemplate(config){
-				return new Promise(function(resolve, reject) {
+      getTemplate: function getTemplate(config){
+        return new Promise(function(resolve, reject) {
 					// user passed template direcly
-					if( config.template.text ){
+          if( config.template.text ){
 
-						resolve( config.template.text );
+            resolve( config.template.text );
 
 					// user wants to fetch template
-					} else if( config.template.fetch ){
-						fetch( config.template.fetch ).then(function(res){
-							return res.text();
-						}).then(function(html){
+          } else if( config.template.fetch ){
+            fetch( config.template.fetch ).then(function(res){
+              return res.text();
+            }).then(function(html){
 							// parse html
-							var $html = $('<div></div>').html(html);
+              var $html = $('<div></div>').html(html);
 							// get template tag in html
 							// return html inside template tag
-							return $('template', $html).html();
-						}).then(resolve).catch(reject);
+              return $('template', $html).html();
+            }).then(resolve).catch(reject);
 
 					// get template from element with id="bootmark-template". id can be changed
-					} else if( $('#'+ config.template.id).length ){
+          } else if( $('#'+ config.template.id).length ){
 
-						resolve( $('#'+ config.template.id).html() );
+            resolve( $('#'+ config.template.id).html() );
 
 					// use toc template
-					} else if( config.html.toc ){
-						var tocTitle = config.html.tocTitle.replace(/ /gi,'-');
+          } else if( config.html.toc ){
+            var tocTitle = config.html.tocTitle.replace(/ /gi,'-');
 
-						resolve(
+            resolve(
 							'<div class="container-fluid" id="' + tocTitle + '">'+
 								'<div class="row">'+
 									'<div class="col-sm-3 col-md-3 col-lg-2">'+
@@ -416,9 +418,9 @@
 						);
 
 					// use tocless template
-					} else {
+          } else {
 
-						resolve(
+            resolve(
 							'<div class="container">'+
 								'<div class="row">'+
 									'<div class="bootmark-main">'+
@@ -428,9 +430,9 @@
 							'</div>'
 						);
 
-					}
-				});
-			},
+          }
+        });
+      },
 
 			/**
 			* @function doDom
@@ -439,101 +441,101 @@
 			* @param {Object} element jQuery element
 			* @param {Object} config bootmark config
 			*/
-			doDom: function(element, config){
+      doDom: function(element, config){
 				// adds '.page-scroll' to all anchors with href beginning with '#'
-				if( $('a[href^="#"]', element).length ){
-					var $links = $('a[href^="#"]', element);
-					$links.each(function(){
-						$(this).addClass('page-scroll');
-					});
-				}
+        if( $('a[href^="#"]', element).length ){
+          var $links = $('a[href^="#"]', element);
+          $links.each(function(){
+            $(this).addClass('page-scroll');
+          });
+        }
 
 				//auto close menu
 				// attach event to document instead of '#nav' which might not even exist yet
-				if( $('#'+ config.html.tocId, element).length ){
-					var $nav = $('#'+ config.html.tocId, element);
-					$nav.on('click','a', function(){
-						$nav.collapse('hide');
-					});
-				}
+        if( $('#'+ config.html.tocId, element).length ){
+          var $nav = $('#'+ config.html.tocId, element);
+          $nav.on('click','a', function(){
+            $nav.collapse('hide');
+          });
+        }
 
         //add toc
         if(config.html.toc){
           var $ul = $('ul.bootmark-toc', element);
           // object literal is faster than loop to get the headers
           var headers = {
-            1:"h1",
-            2:"h1, h2",
-            3:"h1, h2, h3",
-            4:"h1, h2, h3, h4",
-            5:"h1, h2, h3, h4, h5",
-            6:"h1, h2, h3, h4, h5, h6"
+            1:'h1',
+            2:'h1, h2',
+            3:'h1, h2, h3',
+            4:'h1, h2, h3, h4',
+            5:'h1, h2, h3, h4, h5',
+            6:'h1, h2, h3, h4, h5, h6'
           };
           var lim = config.html.tocLimit;
           // limit lim to munbers between 1 and 6
           lim = ( lim > 6 ) ? 6 : ( ( lim < 1 ) ? 1: lim );
 
           var $headers = $(headers[lim], element);
-					$headers.each(function(i,el){
-						var $li = $('<li></li>')
+          $headers.each(function(i,el){
+            var $li = $('<li></li>')
 							.addClass( 'bootmark-' + el.localName )
 							.html(' <a class="page-scroll" href="#' + el.id + '">' + el.innerText + '</a>' );
-						$ul.append($li);
-					});
-				}
+            $ul.append($li);
+          });
+        }
 
 				//style tables
-				if( $('table', element).length ){
-					$('table', element)
+        if( $('table', element).length ){
+          $('table', element)
 						.addClass(' table table-striped table-bordered ')
 						.wrap(' <div class="table-responsive"></div> ');
-				}
+        }
 
 				//indent Paragraphs
-				if( config.html.indent && $('p', element).length ){
-					$('p', element).addClass('bootmark-indent');
-				}
+        if( config.html.indent && $('p', element).length ){
+          $('p', element).addClass('bootmark-indent');
+        }
 
 				//add footer
-				if( config.html.credit && !$('#bootmark-footer').length ){
-					var footerHtml  =
+        if( config.html.credit && !$('#bootmark-footer').length ){
+          var footerHtml  =
 						'<div class="container-fluid bg-primary">'+
 							'<p class="text-center">'+
 								'<a style="color: inherit" href="https://obedm503.github.io/bootmark">This project uses bootmark. Bootmark allows developers to focus on their projects and not how they are presented.</a>'+
 							'<p>'+
 						'</div>';
-					var footer = $('<footer id="bootmark-footer"></footer>').html(footerHtml);
-					$('body').append(footer);
-				}
+          var footer = $('<footer id="bootmark-footer"></footer>').html(footerHtml);
+          $('body').append(footer);
+        }
 
 				//prettify code
-				if( config.showdown.extensions.indexOf('prettify') >= 0 ){
-					prettyPrint();
-				}
+        if( config.showdown.extensions.indexOf('prettify') >= 0 ){
+          prettyPrint();
+        }
 
-			}
-		};
+      }
+    };
 
 		// on document ready
-		$(function documentReady(){
+    $(function documentReady(){
 			// smooth scrolling
-			$(document).on('click', 'a.page-scroll', function(e){
-				e.preventDefault();
-				var $this = $(this);
-				var href = $this.attr('href').substring(1);//everything after the '#'
-				var $scrollToEl;
-				if( $('#'+ href ).length ){ //element with id exists
-					$scrollToEl = $('#'+ href)[0];
-				} else if( $('a[name="'+ href +'"]').length ){// anchor with name exists
-					$scrollToEl = $('a[name="'+ href +'"]')[0];
-				}
+      $(document).on('click', 'a.page-scroll', function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('href').substring(1);//everything after the '#'
+        var $scrollToEl;
+        if( $('#'+ href ).length ){ //element with id exists
+          $scrollToEl = $('#'+ href)[0];
+        } else if( $('a[name="'+ href +'"]').length ){// anchor with name exists
+          $scrollToEl = $('a[name="'+ href +'"]')[0];
+        }
 
-				if($scrollToEl){
-					$('html, body').animate({
-						scrollTop: $scrollToEl.offsetTop
-					}, 900);
-				}
-			});
+        if($scrollToEl){
+          $('html, body').animate({
+            scrollTop: $scrollToEl.offsetTop
+          }, 900);
+        }
+      });
 
       //initial code-less usage
       // bootmark element
@@ -553,29 +555,29 @@
         });
       }
 			// bootmark class
-			if( $('.bootmark').length ){
-				$('.bootmark').each(function(){
-					var el = $(this);
-					el.bootmark({
-						fetch: el.attr('data-fetch'),
+      if( $('.bootmark').length ){
+        $('.bootmark').each(function(){
+          var el = $(this);
+          el.bootmark({
+            fetch: el.attr('data-fetch'),
             src: el.attr('data-src'),
-						join: el.attr('data-join'),
-						template: el.attr('data-template'),
-						html: el.attr('data-html'),
-						css: el.attr('data-css'),
-						showdown: el.attr('data-showdown'),
-						promise: el.attr('data-promise')
-					});
-				});
-			}
-		});
-	}
+            join: el.attr('data-join'),
+            template: el.attr('data-template'),
+            html: el.attr('data-html'),
+            css: el.attr('data-css'),
+            showdown: el.attr('data-showdown'),
+            promise: el.attr('data-promise')
+          });
+        });
+      }
+    });
+  }
 
-	if(typeof jQuery === 'undefined'){ throw new Error('JQuery is not defined'); }
-	if(typeof showdown === 'undefined'){ throw new Error('Showdown is not defined'); }
-	if(typeof jQuery.fn.modal === 'undefined'){ throw new Error('Bootstrap is not defined'); }
-	if(typeof Promise === 'undefined'){ throw new Error('Promise API is not defined'); }
-	if(typeof fetch === 'undefined'){ console.warn('fetch API is not defined'); }
-	if(typeof prettyPrint === 'undefined'){ console.warn('Code Prettify is not defined'); }
-	if(typeof jQuery.fn.bootmark === 'undefined'){ defineBootmark(); }
+  if(typeof jQuery === 'undefined'){ throw new Error('JQuery is not defined'); }
+  if(typeof showdown === 'undefined'){ throw new Error('Showdown is not defined'); }
+  if(typeof jQuery.fn.modal === 'undefined'){ throw new Error('Bootstrap is not defined'); }
+  if(typeof Promise === 'undefined'){ throw new Error('Promise API is not defined'); }
+  if(typeof fetch === 'undefined'){ console.warn('fetch API is not defined'); }
+  if(typeof prettyPrint === 'undefined'){ console.warn('Code Prettify is not defined'); }
+  if(typeof jQuery.fn.bootmark === 'undefined'){ defineBootmark(); }
 })(jQuery, document);
