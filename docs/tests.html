@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>any tag - fetch</title>
+  <script src="../dist/bootmark.bundle.min.js"></script>
+</head>
+<body>
+
+<div
+	class="bootmark"
+	data-html="{
+		theme:'journal'
+	}"
+>
+
+# Tests
+
+## https://github.com/obedm503/bootmark/issues/14
+
+### Test about parsing `<`  and `>`
+This is a test about parsing text between "chevrons" (`<` and `>`) as HTML tags:
+
+### Inline code
+First test is about `some <tags> inside backticks`, or _inine code_;
+First test is about `some &lt;tags&gt; inside backticks`, or _inine code_;
+
+### Inside code block
+Second test is about what seems like SGML tags inside a code block:
+
+    vnoremap <silent> "$ :w !nc -q0 localhost 5900<CR>
+
+With the `<` and `>` as _html entities_:
+
+    vnoremap &lt;silent&gt; "$ :w !nc -q0 localhost 5900&lt;CR&gt;
+
+Using ***bootmark*** I can't see the `silent` and `CR`.
+
+## https://github.com/obedm503/bootmark/issues/16
+
+This should render as a table:
+
+<table>
+<tr><td>cell1</td><td>cell2</td></tr>
+<tr><td>cell3</td><td>cell4</td></tr>
+</table>
+
+## https://github.com/obedm503/bootmark/issues/17
+
+### Lists
+
+#### Bullet
+
+* Foo
+	* Bar
+		* The following should render as a blockquote, indented at the same level as this item:
+			> Blockquote: 
+			> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	* The following should render as a code block, indented at the same level as this item:
+		```
+		codeBlock = foo;
+		```
+* Foo 2
+
+</div>
+</body>
+</html>
