@@ -5,6 +5,10 @@
 ### Future
 #### NEW
 - added `config.html.tocLimit` to limit the levels of headers used in the toc
+- move task running to npm scripts instead of gulp. these are documented in the README
+- styles are now Sass `.scss` files instead of CSS
+- updated `.eslintrc.json` with code style rules
+- moved logo to `assets/`
 
 #### FIX
 - fixed html entities not showing as they should #14

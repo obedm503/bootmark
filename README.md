@@ -8,6 +8,23 @@
 
 > easy markdown + bootstrap
 
+### [See some EXAMPLES](https://obedm503.github.io/bootmark/docs/examples.html)
+
+### [Read the DOCS](https://obedm503.github.io/bootmark/docs/)
+
+### [Read the CHANGELOG](http://obedm503.github.io/bootmark/index.html?src=CHANGELOG.md)
+
+This project was inspired by [strapdown](https://github.com/arturadib/strapdown/). Since strapdown hasn't been active for a while, I decided to take a stab at it.
+
+some features:
+- adds easy latex math support thru the [katex-latex](https://obedm503.github.io/katex-latex/) extension
+- external files
+- all bootswatch themes (bootstrap 3)
+- optional automatic table of content
+- showdown parser (vanilla markdown)
+- custom templates
+- in active development
+
 ## installation
 
 ### yarn install
@@ -25,28 +42,10 @@ npm install --save bootmark
 ```
 bower install bootmark
 ```
-This project was inspired by [strapdown](https://github.com/arturadib/strapdown/). Since strapdown hasn't been active for a while, I decided to take a stab at it.
 
-some features:
-- adds easy latex math support thru the [katex-latex](https://obedm503.github.io/katex-latex/) extension
-- external files
-- all bootswatch themes (bootstrap 3)
-- optional automatic table of content
-- showdown parser (vanilla markdown)
-- custom templates
-- in active development
-
-### [See some EXAMPLES](https://obedm503.github.io/bootmark/docs/examples.html)
-
-### [Read the DOCS](https://obedm503.github.io/bootmark/docs/)
-
-### [Read the CHANGELOG](http://obedm503.github.io/bootmark/index.html?src=CHANGELOG.md)
-
-## Development
+## development
 
 make sure you have git and nodejs installed and set up
-
-> Note: bootmark used to depend on gulp for task running but now simply uses npm scripts.
 
 ### download
 
@@ -70,10 +69,7 @@ npm install
 ----
 ### npm scripts
 
-- `serve` - starts development server on `localhost:8080` serving the current folder
-    ```
-    npm run serve
-    ```
+> Note: bootmark used to depend on gulp for task running but now simply uses npm scripts.
 
 - `docs` - scans the source file and outputs documentation to `docs/DOCS.md`
     ```
@@ -90,22 +86,36 @@ npm install
     npm run build:css
     ```
 
-- `build` - creates `dist/` directory and runs `build:js` and `build:css`
+- `build` - runs `build:js` and `build:css`
     ```
     npm run build
     ```
 
-- `uglify-fetch` - uglifies the fetch polyfill because github doesn't already
-provide a `.min.js` file
+- `build:watch` - starts development server on `localhost:8080` and runs `build` on file changes in `src/`
     ```
-    npm run uglify-fetch
+    npm run build:watch
     ```
 
-- `bundle` - runs `build` and `uglify-fetch` and concatenates all javascript
+- `bundle` - complies Sass, uglifies source js and concatenates all javascript
 files to create the bundle file. the bundle file includes: es6-promise polyfill,
 whatwg-fetch polyfill, jQuery, Bootstrap, Showdown, google-code-prettify, the
 showdown-prettify extension, and bootmark itself **in that order**
-
     ```
     npm run bundle
+    ```
+
+- `bundle:watch` - starts development server on `localhost:8080` and runs `bundle` on file changes in `src/`
+    ```
+    npm run bundle:watch
+    ```
+
+- `publish` - generates docs, cleans `dist/` and processes source files
+    ```
+    npm run publish
+    ```
+
+- `lint` - lint source js file with ESLint with the style rules in `.eslintrc.json`
+
+    ```
+    npm run lint
     ```
