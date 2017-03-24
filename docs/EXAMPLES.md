@@ -16,7 +16,7 @@ bootmark can be used in 3 main ways:
 - with any element with `class="bootmark"`, without code
 - through code
 
-### bootmark elemment
+### bootmark element
 
 > The custom `<bootmark></bootmark>` element has to exist at DOMContentLoaded event.
 
@@ -143,3 +143,8 @@ Examples:
 - [custom template](https://obedm503.github.io/bootmark/docs/template-example.html)
 - [custom template: src](https://obedm503.github.io/bootmark/docs/template-src-example.html)
 - [custom template: text](https://obedm503.github.io/bootmark/docs/template-text-example.html)
+
+### markdown examples
+
+* [kitchen sink](./markdown-cheatsheet.html)
+
