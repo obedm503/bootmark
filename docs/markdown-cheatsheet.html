@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootmark Kitchen Sink</title>
+  </head>
+  <body>
+
+    <bootmark>
+# Kitchen Sink
+
+## But first some tests:
+
+### [#14](https://github.com/obedm503/bootmark/issues/14)
+anything in backticks or code blocks should not be intrepreted as HTML because
+Showdown escapes _html entities_ so, writing them should not be necessary.
+
+#### Inline code
+using literal angle brackets (`< >`): `some <tags> inside backticks`
+
+using _html entities_ (`&amp;lt;` and `&amp;gt;`): `some &lt;tags&gt; inside backticks`
+
+#### Inside code block
+literal brackets:
+
+    vnoremap <silent> "$ :w !nc -q0 localhost 5900<CR>
+
+_html entities_:
+
+    vnoremap &lt;silent&gt; "$ :w !nc -q0 localhost 5900&lt;CR&gt;
+
+
+### [#16](https://github.com/obedm503/bootmark/issues/16)
+
+This should render as a table:
+
+```html
+<table>
+<tr><td>cell1</td><td>cell2</td></tr>
+<tr><td>cell3</td><td>cell4</td></tr>
+</table>
+```
+<table>
+<tr><td>cell1</td><td>cell2</td></tr>
+<tr><td>cell3</td><td>cell4</td></tr>
+</table>
+
+----
+
+## Onto the Kitchen Sink
+
+Examples are from https://github.com/adam-p/markdown-here/wiki/Markdown-Here-Cheatsheet.
+
+    </bootmark>
+    <bootmark
+      src="http://raw.githubusercontent.com/wiki/adam-p/markdown-here/Markdown-Here-Cheatsheet.md"
+    ></bootmark>
+
+    <script src="https://unpkg.com/bootmark@latest/dist/bootmark.bundle.min.js"></script>
+    <script>
+      $.fn.bootmark.options.html = {
+        theme: 'journal',
+        toc: false
+      };
+    </script>
+  </body>
+</html>

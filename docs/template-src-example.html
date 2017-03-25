@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>template.text</title>
+  <title>template.fetch</title>
 </head>
 <body>
 	<bootmark
 		src="example-chapters/intro.md example-chapters/1.md example-chapters/2.md example-chapters/3.md example-chapters/epilogue.md"
 		template="{
-			text: '<div class=\'container\'><div class=\'row\'><div class=\'col-sm-10\'><h2>template.text</h2>${bootmark}</div></div></div>'
+			fetch:'template.html'
 		}"
 	></bootmark>
   <script src="https://unpkg.com/bootmark@latest/dist/bootmark.bundle.min.js"></script>
