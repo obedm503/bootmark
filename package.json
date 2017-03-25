@@ -20,11 +20,11 @@
     "docs": "jsdoc2md > ./docs/DOCS.md",
     "build:js": "uglifyjs ./src/bootmark.js --output ./dist/bootmark.min.js --mangle --source-map ./dist/bootmark.min.js.map --comments  --stats --verbose --keep-fnames",
     "build:css": "node-sass --output-style compressed --error-bell --source-map true ./src/bootmark.scss ./dist/bootmark.min.css",
-    "build": "npm run build:css & npm run build:js",
+    "build": "npm run lint && npm run build:css & npm run build:js",
     "build:watch": "http-server & watch 'npm run build' ./src/",
-    "bundle": "node-sass --output-style compressed --error-bell --source-map true ./src/bootmark.scss ./dist/bootmark.min.css && uglifyjs --verbose ./node_modules/whatwg-fetch/fetch.js --output ./node_modules/whatwg-fetch/fetch.min.js && uglifyjs ./src/bootmark.js --output ./dist/bootmark.min.js --mangle --source-map ./dist/bootmark.min.js.map --comments  --stats --verbose --keep-fnames && concat -o ./dist/bootmark.bundle.min.js ./node_modules/es6-promise/dist/es6-promise.min.js ./node_modules/whatwg-fetch/fetch.min.js ./node_modules/jquery/dist/jquery.min.js ./node_modules/bootstrap/dist/js/bootstrap.min.js ./node_modules/showdown/dist/showdown.min.js ./node_modules/google-code-prettify/bin/prettify.min.js ./node_modules/showdown-prettify/dist/showdown-prettify.min.js ./dist/bootmark.min.js",
+    "bundle": "node-sass --output-style compressed --error-bell --source-map true ./src/bootmark.scss ./dist/bootmark.min.css && uglifyjs --verbose ./node_modules/whatwg-fetch/fetch.js --output ./node_modules/whatwg-fetch/fetch.min.js && npm run lint &&  uglifyjs ./src/bootmark.js --output ./dist/bootmark.min.js --mangle --source-map ./dist/bootmark.min.js.map --comments  --stats --verbose --keep-fnames && concat -o ./dist/bootmark.bundle.min.js ./node_modules/es6-promise/dist/es6-promise.min.js ./node_modules/whatwg-fetch/fetch.min.js ./node_modules/jquery/dist/jquery.min.js ./node_modules/bootstrap/dist/js/bootstrap.min.js ./node_modules/showdown/dist/showdown.min.js ./node_modules/google-code-prettify/bin/prettify.min.js ./node_modules/showdown-prettify/dist/showdown-prettify.min.js ./dist/bootmark.min.js",
     "bundle:watch": "http-server & watch 'npm run bundle' ./src/",
-    "publish": "npm run docs & rm -rf dist && mkdir dist && npm run bundle && printf '\n\n  bootmark: Ready for publish\n'",
+    "prepublish": "npm run docs & rm -rf dist && mkdir dist && npm run bundle && printf '\n\n  bootmark: Ready for publish\n'",
     "lint": "eslint -c .eslintrc.json ./src/bootmark.js"
   },
   "jsdoc2md": {

@@ -4,8 +4,6 @@
 
 ![as seen on tv](http://forthebadge.com/images/badges/as-seen-on-tv.svg)
 
-![version: 0.8.0](https://img.shields.io/badge/version-0.8.0-blue.svg?style=flat-square)
-
 > easy markdown + bootstrap
 
 ### [See some EXAMPLES](https://obedm503.github.io/bootmark/docs/examples.html)
