@@ -9,7 +9,7 @@
 (function($, document){
   'use scrict';
   function defineBootmark(){
-    var version = '0.7.1';
+    var version = '0.8.0';
     var defaults =  {
       markdown: false, //when markdown is passed as text directly
       fetch: false, // when url/s passed
