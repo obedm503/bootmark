@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>any tag - fetch</title>
-  <script src="https://unpkg.com/bootmark@latest/dist/bootmark.bundle.min.js"></script>
+  <title>markdown - cheatsheet</title>
 </head>
 <body>
 
-<div
-	class="bootmark"
-	data-html="{
-		theme:'journal'
-	}"
->
+<bootmark>
+# Bootmark Kitchen Sink
+
 Examples are from https://github.com/adam-p/markdown-here/wiki/Markdown-Here-Cheatsheet.
 
 ---
-</div>
-<div
-	class="bootmark"
-	data-src="http://raw.githubusercontent.com/wiki/adam-p/markdown-here/Markdown-Here-Cheatsheet.md"
-	data-html="{
-		theme:'journal'
-	}"
-></div>
+</bootmark>
+<bootmark
+  src="http://raw.githubusercontent.com/wiki/adam-p/markdown-here/Markdown-Here-Cheatsheet.md"
+></bootmark>
 
-
+<script src="https://unpkg.com/bootmark@latest/dist/bootmark.bundle.min.js"></script>
+<script>
+  $.fn.bootmark.options.html = {
+    theme: 'journal',
+    toc: false
+  };
+</script>
 </body>
 </html>

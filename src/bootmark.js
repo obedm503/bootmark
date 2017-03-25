@@ -179,6 +179,13 @@
     };
 
     $.fn.bootmark.version = version;
+    $.fn.bootmark.options = {
+      template: {},
+      html: {},
+      showdown: {
+        extensions: []
+      }
+    };
 
     /**
     * @name _private
