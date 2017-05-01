@@ -57,9 +57,14 @@ Examples are from https://github.com/adam-p/markdown-here/wiki/Markdown-Here-Che
 
     <script src="https://unpkg.com/bootmark@latest/dist/bootmark.bundle.min.js"></script>
     <script>
-      $.fn.bootmark.options.html = {
-        theme: 'journal',
-        toc: false
+    $.fn.bootmark.options = {
+        html: {
+            theme: 'journal',
+            toc: false
+        },
+        showdown: {
+            disableForced4SpacesIndentedSublists: true
+        }
       };
     </script>
   </body>
