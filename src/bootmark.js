@@ -21,7 +21,7 @@
         id:'bootmark-template' //default template-tag id
       },
       html: {
-        favicon:'https://obedm503.github.io/bootmark/bootmark-favicon.png',//bootmark's logo
+        favicon:'https://obedm503.github.io/bootmark/assets/bootmark-favicon.png',//bootmark's logo
         indent: false, // whether to indent paragraphs
         toc: true, // whether to use the toc template
         tocTitle: $(document).attr('title'), // document title as toc's title
@@ -60,7 +60,7 @@
     * @param {String} [config.join=----] string to be passed to the Array.prototype.join() when concatenating multiple markdown files if config.fetch is an array.
     * @param {String} [config.promise=false] DEPRECATED: whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining.  IF YOU STILL WANT TO RETURN A PROMISE USE `$('#id').bootmark({...}).promise().then(...)` instead.
     * @param {Object|String} [config.html] html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
-    * @param {Boolean} [config.html.favicon=https://obedm503.github.io/bootmark/bootmark-favicon.png] url to favicon to add. if you don't want a favicon, set this to false of an empty string.
+    * @param {Boolean} [config.html.favicon=https://obedm503.github.io/bootmark/assets/bootmark-favicon.png] url to favicon to add. if you don't want a favicon, set this to false of an empty string.
     * @param {Boolean} [config.html.toc=true] whether to show the table of contents/menu. defaults to true
     * @param {Number} [config.html.tocLimit=6] which heading levels should be used to build the toc. by deafult all headings are used. `tocLimit=1` uses only `<h1>`'s,`tocLimit=2` uses `<h1>`'s and `<h2>`'s, and so on
     * @param {String} [config.html.tocTitle=page title] title for the toc. defaults to the page's title
