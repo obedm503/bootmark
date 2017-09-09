@@ -5,7 +5,7 @@
 * @examples [examples/starters/templates](https://obedm503.github.io/bootmark/docs/examples.html)
 * @license MIT
 */
-(function($, document){
+(function($){
   'use scrict';
   function defineBootmark(){
     var version = '0.8.0';
@@ -586,4 +586,4 @@
   if(typeof fetch === 'undefined'){ console.warn('fetch API is not defined'); }
   if(typeof prettyPrint === 'undefined'){ console.warn('Code Prettify is not defined'); }
   if(typeof jQuery.fn.bootmark === 'undefined'){ defineBootmark(); }
-})(jQuery, document);
+})(jQuery);
