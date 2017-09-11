@@ -1,31 +1,32 @@
 {
-    "env": {
-        "browser": true
-    },
-    "globals":{
-      "Promise":false,
-      "prettyPrint":false,
-      "showdown":false,
-      "jQuery":false
-    },
-    "extends": "eslint:recommended",
-    "rules": {
-        "indent": [
-            "error",
-            2
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "no-console":0
-    }
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "prettyPrint": true,
+    "showdown": true,
+    "jQuery": true,
+    "HyperHTMLElement": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": 0
+  }
 }
