@@ -21,7 +21,7 @@ export function unescape(text) {
  */
 export function insertLink(url, type = 'text/css', rel = 'stylesheet') {
   // this link doesn't yet exist
-  if (!$(`link[href="${url}"], link[type="${type}"], link[rel="${rel}"]`).length) {
+  if (!document.querySelector(`link[href="${url}"], link[type="${type}"], link[rel="${rel}"]`)) {
     const link = document.createElement('link');
     link.setAttribute('href', url);
     link.setAttribute('type', type);
@@ -37,7 +37,7 @@ export function insertLink(url, type = 'text/css', rel = 'stylesheet') {
  */
 export function insertMeta(name, content) {
   // this meta tag doesn't yet exist
-  if (!$(`meta[content="${content}"]`).length) {
+  if (!document.querySelector(`meta[content="${content}"]`)) {
     const meta = document.createElement('meta');
     meta.setAttribute('name', name);
     meta.setAttribute('content', content);
@@ -86,10 +86,11 @@ export function replaceHtml(template, html) {
 
 /**
  * gets markdown
+ * @param {HTMLElement} element
  * @param {object} config bootmark config
  * @returns {Promise<string>} Promise that resolves with the markdown text or rejects with any errors
  */
-export function getMarkdown(config, props) {
+export function getMarkdown(element, config) {
   return new Promise((resolve, reject) => {
     if (config.markdown) {
       // markdown passed directly
@@ -139,12 +140,13 @@ export function getMarkdown(config, props) {
       // use markdown text inside element
       resolve(
         unescape(
-          props.innerHTML
+          element.innerHTML
         )
       );
     }
   });
 }
+
 /**
  * gets the template form config.template.text, config.template.fetch, config.template.id, or use toc template or toc-less template
  * @param {object} config bootmark config
@@ -159,44 +161,55 @@ export function getTemplate(config) {
 
       // user wants to fetch template
     } else if (config.template.fetch) {
-      fetch(config.template.fetch)
-        .then(res => res.text())
-        .then(html => {
-          // parse html
-          const tocTitle = config.html.tocTitle.replace(/ /gi, '-');
+      fetch(config.template.fetch).then(res => res.text()).then(html => {
+        // parse html
+        const wrappedHtml = document.createElement('div');
+        wrappedHtml.innerHTML = html;
+        // get template tag in html
+        // return html inside template tag
+        return wrappedHtml.querySelector('template').innerHTML;
+      }).then(resolve).catch(reject);
 
-          resolve(`
-            <div class="container-fluid" id="${tocTitle}">
-              <div class="row">
-                <div class="col-sm-3 col-md-3 col-lg-2">
-                  <nav class="navbar navbar-default navbar-fixed-side">
-                    <div class="container-fluid">
-                      <div class="navbar-header">
-                        <button class="navbar-toggle" data-target="#${config.html.tocId}" data-toggle="collapse">
-                          <span class="sr-only">Toggle navigation</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand active page-scroll" href="#${tocTitle}">
-                          ${config.html.tocTitle}
-                        </a>
-                      </div>
-                      <div class="collapse navbar-collapse" id="${config.html.tocId}">
-                        <ul class="bootmark-toc nav navbar-nav"></ul>
-                      </div>
-                    </div>
-                  </nav>
+      // get template from element with id="bootmark-template". id can be changed
+    } else if (document.getElementById(`#${config.template.id}`)) {
+
+      resolve(document.getElementById(`#${config.template.id}`).innerHTML);
+
+      // use toc template
+    } else if (config.html.toc) {
+      const tocTitle = config.html.tocTitle.replace(/ /gi, '-');
+
+      resolve(`
+        <div class="container-fluid" id="${tocTitle}">
+          <div class="row">
+            <div class="col-sm-3 col-md-3 col-lg-2">
+              <nav class="navbar navbar-default navbar-fixed-side">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <button class="navbar-toggle" data-target="#${config.html.tocId}" data-toggle="collapse">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand active page-scroll" href="#${tocTitle}">
+                      ${config.html.tocTitle}
+                    </a>
+                  </div>
+                  <div class="collapse navbar-collapse" id="${config.html.tocId}">
+                    <ul class="bootmark-toc nav navbar-nav"></ul>
+                  </div>
                 </div>
-                <div class="bootmark-main has-toc col-sm-9 col-md-9 col-lg-10">
-                  \$\{bootmark\}
-                </div>
-              </div>
+              </nav>
             </div>
-          `);
-        });
+            <div class="bootmark-main has-toc col-sm-9 col-md-9 col-lg-10">
+              \$\{bootmark\}
+            </div>
+          </div>
+        </div>
+      `);
 
-    // use tocless template
+      // use tocless template
     } else {
 
       resolve(`
@@ -211,4 +224,87 @@ export function getTemplate(config) {
 
     }
   });
+}
+
+/**
+ * modifies the dom
+ * @param {HTMLElement} element
+ * @param {object} config bootmark config
+ */
+export function doDom(element, config) {
+  // adds '.page-scroll' to all anchors with href beginning with '#'
+  if (element.querySelectorAll('a[href^="#"]').length) {
+    const links = element.querySelectorAll('a[href^="#"]');
+    links.forEach(el => el.classList.add('page-scroll'));
+  }
+
+  //auto close menu
+  // attach event to document instead of '#nav' which might not even exist yet
+  if (document.getElementById(`#${config.html.tocId}`)) {
+    const nav = document.getElementById(`#${config.html.tocId}`);
+    nav.addEventListener('click', e => {
+      if (e.target && e.target.matches('a')) {
+        e.target.click();
+      }
+    }, false);
+  }
+
+  //add toc
+  if (config.html.toc) {
+    const ul = element.querySelector('ul.bootmark-toc');
+    // object literal is faster than loop to get the headers
+    const headers = {
+      1: 'h1',
+      2: 'h1, h2',
+      3: 'h1, h2, h3',
+      4: 'h1, h2, h3, h4',
+      5: 'h1, h2, h3, h4, h5',
+      6: 'h1, h2, h3, h4, h5, h6'
+    };
+    let lim = config.html.tocLimit;
+    // limit lim to munbers between 1 and 6
+    lim = (lim > 6) ? 6 : ((lim < 1) ? 1 : lim);
+
+    element.querySelectorAll(headers[lim]).forEach(el => {
+      const li = document.createElement('li');
+      li.classList.add(`bootmark-${el.localName}`);
+      li.innerHTML = `<a class="page-scroll" href="#${el.id}">${el.innerText}</a>`;
+      ul.append(li);
+    });
+  }
+
+  //style tables
+  if (element.querySelectorAll('table').length) {
+    element.querySelectorAll('table').forEach(el => {
+      el.classList.add('table', 'table-striped', 'table-bordered');
+      el.innerHTML = `<div class="table-responsive">${el.innerHTML}</div>`;
+    });
+  }
+
+  //indent Paragraphs
+  if (config.html.indent && element.querySelectorAll('p').length) {
+    element.querySelectorAll('p').forEach(el => el.classList.add('bootmark-indent'));
+  }
+
+  //add footer
+  if (config.html.credit && !document.querySelector('#bootmark-footer')) {
+    const footer = document.createElement('footer');
+    footer.setAttribute('id', 'bootmark-footer');
+    footer.innerHTML = `
+          <div class="container-fluid bg-primary">
+            <p class="text-center">
+              <a style="color: inherit" href="https://obedm503.github.io/bootmark">
+                This project uses bootmark. Bootmark allows developers to focus on their projects and not how they are presented.
+              </a>
+            <p>
+          </div>
+        `;
+    document.body.appendChild(footer);
+  }
+
+  //prettify code
+  if (config.showdown.extensions.indexOf('prettify') >= 0) {
+    prettyPrint();
+  }
+
 }
