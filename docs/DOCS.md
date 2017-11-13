@@ -7,6 +7,32 @@
 </dd>
 </dl>
 
+## Functions
+
+<dl>
+<dt><a href="#insertLink">insertLink(url, [type], [rel])</a></dt>
+<dd><p>creates a new link element if it doesn&#39;t already exist. Used to add the theme&#39;s css and bootmark&#39;s css, and favicon</p>
+</dd>
+<dt><a href="#insertMeta">insertMeta(name, content)</a></dt>
+<dd><p>creates the meta element which required by bootstrap, if it doesn&#39;t already exist</p>
+</dd>
+<dt><a href="#parseObject">parseObject(object, properties)</a> ⇒ <code>Object</code></dt>
+<dd><p>parses object thru eval(). If property on object is &#39;fetch&#39; and it&#39;s first character is &#39;[&#39;, eval it.</p>
+</dd>
+<dt><a href="#replaceHtml">replaceHtml(template, html)</a> ⇒ <code>string</code></dt>
+<dd><p>replaces html in template and returns it. Global. Case insensitive.</p>
+</dd>
+<dt><a href="#getMarkdown">getMarkdown(element)</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
+<dd><p>gets markdown</p>
+</dd>
+<dt><a href="#getTemplate">getTemplate(config)</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
+<dd><p>gets the template form config.template.text, config.template.fetch, config.template.id, or use toc template or toc-less template</p>
+</dd>
+<dt><a href="#doDom">doDom(element, config)</a></dt>
+<dd><p>modifies the dom</p>
+</dd>
+</dl>
+
 ## External
 
 <dl>
@@ -124,6 +150,86 @@ modifies the dom
 - element <code>Object</code> - jQuery element
 - config <code>Object</code> - bootmark config
 
+<a name="insertLink"></a>
+
+## insertLink(url, [type], [rel])
+creates a new link element if it doesn't already exist. Used to add the theme's css and bootmark's css, and favicon
+
+**Kind**: global function  
+**Params**
+
+- url <code>String</code> - url to set as source
+- [type] <code>String</code> <code> = text/css</code> - link's type
+- [rel] <code>String</code> <code> = stylesheet</code> - link's rel
+
+<a name="insertMeta"></a>
+
+## insertMeta(name, content)
+creates the meta element which required by bootstrap, if it doesn't already exist
+
+**Kind**: global function  
+**Params**
+
+- name <code>string</code> - name property of the meta element
+- content <code>string</code> - content property of the meta element
+
+<a name="parseObject"></a>
+
+## parseObject(object, properties) ⇒ <code>Object</code>
+parses object thru eval(). If property on object is 'fetch' and it's first character is '[', eval it.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - object parsed for every of the properties in the array  
+**Params**
+
+- object <code>Object</code> - to parse
+- properties <code>Array</code> - to eval
+
+<a name="replaceHtml"></a>
+
+## replaceHtml(template, html) ⇒ <code>string</code>
+replaces html in template and returns it. Global. Case insensitive.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - hmtl replaced in the template  
+**Params**
+
+- template <code>string</code> - html string
+- html <code>string</code> - to replace `${bootmark}` with
+
+<a name="getMarkdown"></a>
+
+## getMarkdown(element) ⇒ <code>Promise.&lt;string&gt;</code>
+gets markdown
+
+**Kind**: global function  
+**Returns**: <code>Promise.&lt;string&gt;</code> - Promise that resolves with the markdown text or rejects with any errors  
+**Params**
+
+- element <code>HTMLElement</code>
+
+<a name="getTemplate"></a>
+
+## getTemplate(config) ⇒ <code>Promise.&lt;string&gt;</code>
+gets the template form config.template.text, config.template.fetch, config.template.id, or use toc template or toc-less template
+
+**Kind**: global function  
+**Returns**: <code>Promise.&lt;string&gt;</code> - Promise that resolves with the html template text or rejects with any errors  
+**Params**
+
+- config <code>object</code> - bootmark config
+
+<a name="doDom"></a>
+
+## doDom(element, config)
+modifies the dom
+
+**Kind**: global function  
+**Params**
+
+- element <code>HTMLElement</code>
+- config <code>object</code> - bootmark config
+
 <a name="external_jQuery.fn"></a>
 
 ## jQuery.fn
@@ -148,7 +254,7 @@ converts markdown to beautiful bootstrap-styled-html. This documentation is auto
     - [.join] <code>String</code> <code> = ----</code> - string to be passed to the Array.prototype.join() when concatenating multiple markdown files if config.fetch is an array.
     - [.promise] <code>String</code> <code> = false</code> - DEPRECATED: whether to return a  promise that resolves with parsed html. if false, bootmark will return the jQuery object to allow chaining.  IF YOU STILL WANT TO RETURN A PROMISE USE `$('#id').bootmark({...}).promise().then(...)` instead.
     - [.html] <code>Object</code> | <code>String</code> - html config object. this only pertains to html produced. if it's a string it will be parsed to an object.
-        - [.favicon] <code>Boolean</code> <code> = https://obedm503.github.io/bootmark/bootmark-favicon.png</code> - url to favicon to add. if you don't want a favicon, set this to false of an empty string.
+        - [.favicon] <code>Boolean</code> <code> = https://obedm503.github.io/bootmark/assets/bootmark-favicon.png</code> - url to favicon to add. if you don't want a favicon, set this to false of an empty string.
         - [.toc] <code>Boolean</code> <code> = true</code> - whether to show the table of contents/menu. defaults to true
         - [.tocLimit] <code>Number</code> <code> = 6</code> - which heading levels should be used to build the toc. by deafult all headings are used. `tocLimit=1` uses only `<h1>`'s,`tocLimit=2` uses `<h1>`'s and `<h2>`'s, and so on
         - [.tocTitle] <code>String</code> <code> = page title</code> - title for the toc. defaults to the page's title
