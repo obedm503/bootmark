@@ -1,0 +1,7 @@
+bootmark-app {
+  display: block;
+  margin-top: 1rem;
+}
+bootmark-app > .container > .columns {
+  margin-bottom: 0;
+}

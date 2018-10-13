@@ -1,3 +1,6 @@
+bootmark-md {
+  display: block;
+}
 bootmark-md .content pre > code {
   background-color: inherit;
 }
