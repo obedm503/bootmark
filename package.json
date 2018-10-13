@@ -26,9 +26,10 @@
     "docs": "jsdoc2md > ./docs/DOCS.md",
     "prePublishOnly": "npm run docs & rm -rf dist && mkdir dist && npm run bundle && printf '\n\n  bootmark: Ready for publish\n'",
     "build": "stencil build",
+    "build:watch": "stencil build --watch",
     "start": "stencil build --dev --watch --serve --no-open --port=8080",
     "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll"
+    "test:watch": "stencil test --spec --e2e --watchAll"
   },
   "jsdoc2md": {
     "files": "src/*.js",
