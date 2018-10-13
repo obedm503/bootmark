@@ -47,9 +47,15 @@
   },
   "devDependencies": {
     "@stencil/core": "~0.13.2",
+    "@types/jest": "23.3.5",
     "@types/memoize-one": "^3.1.1",
+    "@types/puppeteer": "1.9.0",
     "@types/showdown": "^1.7.5",
-    "jsdoc-to-markdown": "^2.0.1"
+    "jest": "23.5.0",
+    "jest-environment-node": "23.4.0",
+    "jsdoc-to-markdown": "^2.0.1",
+    "pixelmatch": "4.0.2",
+    "puppeteer": "1.7.0"
   },
   "optionalDependencies": {},
   "engines": {

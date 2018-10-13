@@ -2,13 +2,13 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   namespace: 'bootmark',
-  outputTargets:[
+  outputTargets: [
     {
-      type: 'dist'
+      type: 'dist',
     },
     {
       type: 'www',
-      serviceWorker: null
-    }
-  ]
+      serviceWorker: null,
+    },
+  ],
 };

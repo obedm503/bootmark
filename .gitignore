@@ -4,3 +4,4 @@ src/components.d.ts
 dist/
 www/
 .stencil/
+package-lock.json
