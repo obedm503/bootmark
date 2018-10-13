@@ -43,6 +43,7 @@ const getConverter = (config: showdown.ConverterOptions) =>
 @Component({
   tag: 'bootmark-md',
   shadow: false,
+  styleUrl: 'md.css',
 })
 export class BootMarkMd {
   @Element()
