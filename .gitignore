@@ -3,3 +3,4 @@ node_modules/
 src/components.d.ts
 dist/
 www/
+.stencil/
