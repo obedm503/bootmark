@@ -1,44 +1,6 @@
 import { Component, Element, Prop, State, Watch } from '@stencil/core';
-import memoizeOne from 'memoize-one';
 import showdown from 'showdown';
-import showdownHighlight from 'showdown-highlight';
-
-const defaultConfig: showdown.ConverterOptions = {
-  parseImgDimensions: true,
-  simplifiedAutoLink: true,
-  literalMidWordUnderscores: true,
-  strikethrough: true,
-  tables: true,
-  tablesHeaderId: true,
-  tasklists: true,
-};
-
-const getConfig = (
-  config: showdown.ConverterOptions | undefined,
-): showdown.ConverterOptions => {
-  const userExtensions =
-    config &&
-    config.extensions &&
-    (Array.isArray(config.extensions)
-      ? config.extensions
-      : [config.extensions]);
-
-  return Object.assign(defaultConfig, config, {
-    extensions: [showdownHighlight].concat(userExtensions).filter(Boolean),
-  });
-};
-
-const getMarkdown = async (src: string): Promise<string> => {
-  const res = await fetch(src);
-  const text = await res.text();
-  return text;
-};
-
-const makeGetHTML = (converter: showdown.Converter) =>
-  memoizeOne((md: string) => converter.makeHtml(md));
-
-const getConverter = (config: showdown.ConverterOptions) =>
-  new showdown.Converter(config);
+import { fetchMarkdown, getShowdownConfig, makeGetHTML } from '../../util';
 
 @Component({
   tag: 'bootmark-md',
@@ -72,7 +34,7 @@ export class BootMarkMd {
 
   @Watch('showdown')
   showdownChanged() {
-    const converter = getConverter(getConfig(this.showdown));
+    const converter = new showdown.Converter(getShowdownConfig(this.showdown));
     // getHTML caches results
     this.getHTML = makeGetHTML(converter);
   }
@@ -83,7 +45,7 @@ export class BootMarkMd {
   @Watch('src')
   async srcChanged() {
     if (this.src) {
-      this.md = await getMarkdown(this.src);
+      this.md = await fetchMarkdown(this.src);
     } else {
       this.md = this.initialContent;
     }
