@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>bootmark</title>
+  <title>bootmark | kitchen sink</title>
   <link rel="stylesheet"
         href="https://unpkg.com/bulmaswatch/journal/bulmaswatch.min.css">
   <link rel="stylesheet"
@@ -31,14 +31,13 @@ using _html entities_ (`&amp;lt;` and `&amp;gt;`): `some &lt;tags&gt; inside bac
 
 #### Inside code block
 literal brackets:
-```shell
-vnoremap <silent> "$ :w !nc -q0 localhost 5900<CR>
-```
+
+    vnoremap <silent> "$ :w !nc -q0 localhost 5900<CR>
 
 _html entities_:
-```shell
-vnoremap &lt;silent&gt; "$ :w !nc -q0 localhost 5900&lt;CR&gt;
-```
+
+    vnoremap &lt;silent&gt; "$ :w !nc -q0 localhost 5900&lt;CR&gt;
+
 
 ### [#16](https://github.com/obedm503/bootmark/issues/16)
 
@@ -60,13 +59,10 @@ This should render as a table:
 ## Onto the Kitchen Sink
 
 Examples are from https://github.com/adam-p/markdown-here/wiki/Markdown-Here-Cheatsheet.
+
     </bootmark-md>
-    <hr>
-    <bootmark-md src="https://raw.githubusercontent.com/obedm503/markdown-kitchen-sink/master/README.md"></bootmark-md>
-    <hr>
-    <bootmark-md src="../README.md"></bootmark-md>
-    <hr>
-    <bootmark-md src="../CHANGELOG.md"></bootmark-md>
+    <bootmark-md id="kitchen-sink"
+                 src="https://raw.githubusercontent.com/obedm503/markdown-kitchen-sink/master/README.md"></bootmark-md>
   </bootmark-app>
 </body>
 </html>
