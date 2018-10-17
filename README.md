@@ -4,7 +4,7 @@
 
 ![as seen on tv](http://forthebadge.com/images/badges/as-seen-on-tv.svg)
 
-> easy markdown + bootstrap
+> markdown without worries
 
 ### [See some EXAMPLES](https://obedm503.github.io/bootmark/docs/examples.html)
 

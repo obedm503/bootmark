@@ -2,7 +2,7 @@
   "name": "bootmark",
   "author": "obedm503",
   "homepage": "https://obedm503.github.io/bootmark/",
-  "description": "markdown + bootstrap as a jQuery plugin",
+  "description": "markdown without worries",
   "version": "0.9.0",
   "license": "MIT",
   "npmName": "bootmark",
@@ -18,6 +18,7 @@
   "main": "dist/index.js",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
+  "unpkg": "dist/bootmark.js",
   "files": [
     "dist/"
   ],
@@ -45,6 +46,7 @@
     "git-branch-is": "^2.1.0",
     "git-directory-deploy": "^1.5.1",
     "glob": "^7.1.3",
+    "http-server": "^0.11.1",
     "jest": "23.5.0",
     "jest-environment-node": "23.4.0",
     "nps": "^5.9.3",

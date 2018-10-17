@@ -1,7 +1,5 @@
 ## bootmark changelog
 
-> markdown + bootstrap as a jQuery plugin
-
 ### Future
 #### NEW
 - ...
