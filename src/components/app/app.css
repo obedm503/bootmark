@@ -5,3 +5,7 @@ bootmark-app {
 bootmark-app > .container > .columns {
   margin-bottom: 0;
 }
+
+bootmark-app main {
+  min-height: 100vh;
+}
