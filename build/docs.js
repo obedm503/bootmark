@@ -12,11 +12,11 @@ const mkdir = promisify(fs.mkdir);
 const glob = promisify(require('glob'));
 
 const replacementsMap = {
-  'README.md':
+  '../README.md':
     'https://raw.githubusercontent.com/obedm503/bootmark/master/README.md',
-  'CHANGELOG.md':
+  '../CHANGELOG.md':
     'https://raw.githubusercontent.com/obedm503/bootmark/development/CHANGELOG.md',
-  '../dist/bootmark.js': 'https://unpkg.com/bootmark/bootmark.js',
+  '../dist/bootmark.js': 'https://unpkg.com/bootmark@next/dist/bootmark.js',
 };
 
 const replacementKeys = Object.keys(replacementsMap);
