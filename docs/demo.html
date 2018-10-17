@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html dir="ltr"
+      lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>bootmark</title>
+  <link rel="stylesheet"
+        href="https://unpkg.com/bulmaswatch/journal/bulmaswatch.min.css">
+  <link rel="stylesheet"
+        href="https://unpkg.com/highlightjs@9.10.0/styles/atelier-forest-light.css">
+
+  <script src="../dist/bootmark.js"></script>
+</head>
+<body>
+  <bootmark-app>
+    <bootmark-md id="md">
+## demo
+
+here you can:
+- try with a different markdown file by adding to the url:
+  - showdown's readme `?src=https://raw.githubusercontent.com/showdownjs/showdown/master/README.md`
+  - bootstrap's readme `?src=https://raw.githubusercontent.com/twbs/bootstrap/master/README.md`
+    </bootmark-md>
+  </bootmark-app>
+  <script>
+    /**
+    * gets param from url, made specifically for the demo. This doesn't work on some servers. They interpret the ``?`` in url as a server request. It may cause problems.
+    * @function getParam
+    * @memberof window
+    * @param {String} name name of param
+    * @param {String} [url=window.location.href] url to look through
+    * @returns {String} param the param requested
+    * @example
+    * //example url "www.example.com?theme=cyborg"
+    * getParam('theme'); // cyborg
+    */
+    function getParam(param, url) {
+      param = param.replace(/[\[\]]/g, "\\$&");
+      var results = new RegExp("[?&]" + param + "(=([^&#]*)|&|#|$)").exec(url || window.location.href);
+      if (!results) { return; }
+      if (!results[2]) { return ''; }
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var src = getParam('src');
+    if (src) {
+
+      var md = document.getElementById('md');
+      md.src = src;
+    }
+  </script>
+</body>
+</html>
