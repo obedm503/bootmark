@@ -9,6 +9,7 @@ const defaultConfig: showdown.ConverterOptions = {
   tables: true,
   tablesHeaderId: true,
   tasklists: true,
+  disableForced4SpacesIndentedSublists: true,
 };
 
 export const getShowdownConfig = (

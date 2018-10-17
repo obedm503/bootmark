@@ -17,6 +17,7 @@ describe('util', () => {
       tables: false,
       tablesHeaderId: false,
       tasklists: true,
+      disableForced4SpacesIndentedSublists: true,
       extensions: [showdownHighlight],
     };
 
