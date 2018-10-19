@@ -21,7 +21,7 @@ module.exports.scripts = {
     clean: rimraf('www'),
     copy: copy('"docs/*.md" www/'),
     build: 'node build/docs',
-    depluy: series(
+    deploy: series(
       'nps docs',
       'git-directory-deploy --directory www --branch gh-pages',
     ),

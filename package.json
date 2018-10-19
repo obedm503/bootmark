@@ -3,7 +3,7 @@
   "author": "obedm503",
   "homepage": "https://obedm503.github.io/bootmark/",
   "description": "markdown without worries",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "license": "MIT",
   "npmName": "bootmark",
   "npmFileMap": [
