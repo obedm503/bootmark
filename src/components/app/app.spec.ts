@@ -1,6 +1,6 @@
 import { BootMarkApp } from "./app";
 
-describe("bootmark-md", () => {
+describe("boot-mark", () => {
   it("builds", () => {
     expect(new BootMarkApp()).toBeTruthy();
   });

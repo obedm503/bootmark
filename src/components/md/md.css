@@ -1,6 +1,6 @@
-bootmark-md {
+boot-mark {
   display: block;
 }
-bootmark-md .content pre > code {
+boot-mark .content pre > code {
   background-color: inherit;
 }

@@ -1,7 +1,7 @@
-import { BootMarkMd } from './md';
+import { BootMark } from './md';
 
-describe('bootmark-md', () => {
+describe('boot-mark', () => {
   it('builds', () => {
-    expect(new BootMarkMd()).toBeTruthy();
+    expect(new BootMark()).toBeTruthy();
   });
 });

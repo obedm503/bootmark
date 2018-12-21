@@ -18,7 +18,7 @@ const Footer = () => (
 );
 
 @Component({
-  tag: 'bootmark-app',
+  tag: 'boot-mark-app',
   shadow: false,
   styleUrl: 'app.css',
 })

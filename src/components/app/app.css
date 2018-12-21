@@ -1,11 +1,11 @@
-bootmark-app {
+boot-mark-app {
   display: block;
   margin-top: 1rem;
 }
-bootmark-app > .container > .columns {
+boot-mark-app > .container > .columns {
   margin-bottom: 0;
 }
 
-bootmark-app main {
+boot-mark-app main {
   min-height: 100vh;
 }

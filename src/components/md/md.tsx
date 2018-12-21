@@ -1,13 +1,13 @@
 import { Component, Element, Prop, State, Watch } from '@stencil/core';
-import showdown from 'showdown';
+import * as showdown from 'showdown';
 import { fetchMarkdown, getShowdownConfig, makeGetHTML } from '../../util';
 
 @Component({
-  tag: 'bootmark-md',
+  tag: 'boot-mark',
   shadow: false,
   styleUrl: 'md.css',
 })
-export class BootMarkMd {
+export class BootMark {
   @Element()
   element: HTMLElement;
 
