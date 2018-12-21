@@ -1,5 +1,6 @@
 import memoizeOne from 'memoize-one';
-import showdownHighlight from 'showdown-highlight';
+// @ts-ignore
+import * as showdownHighlight from 'showdown-highlight';
 
 const defaultConfig: showdown.ConverterOptions = {
   parseImgDimensions: true,
@@ -13,7 +14,7 @@ const defaultConfig: showdown.ConverterOptions = {
 };
 
 export const getShowdownConfig = (
-  config: showdown.ConverterOptions | undefined,
+  config?: showdown.ConverterOptions,
 ): showdown.ConverterOptions => {
   const userExtensions =
     config &&

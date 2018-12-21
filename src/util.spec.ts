@@ -1,4 +1,5 @@
-const showdownHighlight = require('showdown-highlight');
+// @ts-ignore
+import * as showdownHighlight from 'showdown-highlight';
 import { getShowdownConfig } from './util';
 
 describe('util', () => {
