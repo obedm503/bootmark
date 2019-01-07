@@ -23,16 +23,14 @@ const replacementKeys = Object.keys(replacementsMap);
 
 /** @param {string} fileString */
 const replace = fileString => {
-  let file = fileString;
-  replacementKeys.forEach(pattern => {
-    file = file.replace(pattern, replacementsMap[pattern]);
-  });
-  return file;
+  return replacementKeys.reduce((file, pattern) => {
+    return file.replace(pattern, replacementsMap[pattern]);
+  }, fileString);
 };
 
 async function ensureWWW() {
   if (await exists('./www')) {
-    return true;
+    return;
   }
   await mkdir('./www');
 }
