@@ -38,7 +38,7 @@
     "private": true
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "color-themes-for-google-code-prettify": "^2.0.4",
     "es6-promise": "^4.1.0",
     "google-code-prettify": "^1.0.5",
