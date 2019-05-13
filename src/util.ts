@@ -1,6 +1,6 @@
 import memoizeOne from 'memoize-one';
 // @ts-ignore
-import * as showdownHighlight from 'showdown-highlight';
+import showdownHighlight from 'showdown-highlight';
 
 const defaultConfig: showdown.ConverterOptions = {
   parseImgDimensions: true,

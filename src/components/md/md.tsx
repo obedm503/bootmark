@@ -1,5 +1,5 @@
 import { Component, Element, Prop, State, Watch } from '@stencil/core';
-import * as showdown from 'showdown';
+import showdown from 'showdown';
 import { fetchMarkdown, getShowdownConfig, makeGetHTML } from '../../util';
 
 @Component({
@@ -52,6 +52,10 @@ export class BootMark {
   }
 
   render() {
+    if (!this.getHTML) {
+      this.showdownChanged();
+    }
+
     // wrapping slot helps with escaping the html
     const slot = (
       <template>
